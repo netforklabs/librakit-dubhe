@@ -8,6 +8,7 @@
     <artifactId>Dubhe</artifactId>
     <packaging>pom</packaging>
     <version>1.0</version>
+
     <modules>
         <module>dubhe-rpc-service</module>
     </modules>
