@@ -1,1 +1,1 @@
-# Dubhe PRC Service(贪狼)
+# Dubhe PRC Service
