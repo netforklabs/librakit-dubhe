@@ -52,7 +52,30 @@ class NetforkSetting {
 
     private static NetforkSetting netforkSetting
 
-    static def getNetforkSetting() { netforkSetting }
+    static NetforkSetting getNetforkSetting()
+    {
+        if(!netforkSetting)
+            netforkSetting = new NetforkSetting()
+
+        return netforkSetting
+    }
+
+    /**
+     * 编译配置文件运行
+     */
+    static void compile()
+    {
+        Binding binding = new Binding()
+        binding.setVariable("netfork", getNetforkSetting())
+
+        GroovyShell shell = new GroovyShell(binding)
+        shell.evaluate(getNetforkFileURL().toURI())
+    }
+
+    private static URL getNetforkFileURL()
+    {
+        return NetforkSetting.classLoader.getResource("./main.netfork")
+    }
 
     /**
      * 配置注册中心
