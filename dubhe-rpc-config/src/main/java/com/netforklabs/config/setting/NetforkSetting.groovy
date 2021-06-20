@@ -48,8 +48,13 @@ class NetforkSetting {
     /**
      * 配置信息
      */
-    private Map<String, String> settings = ["a": "1"]
+    private Map<String, String> settings = new HashMap<>()
 
+    private NetforkSetting() {}
+
+    /**
+     * 单例对象
+     */
     private static NetforkSetting netforkSetting
 
     static NetforkSetting getNetforkSetting()
