@@ -1,0 +1,10 @@
+import com.netforklabs.config.setting.NetforkSetting
+
+def conf = NetforkSetting.getNetforkSetting()
+
+conf.serinfo hostname: "netfork01", port: "8080"
+
+// 配置注册中心
+conf.registry host: "127.0.0.1:80", pass: "123456"
+conf.registry host: "127.0.0.1:81", pass: "123456"
+conf.registry host: "127.0.0.1:82", pass: "123456"
