@@ -26,6 +26,11 @@
 
 package com.netforklabs.rpc.server;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.nio.channels.ServerSocketChannel;
+
 /**
  * RPC服务端
  *
@@ -33,5 +38,16 @@ package com.netforklabs.rpc.server;
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public class DubheServer {
+public class NettyServer {
+
+    /**
+     * 创建服务端
+     *
+     * @param port 端口
+     */
+    public static void createServer(int port) throws IOException {
+        ServerSocketChannel channel = ServerSocketChannel.open();
+        channel.bind(new InetSocketAddress(port));
+    }
+
 }
