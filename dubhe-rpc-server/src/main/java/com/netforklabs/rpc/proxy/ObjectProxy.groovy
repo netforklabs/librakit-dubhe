@@ -24,8 +24,9 @@
 
 /* Create date: 2021/6/20 */
 
-package com.netforklabs.rpc
+package com.netforklabs.rpc.proxy
 
+import com.netforklabs.rpc.Methods
 import com.netforklabs.rpc.error.MethodNotFoundException
 import com.netforklabs.rpc.error.MismatchedException
 

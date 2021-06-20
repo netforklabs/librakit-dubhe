@@ -26,7 +26,7 @@
 
 package com.netforklabs.dubhe;
 
-import com.netforklabs.rpc.ObjectProxy;
+import com.netforklabs.rpc.proxy.ObjectProxy;
 
 /**
  * @author orval

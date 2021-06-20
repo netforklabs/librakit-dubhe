@@ -24,32 +24,14 @@
 
 /* Create date: 2021/6/20 */
 
-package com.netforklabs.rpc
-
-import java.lang.reflect.Method
+package com.netforklabs.rpc.server;
 
 /**
+ * RPC服务端
+ *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-class Methods
-{
-
-    /**
-     * 获取函数 ID，用于 {@link ObjectProxy#invoke} 调用
-     *
-     * @param method 方法对象
-     * @return 方法名ID
-     */
-    static String getMethodID(Method method)
-    {
-        String methodId = method.name
-        method.parameterTypes.each {
-            methodId += "&$it.name"
-        }
-
-        return methodId
-    }
-
+public class DubheServer {
 }

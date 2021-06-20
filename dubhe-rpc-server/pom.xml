@@ -3,17 +3,25 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>Dubhe</artifactId>
+        <artifactId>dubhe</artifactId>
         <groupId>com.netforklabs</groupId>
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dubhe-rpc-config</artifactId>
+    <artifactId>dubhe-rpc-server</artifactId>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.netforklabs</groupId>
+            <artifactId>dubhe-framework-config</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
 
 </project>

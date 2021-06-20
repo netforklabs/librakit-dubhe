@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.netforklabs</groupId>
-    <artifactId>Dubhe</artifactId>
+    <artifactId>dubhe</artifactId>
     <packaging>pom</packaging>
     <version>1.0</version>
 
     <modules>
-        <module>dubhe-rpc-service</module>
-        <module>dubhe-rpc-config</module>
+        <module>dubhe-rpc-server</module>
+        <module>dubhe-framework-config</module>
     </modules>
 
     <properties>
