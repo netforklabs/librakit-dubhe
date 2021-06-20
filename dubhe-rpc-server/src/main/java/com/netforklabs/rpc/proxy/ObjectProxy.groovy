@@ -118,10 +118,8 @@ class ObjectProxy {
      * @param iface  接口类对象
      * @param object 接口实现类对象
      */
-    private static void checkObjectIsImplFace(Class<?> iface,
-                                              Object   object)
+    private static void checkObjectIsImplFace(Class<?> iface, Object   object)
     {
-
         // 判断 object 是否实现了 iface 接口
         boolean isTrue = false
 
@@ -148,7 +146,7 @@ class ObjectProxy {
      * @param args 参数
      * @return 函数返回值
      */
-    Object invoke(String name, Object... args)
+    Object doInvoke(String name, Object... args)
     {
         if(!methods.containsKey(name))
             throw new MethodNotFoundException("${name} method key not found.")

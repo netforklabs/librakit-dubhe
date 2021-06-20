@@ -46,8 +46,14 @@ public class NettyServer {
      * @param port 端口
      */
     public static void createServer(int port) throws IOException {
-        ServerSocketChannel channel = ServerSocketChannel.open();
-        channel.bind(new InetSocketAddress(port));
+        ServerSocketChannel serverChannel = ServerSocketChannel.open();
+
+        // 将服务模式切换成非阻塞模式
+        serverChannel.configureBlocking(false);
+
+        // 绑定监听端口
+        serverChannel.bind(new InetSocketAddress(port));
+
     }
 
 }
