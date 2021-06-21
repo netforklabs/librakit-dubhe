@@ -30,7 +30,7 @@ package com.netforklabs.registry;
  * 注册中心的SocketChannel
  *
  * @author orval
- * @email orvlas@foxmail.com
+ * @email orvals@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
 public class RegistrySocketChannel {

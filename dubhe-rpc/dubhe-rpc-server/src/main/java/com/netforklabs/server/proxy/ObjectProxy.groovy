@@ -27,6 +27,7 @@
 package com.netforklabs.server.proxy
 
 import com.netforklabs.api.Invoke
+import com.netforklabs.server.Methods
 import com.netforklabs.server.error.MethodNotFoundException
 import com.netforklabs.server.error.MismatchedException
 
