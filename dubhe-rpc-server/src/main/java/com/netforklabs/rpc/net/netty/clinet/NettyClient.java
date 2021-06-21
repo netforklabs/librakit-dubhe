@@ -24,36 +24,21 @@
 
 /* Create date: 2021/6/20 */
 
-package com.netforklabs.rpc.server;
+package com.netforklabs.rpc.net.netty.clinet;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
+import java.net.SocketAddress;
 import java.nio.channels.ServerSocketChannel;
 
 /**
- * RPC服务端
- *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public class NettyServer {
+public class NettyClient {
 
-    /**
-     * 创建服务端
-     *
-     * @param port 端口
-     */
-    public static void createServer(int port) throws IOException {
-        ServerSocketChannel serverChannel = ServerSocketChannel.open();
-
-        // 将服务模式切换成非阻塞模式
-        serverChannel.configureBlocking(false);
-
-        // 绑定监听端口
-        serverChannel.bind(new InetSocketAddress(port));
-
+    public static void createClient(String host, int port) throws IOException {
     }
 
 }
