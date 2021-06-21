@@ -22,34 +22,37 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/21 */
 
-package com.netforklabs.server
-
-import java.lang.reflect.Method
+package com.netforklabs.netprotocol;
 
 /**
+ * 指令定义
+ *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-class Methods
-{
+public interface Commands {
 
     /**
-     * 获取函数 ID，用于 {@link com.netforklabs.server.proxy.ObjectProxy#doInvoke} 调用
-     *
-     * @param method 方法对象
-     * @return 方法名ID
+     * RPC远程函数调用
      */
-    static String getMethodID(Method method)
-    {
-        String methodId = method.name
-        method.parameterTypes.each {
-            methodId += "&$it.name"
-        }
+    byte CALLED                  = 1;
 
-        return methodId
-    }
+    /**
+     * 将服务注册到注册中心
+     */
+    byte APPLY_FOR_REG           = 2;
+
+    /**
+     * 申请链接
+     */
+    byte CONNECT                 = 3;
+
+    /**
+     * 断开链接
+     */
+    byte DISCONNECT              = 4;
 
 }

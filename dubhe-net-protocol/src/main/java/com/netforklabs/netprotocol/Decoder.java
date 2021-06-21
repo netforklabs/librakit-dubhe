@@ -22,34 +22,32 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/21 */
 
-package com.netforklabs.server
-
-import java.lang.reflect.Method
+package com.netforklabs.netprotocol;
 
 /**
+ * 解码器
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-class Methods
-{
+public interface Decoder {
 
     /**
-     * 获取函数 ID，用于 {@link com.netforklabs.server.proxy.ObjectProxy#doInvoke} 调用
+     * 反序列化
      *
-     * @param method 方法对象
-     * @return 方法名ID
+     * @param bytes 字节数组
+     * @return 序列化后的对象
      */
-    static String getMethodID(Method method)
-    {
-        String methodId = method.name
-        method.parameterTypes.each {
-            methodId += "&$it.name"
-        }
+    Object decode(byte[] bytes);
 
-        return methodId
-    }
+    /**
+     * 将对象序列化成字节数组传输
+     *
+     * @param object 序列化对象
+     * @return 序列化后的字节数组
+     */
+    byte[] encode(Object object);
 
 }

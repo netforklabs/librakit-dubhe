@@ -22,34 +22,49 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/21 */
 
-package com.netforklabs.server
+package com.netforklabs.netprotocol;
 
-import java.lang.reflect.Method
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.Serializable;
 
 /**
+ * 通讯协议，所有网络传输对象都必须继承该对象下·
+ *
  * @author orval
  * @email orvlas@foxmail.com
  */
+@Getter
+@Setter
 @SuppressWarnings("JavaDoc")
-class Methods
-{
+public abstract class Protocol implements Decoder, Serializable {
 
     /**
-     * 获取函数 ID，用于 {@link com.netforklabs.server.proxy.ObjectProxy#doInvoke} 调用
-     *
-     * @param method 方法对象
-     * @return 方法名ID
+     * 验证头，防止被意外调用
      */
-    static String getMethodID(Method method)
-    {
-        String methodId = method.name
-        method.parameterTypes.each {
-            methodId += "&$it.name"
-        }
+    private int verifyHead;
 
-        return methodId
-    }
+    /**
+     * 序列化算法
+     */
+    private byte serialize;
+
+    /**
+     * 为了防止协议升级，当前协议版本
+     */
+    private byte version;
+
+    /**
+     * 调用指令
+     */
+    private byte command;
+
+    /**
+     * 请求大小
+     */
+    private int size;
 
 }
