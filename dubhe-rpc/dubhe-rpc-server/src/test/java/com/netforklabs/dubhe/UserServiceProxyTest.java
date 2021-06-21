@@ -24,32 +24,19 @@
 
 /* Create date: 2021/6/20 */
 
-package com.netforklabs.rpc
+package com.netforklabs.dubhe;
 
-import java.lang.reflect.Method
+import com.netforklabs.server.proxy.ObjectProxy;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-class Methods
-{
+public class UserServiceProxyTest {
 
-    /**
-     * 获取函数 ID，用于 {@link com.netforklabs.rpc.proxy.ObjectProxy#invoke} 调用
-     *
-     * @param method 方法对象
-     * @return 方法名ID
-     */
-    static String getMethodID(Method method)
-    {
-        String methodId = method.name
-        method.parameterTypes.each {
-            methodId += "&$it.name"
-        }
-
-        return methodId
+    public static void main(String[] args) {
+        ObjectProxy.createProxyObject(UserService.class, new UserServiceImpl());
     }
 
 }

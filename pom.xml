@@ -10,8 +10,11 @@
     <version>1.0</version>
 
     <modules>
-        <module>dubhe-rpc-server</module>
         <module>dubhe-framework-config</module>
+
+        <!-- dubhe rpc -->
+        <module>dubhe-rpc/dubhe-rpc-server</module>
+        <module>dubhe-rpc/dubhe-rpc-api</module>
     </modules>
 
     <properties>

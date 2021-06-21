@@ -22,37 +22,26 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/21 */
 
-package com.netforklabs.rpc.error
+package com.netforklabs.api;
 
 /**
- * 不匹配异常
+ * RPC服务调用API，执行任务接口
  *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-class MismatchedException extends RuntimeException
-{
+public interface Invoke {
 
-    MismatchedException() {
-    }
-
-    MismatchedException(String message) {
-        super(message)
-    }
-
-    MismatchedException(String message, Throwable cause) {
-        super(message, cause)
-    }
-
-    MismatchedException(Throwable cause) {
-        super(cause)
-    }
-
-    MismatchedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace)
-    }
+    /**
+     * 调用对象函数
+     *
+     * @param name 函数名
+     * @param args 参数列表
+     * @return 返回结果
+     */
+    Object doInvoke(String name, Object... args);
 
 }

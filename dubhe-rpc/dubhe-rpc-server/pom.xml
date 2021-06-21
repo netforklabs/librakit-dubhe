@@ -23,6 +23,11 @@
             <version>1.0</version>
         </dependency>
         <dependency>
+            <groupId>com.netforklabs</groupId>
+            <artifactId>dubhe-rpc-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
         </dependency>

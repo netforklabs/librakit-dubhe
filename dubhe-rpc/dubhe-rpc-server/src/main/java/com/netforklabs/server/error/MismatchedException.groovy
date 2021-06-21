@@ -24,21 +24,35 @@
 
 /* Create date: 2021/6/20 */
 
-package com.netforklabs.rpc.net.netty.clinet;
-
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
-import java.nio.channels.ServerSocketChannel;
+package com.netforklabs.server.error
 
 /**
+ * 不匹配异常
+ *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public class NettyClient {
+class MismatchedException extends RuntimeException
+{
 
-    public static void createClient(String host, int port) throws IOException {
+    MismatchedException() {
+    }
+
+    MismatchedException(String message) {
+        super(message)
+    }
+
+    MismatchedException(String message, Throwable cause) {
+        super(message, cause)
+    }
+
+    MismatchedException(Throwable cause) {
+        super(cause)
+    }
+
+    MismatchedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace)
     }
 
 }

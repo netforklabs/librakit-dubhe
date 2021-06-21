@@ -24,7 +24,7 @@
 
 /* Create date: 2021/6/20 */
 
-package com.netforklabs.rpc.error
+package com.netforklabs.server.error
 
 /**
  * 函数未找到异常

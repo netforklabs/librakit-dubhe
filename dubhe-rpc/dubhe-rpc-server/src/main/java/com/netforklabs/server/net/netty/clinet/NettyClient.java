@@ -24,19 +24,18 @@
 
 /* Create date: 2021/6/20 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.server.net.netty.clinet;
 
-import com.netforklabs.rpc.proxy.ObjectProxy;
+import java.io.IOException;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public class UserServiceProxyTest {
+public class NettyClient {
 
-    public static void main(String[] args) {
-        ObjectProxy.createProxyObject(UserService.class, new UserServiceImpl());
+    public static void createClient(String host, int port) throws IOException {
     }
 
 }

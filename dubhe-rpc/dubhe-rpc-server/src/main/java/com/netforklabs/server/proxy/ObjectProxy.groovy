@@ -24,11 +24,11 @@
 
 /* Create date: 2021/6/20 */
 
-package com.netforklabs.rpc.proxy
+package com.netforklabs.server.proxy
 
-import com.netforklabs.rpc.Methods
-import com.netforklabs.rpc.error.MethodNotFoundException
-import com.netforklabs.rpc.error.MismatchedException
+import com.netforklabs.api.Invoke
+import com.netforklabs.server.error.MethodNotFoundException
+import com.netforklabs.server.error.MismatchedException
 
 import java.lang.reflect.Method
 
@@ -39,7 +39,7 @@ import java.lang.reflect.Method
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-class ObjectProxy {
+class ObjectProxy implements Invoke {
 
     /**
      * 代理的接口类
@@ -146,6 +146,7 @@ class ObjectProxy {
      * @param args 参数
      * @return 函数返回值
      */
+    @Override
     Object doInvoke(String name, Object... args)
     {
         if(!methods.containsKey(name))
