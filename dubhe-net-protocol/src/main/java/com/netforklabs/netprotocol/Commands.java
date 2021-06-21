@@ -55,4 +55,9 @@ public interface Commands {
      */
     byte DISCONNECT              = 4;
 
+    /**
+     * 心跳包
+     */
+    byte HEART_BEAT              = 5;
+
 }

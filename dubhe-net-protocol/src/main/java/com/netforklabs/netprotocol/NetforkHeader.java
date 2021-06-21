@@ -32,7 +32,8 @@ import lombok.Setter;
 import java.io.Serializable;
 
 /**
- * 通讯协议，所有网络传输对象都必须继承该对象下·
+ * 通讯协议，所有网络传输对象都必须继承该对象下。可以理解为
+ * 协议请求头。
  *
  * @author orval
  * @email orvlas@foxmail.com
@@ -40,7 +41,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @SuppressWarnings("JavaDoc")
-public abstract class Protocol implements Decoder, Serializable {
+public abstract class NetforkHeader implements Decoder, Serializable {
 
     /**
      * 验证头，防止被意外调用
@@ -63,8 +64,20 @@ public abstract class Protocol implements Decoder, Serializable {
     private byte command;
 
     /**
+     * 请求状态：例如发起一次RPC请求成功或者是失败。
+     */
+    private int status;
+
+    /**
      * 请求大小
      */
     private int size;
+
+    /**
+     * 需要子类自己去实现它。
+     *
+     * @return 返回指令类型
+     */
+    public abstract byte getCommand();
 
 }

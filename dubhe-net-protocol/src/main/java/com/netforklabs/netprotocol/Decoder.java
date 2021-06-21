@@ -28,6 +28,7 @@ package com.netforklabs.netprotocol;
 
 /**
  * 解码器
+ *
  * @author orval
  * @email orvlas@foxmail.com
  */
@@ -37,10 +38,11 @@ public interface Decoder {
     /**
      * 反序列化
      *
+     * @parma iface 对象类
      * @param bytes 字节数组
      * @return 序列化后的对象
      */
-    Object decode(byte[] bytes);
+    <T> T decode(Class<T> iface, byte[] bytes);
 
     /**
      * 将对象序列化成字节数组传输
