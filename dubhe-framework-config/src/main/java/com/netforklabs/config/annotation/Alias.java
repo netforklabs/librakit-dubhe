@@ -34,7 +34,7 @@ import java.lang.annotation.*;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.FIELD})
+@Target(ElementType.METHOD)
 @SuppressWarnings("JavaDoc")
 public @interface Alias {
 

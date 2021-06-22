@@ -30,13 +30,14 @@ import com.netforklabs.config.annotation.Alias
 import lombok.Getter
 import lombok.Setter
 
+import java.nio.file.Files
+
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @Getter
 @Setter
-@Alias("service")
 @SuppressWarnings("JavaDoc")
 class NetforkSetting {
 
@@ -53,7 +54,7 @@ class NetforkSetting {
     /**
      * 是否开启调试
      */
-    private static boolean DEBUG = true
+    private static boolean DEBUG = false
 
     private NetforkSetting() {}
 
@@ -79,20 +80,47 @@ class NetforkSetting {
         binding.setVariable("netfork", getNetforkSetting())
 
         GroovyShell shell = new GroovyShell(binding)
-        shell.evaluate(getNetforkFileURL().toURI())
+        shell.evaluate(getScriptText())
     }
 
-    private static URL getNetforkFileURL()
+    /**
+     * 解析配置脚本
+     */
+    private static String getScriptText()
     {
-        return NetforkSetting.classLoader.getResource("./main.netfork")
+        StringBuilder scriptBuilder = new StringBuilder()
+
+        scriptBuilder.append """
+            import com.netforklabs.config.setting.Registry
+        \n"""
+
+        Class<?> aClass = NetforkSetting.class
+        aClass.declaredMethods.each {method->
+            if(method.isAnnotationPresent(Alias))
+            {
+                Alias alias = method.getDeclaredAnnotation(Alias)
+                scriptBuilder.append alias.value() + "\n"
+            }
+        }
+
+        URL settingUrl          = NetforkSetting.classLoader.getResource("./main.netfork")
+        File settingFile        = new File(settingUrl.path)
+        byte[] bytes            = Files.readAllBytes(settingFile.toPath())
+
+        if(bytes.length > 0)
+            scriptBuilder.append(new String(bytes))
+
+        return scriptBuilder.toString()
     }
 
+    @Alias("boolean isDebug() { netfork.isDebug() }")
     static boolean isDebug() { DEBUG }
 
     /**
      * 配置注册中心
      * @param regmap 注册中心配置属性Map
      */
+    @Alias("void registry(Map<String, String> regmap) { netfork.registry(regmap) }")
     void registry(Map<String, String> regmap)
     {
         registries.add(new Registry(regmap.host, regmap.pass))
@@ -104,14 +132,19 @@ class NetforkSetting {
      * @param hostname 当前服务名称，这个名称会被注册中心使用的。
      * @param port     当前服务端口号
      */
-    void serinfo(Map<String, String> serverInfo)
+    @Alias("void server(Map<String, String> serverInfo) { netfork.serverInfo(serverInfo) }")
+    void serverInfo(Map<String, String> serverInfo)
     {
         settings.putAll(serverInfo)
     }
 
+    @Alias("void debug(boolean debug) { netfork.debug(debug) }")
     static void debug(boolean debug)
     {
         DEBUG = debug
     }
+
+    @Alias("List<Registry> getRegistries() { netfork.registries }")
+    List<Registry> getRegistries() { registries }
 
 }

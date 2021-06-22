@@ -26,6 +26,7 @@
 
 package com.netforklabs.dubhe;
 
+import com.netforklabs.config.setting.NetforkSetting;
 import com.netforklabs.server.proxy.ObjectProxy;
 
 import java.util.Set;
@@ -38,6 +39,9 @@ import java.util.Set;
 public class UserServiceProxyTest {
 
     public static void main(String[] args) {
+
+        NetforkSetting.compile();
+
         ObjectProxy proxyObject = ObjectProxy.createProxyObject(UserService.class, new UserServiceImpl());
 
         Set<String> names = proxyObject.getNames();
