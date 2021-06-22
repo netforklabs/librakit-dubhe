@@ -64,7 +64,7 @@ class ObjectProxy implements Invoke {
         this.instance       = instance
     }
 
-    void putWorkers(Map<String, Invoker> methodMap)
+    void putInvoker(Map<String, Invoker> methodMap)
     {
         if(methodMap == null)
             return
@@ -93,7 +93,7 @@ class ObjectProxy implements Invoke {
         checkObjectIsImplFace(iface, instance)
 
         ObjectProxy proxy = new ObjectProxy(iface, instance)
-        proxy.putWorkers(getWorkerMap(iface, instance))
+        proxy.putInvoker(getInvokerMap(iface, instance))
 
         return proxy
     }
@@ -101,7 +101,7 @@ class ObjectProxy implements Invoke {
     /**
      * 解析方法
      */
-    static Map<String, Invoker> getWorkerMap(Class<?> iface, Object instance)
+    static Map<String, Invoker> getInvokerMap(Class<?> iface, Object instance)
     {
         Map<String, Invoker> workers = new HashMap<>()
         iface.declaredMethods.each {method ->

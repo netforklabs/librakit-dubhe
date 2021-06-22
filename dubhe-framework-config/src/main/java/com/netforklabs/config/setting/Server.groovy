@@ -33,21 +33,21 @@ package com.netforklabs.config.setting
 @SuppressWarnings("JavaDoc")
 class Server {
 
-    private String hostname
+    private String  host
 
-    private int port
+    private int     port
 
-    Server(String hostname, String port) {
-        this.hostname       = hostname
-        this.port           = Integer.parseInt(port)
+    Server(String host, int port) {
+        this.host = host
+        this.port = port
     }
 
-    String getHostname() {
-        return hostname
+    String getHost() {
+        return host
     }
 
-    void setHostname(String hostname) {
-        this.hostname = hostname
+    void setHost(String host) {
+        this.host = host
     }
 
     int getPort() {

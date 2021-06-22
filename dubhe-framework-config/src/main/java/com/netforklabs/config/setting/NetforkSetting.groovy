@@ -27,6 +27,7 @@
 package com.netforklabs.config.setting
 
 import com.netforklabs.config.annotation.Alias
+import com.netforklabs.config.annotation.ImportAs
 import lombok.Getter
 import lombok.Setter
 
@@ -50,7 +51,13 @@ class NetforkSetting {
     /** 配置信息 */
     private Map<String, String>     settings         = [:]
 
+    /** 开启调试 */
+    static final String             KEY_DEBUG        = "key_debug"
+
     static final String             VARIABLE_NAME    = "netfork"
+
+    private static final boolean    OPEN             = true
+    private static final boolean    CLOSE            = true
 
     /**
      * 是否开启调试
@@ -80,7 +87,10 @@ class NetforkSetting {
         Binding binding = new Binding()
         binding.setVariable(VARIABLE_NAME, getNetforkSetting())
 
+        binding.setVariable(KEY_DEBUG, KEY_DEBUG)
+
         GroovyShell shell = new GroovyShell(binding)
+        println getScriptText()
         shell.evaluate(getScriptText())
     }
 
@@ -89,7 +99,8 @@ class NetforkSetting {
      */
     private static String getScriptText()
     {
-        StringBuilder scriptBuilder = new StringBuilder()
+        StringBuilder importAs          = new StringBuilder()
+        StringBuilder scriptBuilder     = new StringBuilder()
 
         scriptBuilder.append """
             import com.netforklabs.config.setting.Registry
@@ -100,10 +111,23 @@ class NetforkSetting {
         aClass.declaredMethods.each {method->
             if(method.isAnnotationPresent(Alias))
             {
-                Alias alias = method.getDeclaredAnnotation(Alias)
+                var alias = method.getDeclaredAnnotation(Alias)
                 scriptBuilder.append alias.value().replace("VARIABLE_NAME", VARIABLE_NAME) + "\n"
             }
+
+            if(method.isAnnotationPresent(ImportAs))
+            {
+                var alias = method.getDeclaredAnnotation(ImportAs)
+                String name = method.getName()
+                if(!alias.value().isEmpty())
+                    name = alias.value()
+
+                importAs.append "import static ${method.declaringClass.name}.${name}\n"
+            }
         }
+
+        // 添加静态方法
+        scriptBuilder.insert(0, importAs)
 
         URL settingUrl          = NetforkSetting.classLoader.getResource("./main.netfork")
         File settingFile        = new File(settingUrl.path)
@@ -115,19 +139,45 @@ class NetforkSetting {
         return scriptBuilder.toString()
     }
 
+    @ImportAs
+    static void open(String... keys) { variableSwitch(OPEN, keys) }
+
+    @ImportAs
+    static void close(String... keys) { variableSwitch(CLOSE, keys) }
+
+    /**
+     * 一些布尔变量的控制类
+     *
+     * @param value 布尔值 {@link #OPEN} or {@link #CLOSE}
+     * @param keys  key值，一些KEY_*开头的变量如：{@link #KEY_DEBUG}
+     */
+    private static void variableSwitch(boolean value, String... keys)
+    {
+        keys.each { key->
+            if(key === KEY_DEBUG)
+                netforkSetting.debug = value
+        }
+    }
+
     /**
      * 配置当前服务信息，两个key。
      *
-     * @param hostname 当前服务名称，这个名称会被注册中心使用的。
-     * @param port     当前服务端口号
+     * @param host 当前服务名称。
+     * @param port 当前服务端口号
      */
-    @Alias("void server(Map<String, String> serverInfo) { VARIABLE_NAME.addServer(serverInfo) }")
-    void addServer(Map<String, String> serverInfo) { servers.add(new Server(serverInfo.hostname, serverInfo.port)) }
+    @Alias("Server addServer(String host, int port) { VARIABLE_NAME.addServer(host, port) }")
+    Server addServer(String host, int port)
+    {
+        var server = new Server(host, port)
+        servers << server
+
+        return server
+    }
 
     /**
      * @return 配置的所有PRC远程服务信息
      */
-    @Alias("List<Server> server() { VARIABLE_NAME.getServers() }")
+    @Alias("List<Server> servers() { VARIABLE_NAME.getServers() }")
     List<Server> getServers() { this.servers }
 
     /**
@@ -160,7 +210,7 @@ class NetforkSetting {
      * 配置当前服务名称
      */
     @Alias("void servername(String name) { VARIABLE_NAME.setServerName(name) }")
-    void setServerName(String name) { settings.put("servername", name) }
+    void setServerName(String name) { settings << ["servername": name] }
 
     /**
      * @return 当前配置的服务名称
