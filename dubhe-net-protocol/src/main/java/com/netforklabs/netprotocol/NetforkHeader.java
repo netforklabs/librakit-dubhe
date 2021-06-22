@@ -41,12 +41,12 @@ import java.io.Serializable;
 @Getter
 @Setter
 @SuppressWarnings("JavaDoc")
-public abstract class NetforkHeader implements Decoder, Serializable {
+public abstract class NetforkHeader implements Serializable {
 
     /**
      * 验证头，防止被意外调用
      */
-    private int verifyHead;
+    private int magicNumber;
 
     /**
      * 序列化算法
@@ -56,7 +56,7 @@ public abstract class NetforkHeader implements Decoder, Serializable {
     /**
      * 为了防止协议升级，当前协议版本
      */
-    private byte version;
+    private int version;
 
     /**
      * 调用指令
@@ -73,11 +73,32 @@ public abstract class NetforkHeader implements Decoder, Serializable {
      */
     private int size;
 
+    public NetforkHeader() {}
+
+    public NetforkHeader(NetforkHeader netforkHeader)
+    {
+        copyOf(netforkHeader);
+    }
+
     /**
      * 需要子类自己去实现它。
      *
      * @return 返回指令类型
      */
     public abstract byte getCommand();
+
+    /**
+     * 拷贝一些基本数据到当前类
+     * @param netforkHeader 协议头
+     */
+    public void copyOf(NetforkHeader netforkHeader)
+    {
+        if(netforkHeader != null)
+        {
+            this.magicNumber    = netforkHeader.getMagicNumber();
+            this.serialize      = netforkHeader.getSerialize();
+            this.version        = netforkHeader.getVersion();
+        }
+    }
 
 }

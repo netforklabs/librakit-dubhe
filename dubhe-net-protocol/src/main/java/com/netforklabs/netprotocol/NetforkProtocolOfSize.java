@@ -26,43 +26,26 @@
 
 package com.netforklabs.netprotocol;
 
+import java.io.Serializable;
+
 /**
- * 指令定义
+ * 数据内容大小
  *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface Commands {
+public class NetforkProtocolOfSize extends NetforkHeader implements Serializable {
 
-    /**
-     * RPC远程函数调用
-     */
-    byte CALLED                  = 1;
+    public NetforkProtocolOfSize() {
+    }
 
-    /**
-     * 将服务注册到注册中心
-     */
-    byte APPLY_FOR_REG           = 2;
+    public NetforkProtocolOfSize(NetforkHeader netforkHeader) {
+        super(netforkHeader);
+    }
 
-    /**
-     * 申请链接
-     */
-    byte CONNECT                 = 3;
-
-    /**
-     * 断开链接
-     */
-    byte DISCONNECT              = 4;
-
-    /**
-     * 心跳包
-     */
-    byte HEART_BEAT              = 5;
-
-    /**
-     * 数据传输包大小
-     */
-    byte SIZEOF                  = 6;
-
+    @Override
+    public byte getCommand() {
+        return Commands.SIZEOF;
+    }
 }

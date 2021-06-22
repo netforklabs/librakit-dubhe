@@ -27,42 +27,12 @@
 package com.netforklabs.netprotocol;
 
 /**
- * 指令定义
- *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface Commands {
+public interface ProtocolVersion {
 
-    /**
-     * RPC远程函数调用
-     */
-    byte CALLED                  = 1;
-
-    /**
-     * 将服务注册到注册中心
-     */
-    byte APPLY_FOR_REG           = 2;
-
-    /**
-     * 申请链接
-     */
-    byte CONNECT                 = 3;
-
-    /**
-     * 断开链接
-     */
-    byte DISCONNECT              = 4;
-
-    /**
-     * 心跳包
-     */
-    byte HEART_BEAT              = 5;
-
-    /**
-     * 数据传输包大小
-     */
-    byte SIZEOF                  = 6;
+    int V1_0 = 1;
 
 }

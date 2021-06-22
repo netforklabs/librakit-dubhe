@@ -27,42 +27,22 @@
 package com.netforklabs.netprotocol;
 
 /**
- * 指令定义
+ * 状态列表，为了方便不去记新的状态，所以这里直接采用HTTP的状态列表
+ * 作为协议状态。
  *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface Commands {
+public interface Status {
 
-    /**
-     * RPC远程函数调用
-     */
-    byte CALLED                  = 1;
+    /** 请求成功 */
+    int SUCCESS     = 200;
 
-    /**
-     * 将服务注册到注册中心
-     */
-    byte APPLY_FOR_REG           = 2;
+    /** 请求失败 */
+    int FAILED      = 500;
 
-    /**
-     * 申请链接
-     */
-    byte CONNECT                 = 3;
-
-    /**
-     * 断开链接
-     */
-    byte DISCONNECT              = 4;
-
-    /**
-     * 心跳包
-     */
-    byte HEART_BEAT              = 5;
-
-    /**
-     * 数据传输包大小
-     */
-    byte SIZEOF                  = 6;
+    /** 请求地址没找到 */
+    int NOT_FOUND   = 404;
 
 }
