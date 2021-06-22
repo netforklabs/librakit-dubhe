@@ -49,6 +49,9 @@ class Invoker {
     /** 上次调用耗时 */
     private long        lastTimeConsuming;
 
+    /** 配置信息 */
+    private static def netforkSetting = NetforkSetting.getNetforkSetting()
+
     Invoker() {}
 
     Invoker(Method method)
@@ -90,16 +93,16 @@ class Invoker {
     Object doInvoke(Object instance, Object... args)
     {
         long startTime
-        if(NetforkSetting.isDebug())
+        if(netforkSetting.isDebug())
             startTime = System.currentTimeMillis()
 
         Object obj = method.invoke(instance, args)
 
         long endTime
-        if(NetforkSetting.isDebug())
+        if(netforkSetting.isDebug())
             endTime = System.currentTimeMillis()
 
-        if(NetforkSetting.isDebug())
+        if(netforkSetting.isDebug())
         {
             lastTimeConsuming = endTime - startTime
             println("${method.name}(${methodKey})执行耗时：$lastTimeConsuming")

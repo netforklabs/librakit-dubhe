@@ -41,20 +41,19 @@ import java.nio.file.Files
 @SuppressWarnings("JavaDoc")
 class NetforkSetting {
 
-    /**
-     * 注册中心地址
-     */
-    private List<Registry> registries = []
+    /** 注册中心地址 */
+    private List<Registry>          registries       = []
 
-    /**
-     * 配置信息
-     */
-    private Map<String, String> settings = new HashMap<>()
+    /** 远程调用的服务信息 */
+    private List<Server>            servers          = []
+
+    /** 配置信息 */
+    private Map<String, String>     settings         = [:]
 
     /**
      * 是否开启调试
      */
-    private static boolean DEBUG = false
+    private boolean debug = false
 
     private NetforkSetting() {}
 
@@ -92,6 +91,7 @@ class NetforkSetting {
 
         scriptBuilder.append """
             import com.netforklabs.config.setting.Registry
+            import com.netforklabs.config.setting.Server
         \n"""
 
         Class<?> aClass = NetforkSetting.class
@@ -113,38 +113,57 @@ class NetforkSetting {
         return scriptBuilder.toString()
     }
 
-    @Alias("boolean isDebug() { netfork.isDebug() }")
-    static boolean isDebug() { DEBUG }
-
-    /**
-     * 配置注册中心
-     * @param regmap 注册中心配置属性Map
-     */
-    @Alias("void registry(Map<String, String> regmap) { netfork.registry(regmap) }")
-    void registry(Map<String, String> regmap)
-    {
-        registries.add(new Registry(regmap.host, regmap.pass))
-    }
-
     /**
      * 配置当前服务信息，两个key。
      *
      * @param hostname 当前服务名称，这个名称会被注册中心使用的。
      * @param port     当前服务端口号
      */
-    @Alias("void server(Map<String, String> serverInfo) { netfork.serverInfo(serverInfo) }")
-    void serverInfo(Map<String, String> serverInfo)
-    {
-        settings.putAll(serverInfo)
-    }
+    @Alias("void servers(Map<String, String> serverInfo) { netfork.addServer(serverInfo) }")
+    void addServer(Map<String, String> serverInfo) { servers.add(new Server(serverInfo.hostname, serverInfo.port)) }
 
-    @Alias("void debug(boolean debug) { netfork.debug(debug) }")
-    static void debug(boolean debug)
-    {
-        DEBUG = debug
-    }
+    /**
+     * @return 配置的所有PRC远程服务信息
+     */
+    @Alias("List<Server> servers() { netfork.getServers() }")
+    List<Server> getServers() { this.servers }
 
-    @Alias("List<Registry> getRegistries() { netfork.registries }")
+    /**
+     * @return 获取当前是否开启调试
+     */
+    @Alias("boolean debug() { netfork.isDebug() }")
+    boolean isDebug() { this.debug }
+
+    /**
+     * 设置调试模式
+     * @param value true开启，false关闭
+     */
+    @Alias("void debug(boolean value) { netfork.setDebug(value) }")
+    void setDebug(boolean value) { this.debug = value }
+
+    /**
+     * 配置注册中心
+     * @param regmap 注册中心配置属性Map
+     */
+    @Alias("void registries(Map<String, String> regmap) { netfork.addRegistry(regmap) }")
+    void addRegistry(Map<String, String> regmap) { registries.add(new Registry(regmap.host, regmap.pass)) }
+
+    /**
+     * 获取当前配置的所有注册中心
+     */
+    @Alias("List<Registry> registries() { netfork.registries }")
     List<Registry> getRegistries() { registries }
+
+    /**
+     * 配置当前服务名称
+     */
+    @Alias("void servername(String name) { netfork.setServerName(name) }")
+    void setServerName(String name) { settings.put("servername", name) }
+
+    /**
+     * @return 当前配置的服务名称
+     */
+    @Alias("String servername() { netfork.getServerName() }")
+    String getServerName() { settings.servername }
 
 }
