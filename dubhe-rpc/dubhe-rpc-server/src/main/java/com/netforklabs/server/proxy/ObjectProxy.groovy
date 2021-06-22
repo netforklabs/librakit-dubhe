@@ -106,7 +106,6 @@ class ObjectProxy implements Invoke {
         Map<String, Invoker> workers = new HashMap<>()
         iface.declaredMethods.each {method ->
             Invoker     invk    = new Invoker(method, instance)
-
             workers.put(invk.methodKey, invk)
         }
 

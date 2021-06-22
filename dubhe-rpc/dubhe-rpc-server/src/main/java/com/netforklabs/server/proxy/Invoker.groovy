@@ -28,8 +28,6 @@ package com.netforklabs.server.proxy
 
 import com.netforklabs.config.setting.NetforkSetting
 import com.netforklabs.server.Methods
-import lombok.Getter
-import lombok.Setter
 
 import java.lang.reflect.Method
 
