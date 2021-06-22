@@ -28,6 +28,8 @@ package com.netforklabs.dubhe;
 
 import com.netforklabs.server.proxy.ObjectProxy;
 
+import java.util.Set;
+
 /**
  * @author orval
  * @email orvlas@foxmail.com
@@ -36,7 +38,15 @@ import com.netforklabs.server.proxy.ObjectProxy;
 public class UserServiceProxyTest {
 
     public static void main(String[] args) {
-        ObjectProxy.createProxyObject(UserService.class, new UserServiceImpl());
+        ObjectProxy proxyObject = ObjectProxy.createProxyObject(UserService.class, new UserServiceImpl());
+
+        Set<String> names = proxyObject.getNames();
+        for(String v : names)
+            System.out.println(v);
+
+        User user = (User) proxyObject.doInvoke("findUser&java.lang.String", "张三");
+        System.out.println(user.toString());
+
     }
 
 }

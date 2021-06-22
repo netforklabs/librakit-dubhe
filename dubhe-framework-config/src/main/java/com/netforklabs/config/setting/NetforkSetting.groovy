@@ -50,6 +50,11 @@ class NetforkSetting {
      */
     private Map<String, String> settings = new HashMap<>()
 
+    /**
+     * 是否开启调试
+     */
+    private static boolean DEBUG = true
+
     private NetforkSetting() {}
 
     /**
@@ -82,6 +87,8 @@ class NetforkSetting {
         return NetforkSetting.classLoader.getResource("./main.netfork")
     }
 
+    static boolean isDebug() { DEBUG }
+
     /**
      * 配置注册中心
      * @param regmap 注册中心配置属性Map
@@ -100,6 +107,11 @@ class NetforkSetting {
     void serinfo(Map<String, String> serverInfo)
     {
         settings.putAll(serverInfo)
+    }
+
+    static void debug(boolean debug)
+    {
+        DEBUG = debug
     }
 
 }

@@ -33,6 +33,6 @@ package com.netforklabs.dubhe;
 @SuppressWarnings("JavaDoc")
 public class UserServiceImpl implements UserService {
     public User findUser(String username) {
-        return new User();
+        return new User(username, 18);
     }
 }

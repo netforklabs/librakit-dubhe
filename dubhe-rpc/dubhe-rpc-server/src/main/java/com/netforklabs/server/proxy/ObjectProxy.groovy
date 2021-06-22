@@ -31,8 +31,6 @@ import com.netforklabs.server.Methods
 import com.netforklabs.server.error.MethodNotFoundException
 import com.netforklabs.server.error.MismatchedException
 
-import java.lang.reflect.Method
-
 /**
  * 接口代理对象
  *
@@ -45,12 +43,12 @@ class ObjectProxy implements Invoke {
     /**
      * 代理的接口类
      */
-    private Class<?>                iface
+    private Class<?>                      iface
 
     /**
      * 代理类实现对象
      */
-    private Object                  object
+    private Object                        instance
 
     /**
      * 代理类函数列表
@@ -58,20 +56,20 @@ class ObjectProxy implements Invoke {
      *      function list for proxy class.
      * )
      */
-    private Map<String, Method>     methods = [:]
+    private Map<String, Invoker> workers = [:]
 
-    private ObjectProxy(Class<?> iface, Object object)
+    private ObjectProxy(Class<?> iface, Object instance)
     {
-        this.iface      = iface
-        this.object     = object
+        this.iface          = iface
+        this.instance       = instance
     }
 
-    void putMethods(Map<String, Method> methodMap)
+    void putWorkers(Map<String, Invoker> methodMap)
     {
         if(methodMap == null)
             return
 
-        this.methods.putAll(methodMap)
+        this.workers.putAll(methodMap)
     }
 
     /**
@@ -81,21 +79,21 @@ class ObjectProxy implements Invoke {
      * )
      *
      * @param iface 接口类对象
-     * @param object 接口实现类对象
+     * @param instance 接口实现类对象
      * @return 代理类对象
      */
-    static ObjectProxy createProxyObject(Class<?> iface, Object object)
+    static ObjectProxy createProxyObject(Class<?> iface, Object instance)
     {
         if(iface == null)
             throw new NullPointerException("param[iface] is null.")
 
         if(iface == null)
-            throw new NullPointerException("param[object] is null.")
+            throw new NullPointerException("param[instance] is null.")
 
-        checkObjectIsImplFace(iface, object)
+        checkObjectIsImplFace(iface, instance)
 
-        ObjectProxy proxy = new ObjectProxy(iface, object)
-        proxy.putMethods(parseMethod(iface))
+        ObjectProxy proxy = new ObjectProxy(iface, instance)
+        proxy.putWorkers(getWorkerMap(iface, instance))
 
         return proxy
     }
@@ -103,28 +101,30 @@ class ObjectProxy implements Invoke {
     /**
      * 解析方法
      */
-    static Map<String, Method> parseMethod(Class<?> iface)
+    static Map<String, Invoker> getWorkerMap(Class<?> iface, Object instance)
     {
-        Map<String, Method> methods = new HashMap<>()
+        Map<String, Invoker> workers = new HashMap<>()
         iface.declaredMethods.each {method ->
-            methods.put(Methods.getMethodID(method), method)
+            Invoker     invk    = new Invoker(method, instance)
+
+            workers.put(invk.methodKey, invk)
         }
 
-        return methods
+        return workers
     }
 
     /**
      * 判断实现类是否继承了接口
      *
      * @param iface  接口类对象
-     * @param object 接口实现类对象
+     * @param instance 接口实现类对象
      */
-    private static void checkObjectIsImplFace(Class<?> iface, Object   object)
+    private static void checkObjectIsImplFace(Class<?> iface, Object   instance)
     {
-        // 判断 object 是否实现了 iface 接口
+        // 判断 instance 是否实现了 iface 接口
         boolean isTrue = false
 
-        Class<?> objectClass = object.class
+        Class<?> objectClass = instance.class
         for(Class<?> face : objectClass.interfaces)
         {
             if (face.name == iface.name) {
@@ -134,7 +134,7 @@ class ObjectProxy implements Invoke {
         }
 
         if(!isTrue)
-            throw new MismatchedException("interface: ${iface.name} and object: ${object.class.name} not matched.")
+            throw new MismatchedException("interface: ${iface.name} and instance: ${instance.class.name} not matched.")
     }
 
     /**
@@ -150,10 +150,12 @@ class ObjectProxy implements Invoke {
     @Override
     Object doInvoke(String name, Object... args)
     {
-        if(!methods.containsKey(name))
+        if(!workers.containsKey(name))
             throw new MethodNotFoundException("${name} method key not found.")
 
-        return methods[name].invoke(object, args)
+        return workers[name].doInvoke(args)
     }
+
+    Set<String> getNames() { workers.keySet() }
 
 }
