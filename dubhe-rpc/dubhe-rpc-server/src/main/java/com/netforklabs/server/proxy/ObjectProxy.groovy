@@ -26,8 +26,7 @@
 
 package com.netforklabs.server.proxy
 
-import com.netforklabs.api.Invoke
-import com.netforklabs.server.Methods
+import com.netforklabs.api.DubheInvoker
 import com.netforklabs.server.error.MethodNotFoundException
 import com.netforklabs.server.error.MismatchedException
 
@@ -38,7 +37,7 @@ import com.netforklabs.server.error.MismatchedException
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-class ObjectProxy implements Invoke {
+class ObjectProxy implements DubheInvoker {
 
     /**
      * 代理的接口类

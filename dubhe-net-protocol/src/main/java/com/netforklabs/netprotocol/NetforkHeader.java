@@ -26,6 +26,7 @@
 
 package com.netforklabs.netprotocol;
 
+import com.netforklabs.config.setting.NetforkSetting;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,9 +45,9 @@ import java.io.Serializable;
 public abstract class NetforkHeader implements Serializable {
 
     /**
-     * 验证头，防止被意外调用
+     * 魔数: 取值范围十六进制 0123456789 ABCDEF
      */
-    private int magicNumber;
+    private int magicNumber = NetforkSetting.MAGIC;
 
     /**
      * 序列化算法
@@ -75,6 +76,7 @@ public abstract class NetforkHeader implements Serializable {
 
     public NetforkHeader() {}
 
+    @SuppressWarnings("CopyConstructorMissesField")
     public NetforkHeader(NetforkHeader netforkHeader)
     {
         copyOf(netforkHeader);

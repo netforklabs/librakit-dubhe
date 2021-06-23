@@ -18,6 +18,7 @@
         <module>dubhe-rpc/dubhe-rpc-server</module>
         <module>dubhe-rpc/dubhe-rpc-api</module>
         <module>dubhe-net-protocol</module>
+        <module>dubhe-rpc/dubhe-rpc-test</module>
     </modules>
 
     <properties>

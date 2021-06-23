@@ -22,26 +22,19 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/21 */
+/* Create date: 2021/6/23 */
 
-package com.netforklabs.api;
+package com.netforklabs.api.event;
+
+import com.netforklabs.api.DubheClient;
 
 /**
- * RPC服务调用API，执行任务接口
- *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface Invoke {
+public interface ReadableEventHandler extends EventHandler {
 
-    /**
-     * 调用对象函数
-     *
-     * @param name 函数名
-     * @param args 参数列表
-     * @return 返回结果
-     */
-    Object doInvoke(String name, Object... args);
+    void read(DubheClient client, Object msg);
 
 }

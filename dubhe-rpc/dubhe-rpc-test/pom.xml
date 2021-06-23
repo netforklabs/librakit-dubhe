@@ -6,10 +6,11 @@
         <artifactId>dubhe</artifactId>
         <groupId>com.netforklabs</groupId>
         <version>1.0</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dubhe-net-protocol</artifactId>
+    <artifactId>dubhe-rpc-test</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -18,12 +19,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.netforklabs</groupId>
-            <artifactId>dubhe-framework-config</artifactId>
+            <artifactId>dubhe-rpc-server</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>

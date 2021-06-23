@@ -43,26 +43,28 @@ import java.nio.file.Files
 class NetforkSetting {
 
     /** 注册中心地址 */
-    private List<Registry>          registries       = []
+    private List<Registry> registries = []
 
     /** 远程调用的服务信息 */
-    private List<Server>            servers          = []
+    private List<Server> servers = []
 
     /** 配置信息 */
-    private Map<String, String>     settings         = [:]
+    private Map<String, String> settings = [:]
 
     /** 开启调试 */
-    static final String             KEY_DEBUG        = "key_debug"
+    public static final String      KEY_DEBUG           = "key_debug"
 
-    static final String             VARIABLE_NAME    = "netfork"
+    public static final String      VARIABLE_NAME       = "netfork"
 
-    private static final boolean    OPEN             = true
-    private static final boolean    CLOSE            = true
+    /** 协议魔数 */
+    public static final int         MAGIC               = 0xC40FDB
 
-    /**
-     * 是否开启调试
-     */
-    private boolean debug = false
+    private static final boolean    OPEN                = true
+
+    private static final boolean    CLOSE               = true
+
+    /** 是否开启调试 */
+     private boolean                debug               = false
 
     private NetforkSetting() {}
 
@@ -71,9 +73,8 @@ class NetforkSetting {
      */
     private static NetforkSetting netforkSetting
 
-    static NetforkSetting getNetforkSetting()
-    {
-        if(!netforkSetting)
+    static NetforkSetting getNetforkSetting() {
+        if (!netforkSetting)
             netforkSetting = new NetforkSetting()
 
         return netforkSetting
@@ -82,8 +83,7 @@ class NetforkSetting {
     /**
      * 编译配置文件运行
      */
-    static void compile()
-    {
+    static void compile() {
         Binding binding = new Binding()
         binding.setVariable(VARIABLE_NAME, getNetforkSetting())
 
@@ -97,10 +97,9 @@ class NetforkSetting {
     /**
      * 解析配置脚本
      */
-    private static String getScriptText()
-    {
-        StringBuilder importAs          = new StringBuilder()
-        StringBuilder scriptBuilder     = new StringBuilder()
+    private static String getScriptText() {
+        StringBuilder importAs = new StringBuilder()
+        StringBuilder scriptBuilder = new StringBuilder()
 
         scriptBuilder.append """
             import com.netforklabs.config.setting.Registry
@@ -108,18 +107,16 @@ class NetforkSetting {
         \n"""
 
         Class<?> aClass = NetforkSetting.class
-        aClass.declaredMethods.each {method->
-            if(method.isAnnotationPresent(Alias))
-            {
+        aClass.declaredMethods.each { method ->
+            if (method.isAnnotationPresent(Alias)) {
                 var alias = method.getDeclaredAnnotation(Alias)
                 scriptBuilder.append alias.value().replace("VARIABLE_NAME", VARIABLE_NAME) + "\n"
             }
 
-            if(method.isAnnotationPresent(ImportAs))
-            {
+            if (method.isAnnotationPresent(ImportAs)) {
                 var alias = method.getDeclaredAnnotation(ImportAs)
                 String name = method.getName()
-                if(!alias.value().isEmpty())
+                if (!alias.value().isEmpty())
                     name = alias.value()
 
                 importAs.append "import static ${method.declaringClass.name}.${name}\n"
@@ -129,11 +126,11 @@ class NetforkSetting {
         // 添加静态方法
         scriptBuilder.insert(0, importAs)
 
-        URL settingUrl          = NetforkSetting.classLoader.getResource("./main.netfork")
-        File settingFile        = new File(settingUrl.path)
-        byte[] bytes            = Files.readAllBytes(settingFile.toPath())
+        URL settingUrl = NetforkSetting.classLoader.getResource("./main.netfork")
+        File settingFile = new File(settingUrl.path)
+        byte[] bytes = Files.readAllBytes(settingFile.toPath())
 
-        if(bytes.length > 0)
+        if (bytes.length > 0)
             scriptBuilder.append(new String(bytes))
 
         return scriptBuilder.toString()
@@ -149,12 +146,11 @@ class NetforkSetting {
      * 一些布尔变量的控制类
      *
      * @param value 布尔值 {@link #OPEN} or {@link #CLOSE}
-     * @param keys  key值，一些KEY_*开头的变量如：{@link #KEY_DEBUG}
+     * @param keys key值，一些KEY_*开头的变量如：{@link #KEY_DEBUG}
      */
-    private static void variableSwitch(boolean value, String... keys)
-    {
-        keys.each { key->
-            if(key === KEY_DEBUG)
+    private static void variableSwitch(boolean value, String... keys) {
+        keys.each { key ->
+            if (key === KEY_DEBUG)
                 netforkSetting.debug = value
         }
     }
@@ -166,8 +162,7 @@ class NetforkSetting {
      * @param port 当前服务端口号
      */
     @Alias("Server addServer(String host, int port) { VARIABLE_NAME.addServer(host, port) }")
-    Server addServer(String host, int port)
-    {
+    Server addServer(String host, int port) {
         var server = new Server(host, port)
         servers << server
 
@@ -217,5 +212,4 @@ class NetforkSetting {
      */
     @Alias("String servername() { VARIABLE_NAME.getServerName() }")
     String getServerName() { settings.servername }
-
 }
