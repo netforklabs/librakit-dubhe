@@ -26,6 +26,10 @@
             <artifactId>dubhe-framework-config</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>de.ruedigermoeller</groupId>
+            <artifactId>fst</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

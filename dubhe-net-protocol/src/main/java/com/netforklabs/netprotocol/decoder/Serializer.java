@@ -22,20 +22,34 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/23 */
+/* Create date: 2021/6/21 */
 
-package com.netforklabs.api.event;
-
-import com.netforklabs.api.DubheChannel;
-import com.netforklabs.netprotocol.Message;
+package com.netforklabs.netprotocol.decoder;
 
 /**
+ * 解码器
+ *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface ReadableEventHandler extends EventHandler {
+public interface Serializer {
 
-    void read(DubheChannel channel, Message msg);
+    /**
+     * 反序列化
+     *
+     * @parma iface 对象类
+     * @param bytes 字节数组
+     * @return 序列化后的对象
+     */
+    <T> T decode(byte[] bytes);
+
+    /**
+     * 将对象序列化成字节数组传输
+     *
+     * @param object 序列化对象
+     * @return 序列化后的字节数组
+     */
+    byte[] encode(Object object);
 
 }

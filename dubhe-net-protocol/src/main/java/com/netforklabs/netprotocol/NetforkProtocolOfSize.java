@@ -35,13 +35,13 @@ import java.io.Serializable;
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public class NetforkProtocolOfSize extends NetforkHeader implements Serializable {
+public class NetforkProtocolOfSize extends Message implements Serializable {
 
     public NetforkProtocolOfSize() {
     }
 
-    public NetforkProtocolOfSize(NetforkHeader netforkHeader) {
-        super(netforkHeader);
+    public NetforkProtocolOfSize(Message msg) {
+        super(msg);
     }
 
     @Override

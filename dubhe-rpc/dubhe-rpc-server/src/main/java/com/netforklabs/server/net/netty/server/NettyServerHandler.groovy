@@ -27,10 +27,18 @@
 package com.netforklabs.server.net.netty.server
 
 import com.netforklabs.api.DubheClient
+import com.netforklabs.api.DubheChannel
 import com.netforklabs.api.DubheServerHandler
-import com.netforklabs.api.event.AddEvent
+
 import com.netforklabs.api.event.EventHandler
 import com.netforklabs.api.event.ReadableEventHandler
+import com.netforklabs.config.setting.NetforkSetting
+import com.netforklabs.netprotocol.Message
+import com.netforklabs.netprotocol.Status
+import com.netforklabs.netprotocol.decoder.SerializerFactory
+import com.netforklabs.netprotocol.message.HeartMessage
+import com.netforklabs.server.net.netty.NettyChannel
+import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerAdapter
 import io.netty.channel.ChannelHandlerContext
 
@@ -40,13 +48,40 @@ import io.netty.channel.ChannelHandlerContext
  */
 @SuppressWarnings("JavaDoc")
 class NettyServerHandler extends ChannelHandlerAdapter
-        implements DubheServerHandler, AddEvent {
+        implements DubheServerHandler {
 
     private ReadableEventHandler readable
 
+    private Map<ChannelHandlerContext, DubheChannel> channels = [:]
+
+    private static var fstSerializer = SerializerFactory.getFstSerializer()
+
+    @Override
+    void channelActive(ChannelHandlerContext ctx) throws Exception {
+        // 保存Channel，方便使用
+        channels.put(ctx, new NettyChannel(channel: ctx))
+    }
+
     @Override
     void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        readable.read(null, null)
+        var channel = channels.get(ctx)
+
+        var buf = msg as ByteBuf
+        Message handler
+
+        try {
+            handler = fstSerializer.decode(buf.array())
+
+            // 检测魔数是否满足协议要求
+            if(handler.magicNumber != NetforkSetting.MAGIC)
+            {
+                // todo 抛出异常
+            }
+
+            readable.read(channel, handler)
+        } catch(var e) {
+            channel.error(e)
+        }
     }
 
     @Override
@@ -64,12 +99,6 @@ class NettyServerHandler extends ChannelHandlerAdapter
 
     }
 
-    @Override
-    void read(DubheClient client, Object msg) {
-
-    }
-
-    @Override
     void addEvent(EventHandler event) {
         if(event instanceof ReadableEventHandler)
             this.readable = event as ReadableEventHandler

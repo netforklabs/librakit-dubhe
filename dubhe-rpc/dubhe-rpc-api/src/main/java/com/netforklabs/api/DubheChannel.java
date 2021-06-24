@@ -22,34 +22,34 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/21 */
+/* Create date: 2021/6/23 */
 
-package com.netforklabs.netprotocol;
+package com.netforklabs.api;
+
+import com.netforklabs.netprotocol.Message;
 
 /**
- * 解码器
- *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface Decoder {
+public interface DubheChannel {
 
     /**
-     * 反序列化
-     *
-     * @parma iface 对象类
-     * @param bytes 字节数组
-     * @return 序列化后的对象
+     * 【写事件】将数据发送到客户端
+     * @param header 协议
      */
-    <T> T decode(Class<T> iface, byte[] bytes);
+    void send(Message header);
 
     /**
-     * 将对象序列化成字节数组传输
-     *
-     * @param object 序列化对象
-     * @return 序列化后的字节数组
+     * 服务器发生异常
+     * @param e 异常信息
      */
-    byte[] encode(Object object);
+    void error(Throwable e);
+
+    /**
+     * 设置 Channel
+     */
+    void setChannel(Object channel);
 
 }

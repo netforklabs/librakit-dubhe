@@ -24,18 +24,26 @@
 
 /* Create date: 2021/6/23 */
 
-package com.netforklabs.api.event;
-
-import com.netforklabs.api.DubheChannel;
-import com.netforklabs.netprotocol.Message;
+package com.netforklabs.netprotocol.decoder;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface ReadableEventHandler extends EventHandler {
+public class SerializerFactory {
 
-    void read(DubheChannel channel, Message msg);
+    private static final FSTSerializer fstSerializer = new FSTSerializer();
+    private static final DefaultSerializer defaultSerializer = new DefaultSerializer();
+
+    public static Serializer getDefaultSerializer()
+    {
+        return defaultSerializer;
+    }
+
+    public static Serializer getFstSerializer()
+    {
+        return fstSerializer;
+    }
 
 }

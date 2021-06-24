@@ -24,18 +24,25 @@
 
 /* Create date: 2021/6/23 */
 
-package com.netforklabs.api.event;
+package com.netforklabs.netprotocol.message;
 
-import com.netforklabs.api.DubheChannel;
 import com.netforklabs.netprotocol.Message;
+import com.netforklabs.netprotocol.Status;
 
 /**
+ * 心跳消息
+ *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface ReadableEventHandler extends EventHandler {
+public class HeartMessage extends Message {
 
-    void read(DubheChannel channel, Message msg);
+    public static HeartMessage INSTANCE = new HeartMessage();
+
+    @Override
+    public byte getCommand() {
+        return Status.HEART;
+    }
 
 }

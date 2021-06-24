@@ -24,18 +24,20 @@
 
 /* Create date: 2021/6/23 */
 
-package com.netforklabs.api.event;
+package com.netforklabs.netprotocol.message;
 
-import com.netforklabs.api.DubheChannel;
 import com.netforklabs.netprotocol.Message;
+import com.netforklabs.netprotocol.Status;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface ReadableEventHandler extends EventHandler {
+public class SuccessMessage extends Message {
 
-    void read(DubheChannel channel, Message msg);
-
+    @Override
+    public byte getCommand() {
+        return Status.SUCCESS;
+    }
 }

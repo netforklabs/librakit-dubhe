@@ -27,8 +27,7 @@
 package com.netforklabs.netprotocol;
 
 /**
- * 状态列表，为了方便不去记新的状态，所以这里直接采用HTTP的状态列表
- * 作为协议状态。
+ * 状态列表
  *
  * @author orval
  * @email orvlas@foxmail.com
@@ -37,12 +36,18 @@ package com.netforklabs.netprotocol;
 public interface Status {
 
     /** 请求成功 */
-    int SUCCESS     = 200;
+    byte SUCCESS     = 0;
 
     /** 请求失败 */
-    int FAILED      = 500;
+    byte FAILED      = 1;
 
     /** 请求地址没找到 */
-    int NOT_FOUND   = 404;
+    byte NOT_FOUND   = 2;
+
+    /** 服务器遇到错误 */
+    byte ERROR       = 3;
+
+    /** 心跳消息 */
+    byte HEART       = 4;
 
 }

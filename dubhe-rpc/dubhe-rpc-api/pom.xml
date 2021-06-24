@@ -17,4 +17,12 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.netforklabs</groupId>
+            <artifactId>dubhe-net-protocol</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
 </project>

@@ -24,18 +24,37 @@
 
 /* Create date: 2021/6/23 */
 
-package com.netforklabs.api.event;
+package com.netforklabs.netprotocol.message;
 
-import com.netforklabs.api.DubheChannel;
 import com.netforklabs.netprotocol.Message;
+import com.netforklabs.netprotocol.Status;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface ReadableEventHandler extends EventHandler {
+public class ErrorMessage extends Message {
 
-    void read(DubheChannel channel, Message msg);
+    public ErrorMessage() {}
+
+    public ErrorMessage(Throwable e) {
+
+    }
+
+    @Override
+    public byte getCommand() {
+        return Status.ERROR;
+    }
+
+    /**
+     * 可以定义一个固定的对象，用于复制。避免每次去new异常信息
+     *
+     * @param e 异常信息
+     * @return 消息对象
+     */
+    public static ErrorMessage copy(Throwable e) {
+        return new ErrorMessage(e);
+    }
 
 }

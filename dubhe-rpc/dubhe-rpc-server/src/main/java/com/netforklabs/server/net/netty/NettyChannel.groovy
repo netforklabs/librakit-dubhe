@@ -24,18 +24,37 @@
 
 /* Create date: 2021/6/23 */
 
-package com.netforklabs.api.event;
+package com.netforklabs.server.net.netty
+
+import com.netforklabs.api.DubheChannel
+import com.netforklabs.netprotocol.Message
+import com.netforklabs.netprotocol.decoder.SerializerFactory
+import com.netforklabs.netprotocol.message.ErrorMessage
+import io.netty.channel.ChannelHandlerContext
 
 /**
- * @author orval
- * @email orvlas@foxmail.com
+ * @author orval* @email orvals@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface AddEvent {
+class NettyChannel implements DubheChannel {
 
-    /**
-     * 添加事件处理器
-     */
-    void addEvent(EventHandler event);
+    private ChannelHandlerContext channel
+
+    private static var fstSerializer = SerializerFactory.getFstSerializer()
+
+    @Override
+    void send(Message header) {
+        channel.writeAndFlush(fstSerializer.encode(header))
+    }
+
+    @Override
+    void error(Throwable error) {
+        send(ErrorMessage.copy(error))
+    }
+
+    @Override
+    void setChannel(Object channel) {
+        this.channel = channel as ChannelHandlerContext
+    }
 
 }

@@ -26,7 +26,6 @@
 
 package com.netforklabs.api;
 
-import com.netforklabs.api.event.AddEvent;
 import com.netforklabs.api.event.EventHandler;
 import com.netforklabs.api.event.ReadableEventHandler;
 
@@ -35,7 +34,7 @@ import com.netforklabs.api.event.ReadableEventHandler;
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface DubheServer extends AddEvent {
+public interface DubheServer {
 
     /**
      * 启动服务器, 注意在启动服务前请务必配置好各种事件的处理器。
@@ -46,8 +45,15 @@ public interface DubheServer extends AddEvent {
     void startServer(int port);
 
     /**
-     *  获取服务处理器
+     * 获取服务处理器
      */
     DubheServerHandler getHandler();
+
+    /**
+     * 添加事件处理器
+     *
+     * @param event 事件处理器
+     */
+    void addEvent(EventHandler event);
 
 }

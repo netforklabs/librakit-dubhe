@@ -39,10 +39,8 @@ import java.io.Serializable;
  * @author orval
  * @email orvlas@foxmail.com
  */
-@Getter
-@Setter
 @SuppressWarnings("JavaDoc")
-public abstract class NetforkHeader implements Serializable {
+public abstract class Message implements Serializable {
 
     /**
      * 魔数: 取值范围十六进制 0123456789 ABCDEF
@@ -74,12 +72,12 @@ public abstract class NetforkHeader implements Serializable {
      */
     private int size;
 
-    public NetforkHeader() {}
+    public Message() {}
 
     @SuppressWarnings("CopyConstructorMissesField")
-    public NetforkHeader(NetforkHeader netforkHeader)
+    public Message(Message msg)
     {
-        copyOf(netforkHeader);
+        copyOf(msg);
     }
 
     /**
@@ -91,16 +89,56 @@ public abstract class NetforkHeader implements Serializable {
 
     /**
      * 拷贝一些基本数据到当前类
-     * @param netforkHeader 协议头
+     * @param msg 协议头
      */
-    public void copyOf(NetforkHeader netforkHeader)
+    public void copyOf(Message msg)
     {
-        if(netforkHeader != null)
+        if(msg != null)
         {
-            this.magicNumber    = netforkHeader.getMagicNumber();
-            this.serialize      = netforkHeader.getSerialize();
-            this.version        = netforkHeader.getVersion();
+            this.magicNumber    = msg.getMagicNumber();
+            this.serialize      = msg.getSerialize();
+            this.version        = msg.getVersion();
         }
+    }
+
+    public int getMagicNumber() {
+        return magicNumber;
+    }
+
+    public void setMagicNumber(int magicNumber) {
+        this.magicNumber = magicNumber;
+    }
+
+    public byte getSerialize() {
+        return serialize;
+    }
+
+    public void setSerialize(byte serialize) {
+        this.serialize = serialize;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 
 }

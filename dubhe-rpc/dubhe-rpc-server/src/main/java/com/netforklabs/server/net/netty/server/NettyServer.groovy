@@ -29,7 +29,6 @@ package com.netforklabs.server.net.netty.server
 import com.netforklabs.api.DubheServer
 import com.netforklabs.api.DubheServerHandler
 import com.netforklabs.api.event.EventHandler
-import com.netforklabs.api.event.ReadableEventHandler
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.ChannelInitializer
 import io.netty.channel.ChannelOption
@@ -78,7 +77,6 @@ class NettyServer implements DubheServer {
         }
     }
 
-    @Override
     void addEvent(EventHandler event) {
         serverHandler.addEvent(event)
     }

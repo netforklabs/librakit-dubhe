@@ -24,18 +24,28 @@
 
 /* Create date: 2021/6/23 */
 
-package com.netforklabs.api.event;
+package com.netforklabs.netprotocol.decoder
 
-import com.netforklabs.api.DubheChannel;
-import com.netforklabs.netprotocol.Message;
+import org.nustaq.serialization.FSTConfiguration
 
 /**
- * @author orval
- * @email orvlas@foxmail.com
+ * @author orval* @email orvals@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface ReadableEventHandler extends EventHandler {
+class FSTSerializer implements Serializer {
 
-    void read(DubheChannel channel, Message msg);
+    private final var fstcnf = ThreadLocal.withInitial({
+        return FSTConfiguration.createDefaultConfiguration()
+    })
+
+    @Override
+    <T> T decode(byte[] bytes) {
+        return fstcnf.get().asObject(bytes) as T
+    }
+
+    @Override
+    byte[] encode(Object object) {
+        return fstcnf.get().asByteArray(object)
+    }
 
 }

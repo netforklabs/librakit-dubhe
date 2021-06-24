@@ -24,18 +24,22 @@
 
 /* Create date: 2021/6/23 */
 
-package com.netforklabs.api.event;
-
-import com.netforklabs.api.DubheChannel;
-import com.netforklabs.netprotocol.Message;
+package com.netforklabs.netprotocol.decoder
 
 /**
- * @author orval
- * @email orvlas@foxmail.com
+ * @author orval* @email orvals@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface ReadableEventHandler extends EventHandler {
+class DefaultSerializer implements Serializer {
 
-    void read(DubheChannel channel, Message msg);
+    @Override
+    <T> T decode(byte[] bytes) {
+        return null
+    }
+
+    @Override
+    byte[] encode(Object object) {
+        return new byte[0]
+    }
 
 }

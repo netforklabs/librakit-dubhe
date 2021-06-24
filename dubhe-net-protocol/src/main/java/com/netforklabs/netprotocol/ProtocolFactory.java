@@ -35,7 +35,7 @@ package com.netforklabs.netprotocol;
 @SuppressWarnings("JavaDoc")
 public class ProtocolFactory {
 
-    private static NetforkHeader netforkHeader;
+    private static Message msg;
 
     static {
         // TODO 初始化默认Netfork请求头对象
@@ -46,7 +46,7 @@ public class ProtocolFactory {
      */
     public static NetforkProtocolOfSize getNetforkOfSize()
     {
-        return new NetforkProtocolOfSize(netforkHeader);
+        return new NetforkProtocolOfSize(msg);
     }
 
 }

@@ -59,8 +59,6 @@ class NettyClient implements DubheClient {
                     })
                 }
 
-                println("客户端准备...")
-
                 // 连接服务端
                 var future = connect(host, port).sync()
                 future.channel().closeFuture().sync()

@@ -33,7 +33,7 @@ import com.netforklabs.api.event.ReadableEventHandler;
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface DubheServerHandler extends ReadableEventHandler {
+public interface DubheServerHandler {
 
     /**
      * 断开连接
