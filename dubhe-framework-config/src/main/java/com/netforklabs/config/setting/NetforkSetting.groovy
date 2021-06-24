@@ -28,6 +28,7 @@ package com.netforklabs.config.setting
 
 import com.netforklabs.config.annotation.Alias
 import com.netforklabs.config.annotation.ImportAs
+import com.netforklabs.config.annotation.Reserved
 import lombok.Getter
 import lombok.Setter
 
@@ -135,6 +136,13 @@ class NetforkSetting {
 
         return scriptBuilder.toString()
     }
+
+    /**
+     * 预留：选择序列化算法，但现在还没开放该配置选项
+     * @param key 序列化算法key
+     */
+    @Reserved(version = "C3")
+    static void serializer(String key) {}
 
     @ImportAs
     static void open(String... keys) { variableSwitch(OPEN, keys) }
