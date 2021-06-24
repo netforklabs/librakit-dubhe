@@ -24,11 +24,10 @@
 
 /* Create date: 2021/6/22 */
 
-package com.netforklabs.server.net.netty.server
+package com.netforklabs.server.netty
 
 import com.netforklabs.api.DubheServer
 import com.netforklabs.api.DubheServerHandler
-import com.netforklabs.api.event.EventHandler
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.ChannelInitializer
 import io.netty.channel.ChannelOption
@@ -36,7 +35,7 @@ import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import io.netty.handler.codec.bytes.ByteArrayDecoder
-import io.netty.handler.codec.string.StringDecoder
+import io.netty.handler.codec.bytes.ByteArrayEncoder
 
 /**
  * @author orval* @email orvals@foxmail.com
@@ -63,9 +62,9 @@ class NettyServer implements DubheServer {
                     childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
-                            socketChannel.pipeline()
-                                    .addLast(new ByteArrayDecoder())
-                                    .addLast(serverHandler)
+                            socketChannel.pipeline().addLast(new ByteArrayDecoder())
+                            socketChannel.pipeline().addLast(new ByteArrayEncoder())
+                            socketChannel.pipeline().addLast(serverHandler)
                         }
                     })
                 }
@@ -79,10 +78,6 @@ class NettyServer implements DubheServer {
             bossGroup.shutdownGracefully().sync()
             workerGroup.shutdownGracefully().sync()
         }
-    }
-
-    void addEvent(EventHandler event) {
-        serverHandler.addEvent(event)
     }
 
     @Override

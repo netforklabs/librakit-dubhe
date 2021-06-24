@@ -45,7 +45,7 @@ public class NetforkProtocolOfSize extends Message implements Serializable {
     }
 
     @Override
-    public byte getCommand() {
+    public int cmd() {
         return Commands.SIZEOF;
     }
 }

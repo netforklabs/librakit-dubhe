@@ -24,24 +24,27 @@
 
 /* Create date: 2021/6/23 */
 
-package com.netforklabs.server.net.netty;
+package com.netforklabs.server.netty;
 
 import com.netforklabs.api.DubheChannel;
 import com.netforklabs.netprotocol.Message;
 import com.netforklabs.netprotocol.decoder.Serializer;
 import com.netforklabs.netprotocol.decoder.SerializerFactory;
 import com.netforklabs.netprotocol.message.ErrorMessage;
-import com.netforklabs.netprotocol.message.HelloMessage;
+import com.netforklabs.server.Channels;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 
 /**
  * @author orval
  * @email orvals@foxmail.com
  */
-@SuppressWarnings("JavaDoc")
+@SuppressWarnings({"JavaDoc", "unchecked"})
 public class NettyChannel implements DubheChannel {
 
     private Channel channel;
+
 
     private static final Serializer serializer = SerializerFactory.getSerializer();
 
@@ -53,8 +56,16 @@ public class NettyChannel implements DubheChannel {
     }
 
     @Override
-    public void send(byte[] bytes) {
-        channel.writeAndFlush(bytes);
+    public String id() {
+        return Channels.getChannelId(channel);
+    }
+
+    @Override
+    public void send(byte[] byteArray) {
+        ByteBuf buffer = Unpooled.buffer(byteArray.length);
+        buffer.writeBytes(byteArray);
+
+        channel.writeAndFlush(buffer);
     }
 
     @Override
@@ -77,4 +88,8 @@ public class NettyChannel implements DubheChannel {
         send(ErrorMessage.copy(msg));
     }
 
+    @Override
+    public <T> T getRealChannel() {
+        return (T) channel;
+    }
 }

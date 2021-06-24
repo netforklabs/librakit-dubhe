@@ -26,12 +26,8 @@
 
 package com.netforklabs.test;
 
-import com.netforklabs.api.DubheServer;
-import com.netforklabs.api.event.ReadableEventHandler;
 import com.netforklabs.config.setting.NetforkSetting;
-import com.netforklabs.netprotocol.Status;
-import com.netforklabs.netprotocol.message.HeartMessage;
-import com.netforklabs.server.net.netty.server.NettyServer;
+import com.netforklabs.server.netty.NettyServer;
 
 /**
  * @author orval
@@ -42,21 +38,7 @@ public class StartServer {
 
     public static void main(String[] args) {
         NetforkSetting setting = NetforkSetting.compile();
-
-        DubheServer server = new NettyServer();
-
-        server.addEvent((ReadableEventHandler) (handler, msg) -> {
-            // 心跳检测
-            if(msg.getCommand() == Status.HEART)
-            {
-                handler.send(HeartMessage.INSTANCE);
-                return;
-            }
-
-            System.out.println();
-        });
-
-        server.startServer(setting.getPort());
+        new NettyServer().startServer(setting.getPort());
     }
 
 }

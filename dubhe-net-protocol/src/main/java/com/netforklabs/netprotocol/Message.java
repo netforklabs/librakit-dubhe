@@ -62,11 +62,6 @@ public abstract class Message implements Serializable {
     private int version = PROTOCOL_VERSION;
 
     /**
-     * 调用指令
-     */
-    protected byte command;
-
-    /**
      * 请求状态：例如发起一次RPC请求成功或者是失败。
      */
     protected int status;
@@ -91,7 +86,7 @@ public abstract class Message implements Serializable {
      *
      * @return 返回指令类型
      */
-    public abstract byte getCommand();
+    public abstract int cmd();
 
     /**
      * 拷贝一些基本数据到当前类

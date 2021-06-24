@@ -49,11 +49,4 @@ public interface DubheServer {
      */
     DubheServerHandler getHandler();
 
-    /**
-     * 添加事件处理器
-     *
-     * @param event 事件处理器
-     */
-    void addEvent(EventHandler event);
-
 }

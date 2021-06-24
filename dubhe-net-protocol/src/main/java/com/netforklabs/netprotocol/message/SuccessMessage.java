@@ -37,7 +37,7 @@ import com.netforklabs.netprotocol.Status;
 public class SuccessMessage extends Message {
 
     @Override
-    public byte getCommand() {
+    public int cmd() {
         return Status.SUCCESS;
     }
 }

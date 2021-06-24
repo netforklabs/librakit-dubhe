@@ -24,25 +24,23 @@
 
 /* Create date: 2021/6/22 */
 
-package com.netforklabs.server.net.netty.clinet;
+package com.netforklabs.server.netty;
 
-import com.netforklabs.netprotocol.decoder.SerializerFactory;
-import com.netforklabs.netprotocol.message.HelloMessage;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
+import com.netforklabs.api.DubheChannel;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.util.CharsetUtil;
+
+import java.util.Map;
 
 /**
- * @author orval* @email orvals@foxmail.com
+ * @author orval
+ * @email orvals@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
 public class NettyClientHandler extends ChannelHandlerAdapter {
 
     @Override
-    public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
-        ctx.writeAndFlush(SerializerFactory.getSerializer().encode(new HelloMessage()));
+    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("读写完成");
     }
-
 }

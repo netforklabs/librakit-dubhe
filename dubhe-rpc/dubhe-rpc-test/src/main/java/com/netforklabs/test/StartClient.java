@@ -31,7 +31,10 @@ import com.netforklabs.api.DubheClient;
 import com.netforklabs.config.setting.NetforkSetting;
 import com.netforklabs.config.setting.Server;
 import com.netforklabs.netprotocol.message.HeartMessage;
-import com.netforklabs.server.net.netty.clinet.NettyClient;
+import com.netforklabs.netprotocol.message.HelloMessage;
+import com.netforklabs.netprotocol.message.SuccessMessage;
+import com.netforklabs.server.netty.NettyClient;
+import io.netty.channel.Channel;
 
 import java.util.concurrent.TimeUnit;
 
@@ -49,10 +52,10 @@ public class StartClient {
 
         for (Server server : setting.getServers()) {
             DubheChannel channel = client.connect(server.getHost(), server.getPort());
-            if(channel == null)
-                System.exit(0);
-
+            System.out.println(channel.id());
             channel.send(HeartMessage.INSTANCE);
+            channel.send(new HelloMessage());
+            channel.send(new SuccessMessage());
         }
 
         TimeUnit.SECONDS.sleep(10);

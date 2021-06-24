@@ -22,28 +22,57 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/23 */
+/* Create date: 2021/6/24 */
 
-package com.netforklabs.netprotocol.message;
+package com.netforklabs.server.netty
 
-import com.netforklabs.netprotocol.Commands;
-import com.netforklabs.netprotocol.Message;
-import com.netforklabs.netprotocol.Status;
+import com.netforklabs.api.DubheChannel
+import com.netforklabs.netprotocol.Commands
+import com.netforklabs.netprotocol.Message
 
 /**
- * 心跳消息
- *
  * @author orval
- * @email orvlas@foxmail.com
+ * @email orvals@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public class HeartMessage extends Message {
+class RequestHandler {
 
-    public static HeartMessage INSTANCE = new HeartMessage();
+    /**
+     * 处理消息
+     *
+     * @param message 消息对象
+     */
+    static void handle(DubheChannel channel, Message message)
+    {
+        switch (message.cmd()) {
+            case Commands.HELLO:
+                println "Message Hello"
+                break
 
-    @Override
-    public int cmd() {
-        return Commands.HEART_BEAT;
+            case Commands.CONNECT:
+                println "Message Connect"
+                break
+
+            case Commands.CALL:
+                println "Message call"
+                break
+
+            case Commands.APPLY_FOR_REG:
+                println "Message apply for reg"
+                break
+
+            case Commands.DISCONNECT:
+                println "Message disconnect"
+                break
+
+            case Commands.HEART_BEAT:
+                println "Message heart beat"
+                break
+
+            case Commands.SIZEOF:
+                println "Message sizeof"
+                break
+        }
     }
 
 }

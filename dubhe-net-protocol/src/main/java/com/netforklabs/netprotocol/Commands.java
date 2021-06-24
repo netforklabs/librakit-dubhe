@@ -35,34 +35,37 @@ package com.netforklabs.netprotocol;
 @SuppressWarnings("JavaDoc")
 public interface Commands {
 
+    /** 第一次打招呼 */
+    int HELLO                   = 0xC4F0;
+
     /**
      * RPC远程函数调用
      */
-    byte CALLED                  = 1;
+    int CALL                    = 0xC4F1;
 
     /**
      * 将服务注册到注册中心
      */
-    byte APPLY_FOR_REG           = 2;
+    int APPLY_FOR_REG           = 0xC4F2;
 
     /**
      * 申请链接
      */
-    byte CONNECT                 = 3;
+    int CONNECT                 = 0xC4F3;
 
     /**
      * 断开链接
      */
-    byte DISCONNECT              = 4;
+    int DISCONNECT              = 0xC4F4;
 
     /**
      * 心跳包
      */
-    byte HEART_BEAT              = 5;
+    int HEART_BEAT              = 0xC4F5;
 
     /**
      * 数据传输包大小
      */
-    byte SIZEOF                  = 6;
+    int SIZEOF                  = 0xC4F6;
 
 }

@@ -35,6 +35,8 @@ import com.netforklabs.netprotocol.Message;
 @SuppressWarnings("JavaDoc")
 public interface DubheChannel {
 
+    String id();
+
     /**
      * 【写事件】将数据发送到客户端
      * @param bytes 字节数组
@@ -64,5 +66,7 @@ public interface DubheChannel {
      * @param msg 消息内容
      */
     void error(String msg);
+
+    <T> T getRealChannel();
 
 }

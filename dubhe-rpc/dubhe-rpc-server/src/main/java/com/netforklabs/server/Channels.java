@@ -22,28 +22,26 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/23 */
+/* Create date: 2021/6/24 */
 
-package com.netforklabs.netprotocol.message;
+package com.netforklabs.server;
 
-import com.netforklabs.netprotocol.Commands;
-import com.netforklabs.netprotocol.Message;
-import com.netforklabs.netprotocol.Status;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
 
 /**
- * 心跳消息
- *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public class HeartMessage extends Message {
+public class Channels {
 
-    public static HeartMessage INSTANCE = new HeartMessage();
+    public static String getChannelId(ChannelHandlerContext ctx) {
+        return getChannelId(ctx.channel());
+    }
 
-    @Override
-    public int cmd() {
-        return Commands.HEART_BEAT;
+    public static String getChannelId(Channel channel) {
+        return channel.id().asShortText();
     }
 
 }

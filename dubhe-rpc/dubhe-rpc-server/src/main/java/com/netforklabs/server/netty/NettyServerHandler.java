@@ -24,19 +24,16 @@
 
 /* Create date: 2021/6/22 */
 
-package com.netforklabs.server.net.netty.server;
+package com.netforklabs.server.netty;
 
 import com.netforklabs.api.DubheChannel;
 import com.netforklabs.api.DubheClient;
 import com.netforklabs.api.DubheServerHandler;
-import com.netforklabs.api.event.EventHandler;
-import com.netforklabs.api.event.ReadableEventHandler;
 import com.netforklabs.config.setting.NetforkSetting;
 import com.netforklabs.netprotocol.Message;
 import com.netforklabs.netprotocol.decoder.Serializer;
 import com.netforklabs.netprotocol.decoder.SerializerFactory;
-import com.netforklabs.server.net.netty.NettyChannel;
-import io.netty.buffer.ByteBuf;
+import com.netforklabs.server.Channels;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
@@ -51,44 +48,40 @@ import java.util.Map;
 public class NettyServerHandler extends ChannelHandlerAdapter
         implements DubheServerHandler {
 
-    private ReadableEventHandler readable;
-
-    private final Map<ChannelHandlerContext, DubheChannel> channels = new HashMap<>();
+    private final Map<String, DubheChannel> channels = new HashMap<>();
 
     private static final Serializer serializer = SerializerFactory.getSerializer();
 
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
         // 建立一个新的连接
-        channels.put(ctx, new NettyChannel(ctx.channel()));
-        System.out.println("连接已建立，当前Map：" + channels.size() + " - 来源：" + ctx.channel().remoteAddress() + " JavaObject: " + ctx);
+        NettyChannel nettyChannel = new NettyChannel(ctx.channel());
+        channels.put(nettyChannel.id(), nettyChannel);
+        System.out.println("连接【" + nettyChannel.id() + "】已建立，当前Map：" + channels.size() + " - 来源：" + ctx.channel().remoteAddress() + " JavaObject: " + ctx);
     }
 
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
         // 连接断开删除掉Map中的内容
-        channels.remove(ctx);
-        System.err.println("连接已断开，当前Map：" + channels.size() + " - 来源：" + ctx.channel().remoteAddress() + " JavaObject: " + ctx);
+        channels.remove(Channels.getChannelId(ctx));
+        System.err.println("连接【" + Channels.getChannelId(ctx) + "】断开，当前Map：" + channels.size() + " - 来源：" + ctx.channel().remoteAddress() + " JavaObject: " + ctx);
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        DubheChannel channel = channels.get(ctx);
-
-        byte[] buf = (byte[]) msg;
-        Message handler;
-
+    public void channelRead(ChannelHandlerContext ctx, Object byteArray) throws Exception {
+        Message message;
+        DubheChannel channel = channels.get(Channels.getChannelId(ctx));
         try {
-            handler = serializer.decode(buf);
+            message = serializer.decode((byte[]) byteArray);
 
             // 检测魔数是否满足协议要求
-            if(handler.getMagicNumber() != NetforkSetting.MAGIC)
-            {
+            if (message.getMagicNumber() != NetforkSetting.MAGIC) {
                 channel.error("verify error.");
+                return;
             }
 
-            readable.read(channel, handler);
-        } catch(Exception e) {
+            RequestHandler.handle(channel, message);
+        } catch (Exception e) {
             channel.error(e);
         }
     }
@@ -105,11 +98,6 @@ public class NettyServerHandler extends ChannelHandlerAdapter
 
     @Override
     public void disconnect(DubheClient client) {
-    }
-
-    public void addEvent(EventHandler event) {
-        if(event instanceof ReadableEventHandler)
-            this.readable = (ReadableEventHandler) event;
     }
 
 }

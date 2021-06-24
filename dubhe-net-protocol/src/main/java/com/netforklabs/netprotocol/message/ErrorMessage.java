@@ -54,7 +54,7 @@ public class ErrorMessage extends Message {
     }
 
     @Override
-    public byte getCommand() {
+    public int cmd() {
         return Status.ERROR;
     }
 
