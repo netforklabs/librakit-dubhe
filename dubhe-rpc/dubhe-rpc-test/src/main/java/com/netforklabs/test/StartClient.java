@@ -33,6 +33,8 @@ import com.netforklabs.config.setting.Server;
 import com.netforklabs.netprotocol.message.HeartMessage;
 import com.netforklabs.server.net.netty.clinet.NettyClient;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author orval
  * @email orvlas@foxmail.com
@@ -40,7 +42,7 @@ import com.netforklabs.server.net.netty.clinet.NettyClient;
 @SuppressWarnings("JavaDoc")
 public class StartClient {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         NetforkSetting setting = NetforkSetting.compile();
 
         DubheClient client = new NettyClient();
@@ -53,7 +55,7 @@ public class StartClient {
             channel.send(HeartMessage.INSTANCE);
         }
 
-        while(true);
+        TimeUnit.SECONDS.sleep(10);
 
     }
 

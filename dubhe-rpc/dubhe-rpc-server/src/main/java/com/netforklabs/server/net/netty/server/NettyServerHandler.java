@@ -58,20 +58,28 @@ public class NettyServerHandler extends ChannelHandlerAdapter
     private static final Serializer serializer = SerializerFactory.getSerializer();
 
     @Override
-   public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        // 保存Channel，方便使用
+    public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
+        // 建立一个新的连接
         channels.put(ctx, new NettyChannel(ctx.channel()));
+        System.out.println("连接已建立，当前Map：" + channels.size() + " - 来源：" + ctx.channel().remoteAddress() + " JavaObject: " + ctx);
+    }
+
+    @Override
+    public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
+        // 连接断开删除掉Map中的内容
+        channels.remove(ctx);
+        System.err.println("连接已断开，当前Map：" + channels.size() + " - 来源：" + ctx.channel().remoteAddress() + " JavaObject: " + ctx);
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         DubheChannel channel = channels.get(ctx);
 
-        ByteBuf buf = (ByteBuf) msg;
+        byte[] buf = (byte[]) msg;
         Message handler;
 
         try {
-            handler = serializer.decode(buf.array());
+            handler = serializer.decode(buf);
 
             // 检测魔数是否满足协议要求
             if(handler.getMagicNumber() != NetforkSetting.MAGIC)
@@ -97,7 +105,6 @@ public class NettyServerHandler extends ChannelHandlerAdapter
 
     @Override
     public void disconnect(DubheClient client) {
-
     }
 
     public void addEvent(EventHandler event) {

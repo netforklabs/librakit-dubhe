@@ -35,6 +35,8 @@ import io.netty.channel.ChannelOption
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
+import io.netty.handler.codec.bytes.ByteArrayDecoder
+import io.netty.handler.codec.string.StringDecoder
 
 /**
  * @author orval* @email orvals@foxmail.com
@@ -42,9 +44,9 @@ import io.netty.channel.socket.nio.NioServerSocketChannel
 @SuppressWarnings("JavaDoc")
 class NettyServer implements DubheServer {
 
-    private var bossGroup          = new NioEventLoopGroup()
-    private var workerGroup        = new NioEventLoopGroup()
-    private var serverHandler      = new NettyServerHandler()
+    private var bossGroup = new NioEventLoopGroup()
+    private var workerGroup = new NioEventLoopGroup()
+    private var serverHandler = new NettyServerHandler()
 
     @Override
     void startServer(int port) {
@@ -61,7 +63,9 @@ class NettyServer implements DubheServer {
                     childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
-                            socketChannel.pipeline().addLast(serverHandler)
+                            socketChannel.pipeline()
+                                    .addLast(new ByteArrayDecoder())
+                                    .addLast(serverHandler)
                         }
                     })
                 }
@@ -72,8 +76,8 @@ class NettyServer implements DubheServer {
             }
         } finally {
             // 关闭线程组
-            bossGroup.shutdownGracefully()
-            workerGroup.shutdownGracefully()
+            bossGroup.shutdownGracefully().sync()
+            workerGroup.shutdownGracefully().sync()
         }
     }
 

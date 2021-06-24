@@ -26,7 +26,9 @@
 
 package com.netforklabs.server.net.netty.clinet;
 
+import com.netforklabs.netprotocol.decoder.SerializerFactory;
 import com.netforklabs.netprotocol.message.HelloMessage;
+import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
@@ -39,8 +41,8 @@ import io.netty.util.CharsetUtil;
 public class NettyClientHandler extends ChannelHandlerAdapter {
 
     @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        ctx.writeAndFlush(new HelloMessage());
+    public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
+        ctx.writeAndFlush(SerializerFactory.getSerializer().encode(new HelloMessage()));
     }
 
 }

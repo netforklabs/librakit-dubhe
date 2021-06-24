@@ -47,7 +47,7 @@ public class StartServer {
 
         server.addEvent((ReadableEventHandler) (handler, msg) -> {
             // 心跳检测
-            if(msg.getStatus() == Status.HEART)
+            if(msg.getCommand() == Status.HEART)
             {
                 handler.send(HeartMessage.INSTANCE);
                 return;

@@ -35,6 +35,9 @@ import io.netty.channel.ChannelInitializer
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioSocketChannel
+import io.netty.handler.codec.bytes.ByteArrayDecoder
+import io.netty.handler.codec.bytes.ByteArrayEncoder
+import io.netty.handler.codec.string.StringEncoder
 
 /**
  * @author orval* @email orvals@foxmail.com
@@ -56,7 +59,10 @@ class NettyClient implements DubheClient {
                 handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel channel) throws Exception {
-                        channel.pipeline().addLast(new NettyClientHandler())
+                        channel.pipeline().with {
+                            addLast(new ByteArrayEncoder())
+                            addLast(new NettyClientHandler())
+                        }
                     }
                 })
             }
@@ -70,7 +76,7 @@ class NettyClient implements DubheClient {
         var bootstrap = createBootstrap()
 
         // 异步连接TCP服务端
-        ChannelFuture future = bootstrap.connect(host, port)
+        ChannelFuture future = bootstrap.connect(host, port).sync()
 
         if (!future.isSuccess()) {
             println "连接到 - ${host}:${port} 失败"
