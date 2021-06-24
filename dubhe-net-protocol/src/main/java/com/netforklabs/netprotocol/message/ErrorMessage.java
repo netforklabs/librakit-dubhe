@@ -29,6 +29,9 @@ package com.netforklabs.netprotocol.message;
 import com.netforklabs.netprotocol.Message;
 import com.netforklabs.netprotocol.Status;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+
 /**
  * @author orval
  * @email orvlas@foxmail.com
@@ -40,6 +43,14 @@ public class ErrorMessage extends Message {
 
     public ErrorMessage(Throwable e) {
 
+    }
+
+    public ErrorMessage(int status) {
+        setStatus(status);
+    }
+
+    public ErrorMessage(String msg) {
+        buffer = ByteBuffer.wrap(msg.getBytes(StandardCharsets.UTF_8));
     }
 
     @Override
@@ -55,6 +66,14 @@ public class ErrorMessage extends Message {
      */
     public static ErrorMessage copy(Throwable e) {
         return new ErrorMessage(e);
+    }
+
+    public static ErrorMessage copy(int status) {
+        return new ErrorMessage(status);
+    }
+
+    public static ErrorMessage copy(String msg) {
+        return new ErrorMessage(msg);
     }
 
 }

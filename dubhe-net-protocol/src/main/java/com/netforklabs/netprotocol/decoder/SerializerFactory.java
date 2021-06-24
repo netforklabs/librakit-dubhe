@@ -34,14 +34,8 @@ package com.netforklabs.netprotocol.decoder;
 public class SerializerFactory {
 
     private static final FSTSerializer fstSerializer = new FSTSerializer();
-    private static final DefaultSerializer defaultSerializer = new DefaultSerializer();
 
-    public static Serializer getDefaultSerializer()
-    {
-        return defaultSerializer;
-    }
-
-    public static Serializer getFstSerializer()
+    public static Serializer getSerializer()
     {
         return fstSerializer;
     }

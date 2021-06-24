@@ -24,23 +24,23 @@
 
 /* Create date: 2021/6/22 */
 
-package com.netforklabs.server.net.netty.clinet
+package com.netforklabs.server.net.netty.clinet;
 
-
-import io.netty.buffer.Unpooled
-import io.netty.channel.ChannelHandlerAdapter
-import io.netty.channel.ChannelHandlerContext
-import io.netty.util.CharsetUtil
+import com.netforklabs.netprotocol.message.HelloMessage;
+import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelHandlerAdapter;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.util.CharsetUtil;
 
 /**
  * @author orval* @email orvals@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-class NettyClientHandler extends ChannelHandlerAdapter {
+public class NettyClientHandler extends ChannelHandlerAdapter {
 
     @Override
-    void channelActive(ChannelHandlerContext ctx) throws Exception {
-        ctx.writeAndFlush(Unpooled.copiedBuffer("歪比巴不！", CharsetUtil.UTF_8))
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        ctx.writeAndFlush(new HelloMessage());
     }
 
 }

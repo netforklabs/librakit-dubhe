@@ -37,6 +37,12 @@ public interface DubheChannel {
 
     /**
      * 【写事件】将数据发送到客户端
+     * @param bytes 字节数组
+     */
+    void send(byte[] bytes);
+
+    /**
+     * 【写事件】将数据发送到客户端
      * @param header 协议
      */
     void send(Message header);
@@ -48,8 +54,15 @@ public interface DubheChannel {
     void error(Throwable e);
 
     /**
-     * 设置 Channel
+     * 状态错误
+     * @param status 状态码
      */
-    void setChannel(Object channel);
+    void error(int status);
+
+    /**
+     * 自定义消息错误信息
+     * @param msg 消息内容
+     */
+    void error(String msg);
 
 }

@@ -6,6 +6,7 @@
         <artifactId>dubhe</artifactId>
         <groupId>com.netforklabs</groupId>
         <version>C1</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

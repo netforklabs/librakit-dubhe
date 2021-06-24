@@ -26,48 +26,66 @@
 
 package com.netforklabs.server.net.netty.clinet
 
+import com.netforklabs.api.DubheChannel
 import com.netforklabs.api.DubheClient
-import com.netforklabs.api.DubheServer
+import com.netforklabs.server.net.netty.NettyChannel
 import io.netty.bootstrap.Bootstrap
+import io.netty.channel.ChannelFuture
 import io.netty.channel.ChannelInitializer
-import io.netty.channel.EventLoopGroup
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioSocketChannel
 
 /**
- * @author orval
- * @email orvals@foxmail.com
+ * @author orval* @email orvals@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
 class NettyClient implements DubheClient {
 
-    private EventLoopGroup eventGroup = new NioEventLoopGroup()
+    private Map<String, DubheChannel> channels = [:]
+    private static var eventGroup = new NioEventLoopGroup()
+
+    /**
+     * 初始化Bootstrap
+     */
+    private static Bootstrap createBootstrap() {
+        var bootstrap = new Bootstrap()
+        bootstrap.with {
+            group(eventGroup)
+            channel(NioSocketChannel).with {
+                handler(new ChannelInitializer<SocketChannel>() {
+                    @Override
+                    protected void initChannel(SocketChannel channel) throws Exception {
+                        channel.pipeline().addLast(new NettyClientHandler())
+                    }
+                })
+            }
+        }
+
+        return bootstrap
+    }
 
     @Override
-    void connect(String host, int port) {
-        try {
-            var bootstrap = new Bootstrap()
-            bootstrap.with {
-                group(eventGroup)
-                channel(NioSocketChannel).with {
-                    handler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        protected void initChannel(SocketChannel channel) throws Exception {
-                            channel.pipeline().addLast(new NettyClientHandler())
-                        }
-                    })
-                }
+    DubheChannel connect(String host, int port) {
+        var bootstrap = createBootstrap()
 
-                // 连接服务端
-                var future = connect(host, port).sync()
-                future.channel().closeFuture().sync()
-            }
-        } catch(Exception e) {
-            e.printStackTrace()
-        } finally {
-            eventGroup.shutdownGracefully()
+        // 异步连接TCP服务端
+        ChannelFuture future = bootstrap.connect(host, port)
+
+        if (!future.isSuccess()) {
+            println "连接到 - ${host}:${port} 失败"
+            return null
         }
+
+        var n_channel = new NettyChannel(channel: future.channel())
+        channels.put("${host}:${port}".toString(), n_channel)
+
+        return n_channel
+    }
+
+    @Override
+    DubheChannel getChannel(String name) {
+        return channels.get(name)
     }
 
 }

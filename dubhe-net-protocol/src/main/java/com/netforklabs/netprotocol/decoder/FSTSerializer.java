@@ -24,22 +24,27 @@
 
 /* Create date: 2021/6/23 */
 
-package com.netforklabs.netprotocol.decoder
+package com.netforklabs.netprotocol.decoder;
+
+import org.nustaq.serialization.FSTConfiguration;
 
 /**
  * @author orval* @email orvals@foxmail.com
  */
-@SuppressWarnings("JavaDoc")
-class DefaultSerializer implements Serializer {
+@SuppressWarnings({"JavaDoc", "unchecked"})
+public class FSTSerializer implements Serializer {
+
+    private final ThreadLocal<FSTConfiguration> fstcnf
+            = ThreadLocal.withInitial(FSTConfiguration::createDefaultConfiguration);
 
     @Override
-    <T> T decode(byte[] bytes) {
-        return null
+    public <T> T decode(byte[] bytes) {
+        return (T) fstcnf.get().asObject(bytes);
     }
 
     @Override
-    byte[] encode(Object object) {
-        return new byte[0]
+    public byte[] encode(Object object) {
+        return fstcnf.get().asByteArray(object);
     }
 
 }

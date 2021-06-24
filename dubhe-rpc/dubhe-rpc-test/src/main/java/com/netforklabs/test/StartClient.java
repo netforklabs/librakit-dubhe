@@ -26,7 +26,11 @@
 
 package com.netforklabs.test;
 
+import com.netforklabs.api.DubheChannel;
 import com.netforklabs.api.DubheClient;
+import com.netforklabs.config.setting.NetforkSetting;
+import com.netforklabs.config.setting.Server;
+import com.netforklabs.netprotocol.message.HeartMessage;
 import com.netforklabs.server.net.netty.clinet.NettyClient;
 
 /**
@@ -37,8 +41,20 @@ import com.netforklabs.server.net.netty.clinet.NettyClient;
 public class StartClient {
 
     public static void main(String[] args) {
+        NetforkSetting setting = NetforkSetting.compile();
+
         DubheClient client = new NettyClient();
-        client.connect("localhost", 8001);
+
+        for (Server server : setting.getServers()) {
+            DubheChannel channel = client.connect(server.getHost(), server.getPort());
+            if(channel == null)
+                System.exit(0);
+
+            channel.send(HeartMessage.INSTANCE);
+        }
+
+        while(true);
+
     }
 
 }

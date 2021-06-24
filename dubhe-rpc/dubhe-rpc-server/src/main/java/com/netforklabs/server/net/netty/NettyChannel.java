@@ -24,37 +24,57 @@
 
 /* Create date: 2021/6/23 */
 
-package com.netforklabs.server.net.netty
+package com.netforklabs.server.net.netty;
 
-import com.netforklabs.api.DubheChannel
-import com.netforklabs.netprotocol.Message
-import com.netforklabs.netprotocol.decoder.SerializerFactory
-import com.netforklabs.netprotocol.message.ErrorMessage
-import io.netty.channel.ChannelHandlerContext
+import com.netforklabs.api.DubheChannel;
+import com.netforklabs.netprotocol.Message;
+import com.netforklabs.netprotocol.decoder.Serializer;
+import com.netforklabs.netprotocol.decoder.SerializerFactory;
+import com.netforklabs.netprotocol.message.ErrorMessage;
+import com.netforklabs.netprotocol.message.HelloMessage;
+import io.netty.channel.Channel;
 
 /**
- * @author orval* @email orvals@foxmail.com
+ * @author orval
+ * @email orvals@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-class NettyChannel implements DubheChannel {
+public class NettyChannel implements DubheChannel {
 
-    private ChannelHandlerContext channel
+    private Channel channel;
 
-    private static var fstSerializer = SerializerFactory.getFstSerializer()
+    private static final Serializer serializer = SerializerFactory.getSerializer();
 
-    @Override
-    void send(Message header) {
-        channel.writeAndFlush(fstSerializer.encode(header))
+    public NettyChannel() {
+    }
+
+    public NettyChannel(Channel channel) {
+        this.channel = channel;
     }
 
     @Override
-    void error(Throwable error) {
-        send(ErrorMessage.copy(error))
+    public void send(byte[] bytes) {
+        channel.writeAndFlush(bytes);
     }
 
     @Override
-    void setChannel(Object channel) {
-        this.channel = channel as ChannelHandlerContext
+    public void send(Message header) {
+        send(serializer.encode(header));
+    }
+
+    @Override
+    public void error(Throwable error) {
+        send(ErrorMessage.copy(error));
+    }
+
+    @Override
+    public void error(int status) {
+        send(ErrorMessage.copy(status));
+    }
+
+    @Override
+    public void error(String msg) {
+        send(ErrorMessage.copy(msg));
     }
 
 }

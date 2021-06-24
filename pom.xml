@@ -28,7 +28,7 @@
         <netty-version>5.0.0.Alpha2</netty-version>
         <groovy-version>3.0.8</groovy-version>
         <lombok-version>1.18.20</lombok-version>
-        <fst-version>3.0.3</fst-version>
+        <fst-version>2.57</fst-version>
     </properties>
 
     <dependencies>

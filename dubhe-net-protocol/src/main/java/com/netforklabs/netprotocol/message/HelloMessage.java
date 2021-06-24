@@ -22,30 +22,23 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/23 */
+/* Create date: 2021/6/24 */
 
-package com.netforklabs.netprotocol.decoder
+package com.netforklabs.netprotocol.message;
 
-import org.nustaq.serialization.FSTConfiguration
+import com.netforklabs.netprotocol.Message;
+import com.netforklabs.netprotocol.Status;
+
+import java.io.Serializable;
 
 /**
- * @author orval* @email orvals@foxmail.com
+ * @author orval
+ * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-class FSTSerializer implements Serializer {
-
-    private final var fstcnf = ThreadLocal.withInitial({
-        return FSTConfiguration.createDefaultConfiguration()
-    })
-
+public class HelloMessage extends Message {
     @Override
-    <T> T decode(byte[] bytes) {
-        return fstcnf.get().asObject(bytes) as T
+    public byte getCommand() {
+        return Status.HELLO;
     }
-
-    @Override
-    byte[] encode(Object object) {
-        return fstcnf.get().asByteArray(object)
-    }
-
 }

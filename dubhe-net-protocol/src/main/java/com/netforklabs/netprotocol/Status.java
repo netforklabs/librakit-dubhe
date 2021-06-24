@@ -50,4 +50,7 @@ public interface Status {
     /** 心跳消息 */
     byte HEART       = 4;
 
+    /** 第一次打招呼 */
+    byte HELLO       = 5;
+
 }

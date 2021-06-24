@@ -28,6 +28,7 @@ package com.netforklabs.test;
 
 import com.netforklabs.api.DubheServer;
 import com.netforklabs.api.event.ReadableEventHandler;
+import com.netforklabs.config.setting.NetforkSetting;
 import com.netforklabs.netprotocol.Status;
 import com.netforklabs.netprotocol.message.HeartMessage;
 import com.netforklabs.server.net.netty.server.NettyServer;
@@ -40,6 +41,8 @@ import com.netforklabs.server.net.netty.server.NettyServer;
 public class StartServer {
 
     public static void main(String[] args) {
+        NetforkSetting setting = NetforkSetting.compile();
+
         DubheServer server = new NettyServer();
 
         server.addEvent((ReadableEventHandler) (handler, msg) -> {
@@ -53,7 +56,7 @@ public class StartServer {
             System.out.println();
         });
 
-        server.startServer(8001);
+        server.startServer(setting.getPort());
     }
 
 }

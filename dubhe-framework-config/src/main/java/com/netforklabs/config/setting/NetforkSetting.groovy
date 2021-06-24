@@ -52,6 +52,8 @@ class NetforkSetting {
     /** 配置信息 */
     private Map<String, String> settings = [:]
 
+    private static final String     PORT                = "port"
+
     /** 开启调试 */
     public static final String      KEY_DEBUG           = "key_debug"
 
@@ -84,15 +86,16 @@ class NetforkSetting {
     /**
      * 编译配置文件运行
      */
-    static void compile() {
+    static NetforkSetting compile() {
         Binding binding = new Binding()
         binding.setVariable(VARIABLE_NAME, getNetforkSetting())
 
         binding.setVariable(KEY_DEBUG, KEY_DEBUG)
 
         GroovyShell shell = new GroovyShell(binding)
-        println getScriptText()
         shell.evaluate(getScriptText())
+
+        return netforkSetting
     }
 
     /**
@@ -162,6 +165,12 @@ class NetforkSetting {
                 netforkSetting.debug = value
         }
     }
+
+    @Alias("void port(int port) { VARIABLE_NAME.setPort(port) } ")
+    void setPort(int port) { settings.put(PORT, String.valueOf(port)) }
+
+    @Alias("int getPort() { VARIABLE_NAME.getPort() } ")
+    int getPort() { Integer.parseInt(settings.get(PORT)) }
 
     /**
      * 配置当前服务信息，两个key。

@@ -31,6 +31,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.nio.ByteBuffer;
 
 /**
  * 通讯协议，所有网络传输对象都必须继承该对象下。可以理解为
@@ -42,6 +43,9 @@ import java.io.Serializable;
 @SuppressWarnings("JavaDoc")
 public abstract class Message implements Serializable {
 
+    public static final int FST_SERIALIZER          = 0;
+    public static final int PROTOCOL_VERSION        = charAdd('C', '1');
+
     /**
      * 魔数: 取值范围十六进制 0123456789 ABCDEF
      */
@@ -50,27 +54,29 @@ public abstract class Message implements Serializable {
     /**
      * 序列化算法
      */
-    private byte serialize;
+    private byte serializer = FST_SERIALIZER;
 
     /**
      * 为了防止协议升级，当前协议版本
      */
-    private int version;
+    private int version = PROTOCOL_VERSION;
 
     /**
      * 调用指令
      */
-    private byte command;
+    protected byte command;
 
     /**
      * 请求状态：例如发起一次RPC请求成功或者是失败。
      */
-    private int status;
+    protected int status;
 
     /**
      * 请求大小
      */
-    private int size;
+    protected int size;
+
+    protected ByteBuffer buffer;
 
     public Message() {}
 
@@ -96,7 +102,7 @@ public abstract class Message implements Serializable {
         if(msg != null)
         {
             this.magicNumber    = msg.getMagicNumber();
-            this.serialize      = msg.getSerialize();
+            this.serializer     = msg.getSerializer();
             this.version        = msg.getVersion();
         }
     }
@@ -109,12 +115,12 @@ public abstract class Message implements Serializable {
         this.magicNumber = magicNumber;
     }
 
-    public byte getSerialize() {
-        return serialize;
+    public byte getSerializer() {
+        return serializer;
     }
 
-    public void setSerialize(byte serialize) {
-        this.serialize = serialize;
+    public void setSerializer(byte serializer) {
+        this.serializer = serializer;
     }
 
     public int getVersion() {
@@ -139,6 +145,11 @@ public abstract class Message implements Serializable {
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    private static int charAdd(char x, char y)
+    {
+        return ((byte) x) + ((byte) y);
     }
 
 }

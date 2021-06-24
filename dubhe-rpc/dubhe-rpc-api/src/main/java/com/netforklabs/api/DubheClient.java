@@ -33,11 +33,15 @@ package com.netforklabs.api;
 @SuppressWarnings("JavaDoc")
 public interface DubheClient {
 
-
-
     /**
      * 连接到服务器
      */
-    void connect(String host, int port);
+    DubheChannel connect(String host, int port);
+
+    /**
+     * 获取Channel
+     * @param name 所属名称 host:port
+     */
+    DubheChannel getChannel(String name);
 
 }
