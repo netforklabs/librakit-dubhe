@@ -26,7 +26,7 @@
 
 package com.netforklabs.api;
 
-import com.netforklabs.netprotocol.Message;
+import com.netforklabs.netprotocol.message.Message;
 
 /**
  * @author orval
@@ -35,6 +35,9 @@ import com.netforklabs.netprotocol.Message;
 @SuppressWarnings("JavaDoc")
 public interface DubheChannel {
 
+    /**
+     * @return Channel id
+     */
     String id();
 
     /**
@@ -50,22 +53,19 @@ public interface DubheChannel {
     void send(Message header);
 
     /**
-     * 服务器发生异常
-     * @param e 异常信息
+     * 刷新
      */
-    void error(Throwable e);
+    void flush();
 
     /**
-     * 状态错误
-     * @param status 状态码
+     * 断开连接
      */
-    void error(int status);
+    void disconnect();
 
     /**
-     * 自定义消息错误信息
-     * @param msg 消息内容
+     * 关闭连接
      */
-    void error(String msg);
+    void close();
 
     <T> T getRealChannel();
 

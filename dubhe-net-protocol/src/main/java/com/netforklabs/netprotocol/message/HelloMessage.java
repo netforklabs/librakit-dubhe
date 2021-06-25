@@ -27,10 +27,6 @@
 package com.netforklabs.netprotocol.message;
 
 import com.netforklabs.netprotocol.Commands;
-import com.netforklabs.netprotocol.Message;
-import com.netforklabs.netprotocol.Status;
-
-import java.io.Serializable;
 
 /**
  * @author orval
@@ -38,8 +34,10 @@ import java.io.Serializable;
  */
 @SuppressWarnings("JavaDoc")
 public class HelloMessage extends Message {
+
     @Override
     public int cmd() {
         return Commands.HELLO;
     }
+
 }

@@ -26,11 +26,8 @@
 
 package com.netforklabs.server.netty;
 
-import com.netforklabs.api.DubheChannel;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
-
-import java.util.Map;
 
 /**
  * @author orval
@@ -40,7 +37,8 @@ import java.util.Map;
 public class NettyClientHandler extends ChannelHandlerAdapter {
 
     @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("读写完成");
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        super.channelActive(ctx);
     }
+
 }

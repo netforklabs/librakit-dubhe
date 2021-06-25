@@ -22,22 +22,31 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/23 */
+/* Create date: 2021/6/24 */
 
 package com.netforklabs.netprotocol.message;
 
-import com.netforklabs.netprotocol.Message;
-import com.netforklabs.netprotocol.Status;
+import java.nio.ByteBuffer;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public class SuccessMessage extends Message {
+public abstract class ByteBufferMessage extends Message {
 
-    @Override
-    public int cmd() {
-        return Status.SUCCESS;
+    /**
+     * 数据内容
+     */
+    private ByteBuffer buf;
+
+
+
+    public ByteBuffer getBuf() {
+        return buf;
+    }
+
+    public void setBuf(ByteBuffer buf) {
+        this.buf = buf;
     }
 }

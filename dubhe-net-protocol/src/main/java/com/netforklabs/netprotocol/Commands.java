@@ -66,6 +66,6 @@ public interface Commands {
     /**
      * 数据传输包大小
      */
-    int SIZEOF                  = 0xC4F6;
+    int SIZE                    = 0xC4F6;
 
 }

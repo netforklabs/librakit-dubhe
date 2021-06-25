@@ -22,22 +22,38 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/23 */
+/* Create date: 2021/6/21 */
 
-package com.netforklabs.netprotocol.decoder;
+package com.netforklabs.netprotocol.serializer;
+
+import com.netforklabs.netprotocol.message.Message;
 
 /**
+ * 解码器
+ *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public class SerializerFactory {
+public interface Serializer {
 
-    private static final FSTSerializer fstSerializer = new FSTSerializer();
+    /**
+     * 反序列化
+     *
+     * @parma iface 对象类
+     * @param bytes 字节数组
+     * @return 序列化后的对象
+     */
+    <T> T decode(byte[] bytes);
 
-    public static Serializer getSerializer()
-    {
-        return fstSerializer;
-    }
+    /**
+     * 将对象序列化成字节数组传输
+     *
+     * @param object 序列化对象
+     * @return 序列化后的字节数组
+     */
+    byte[] encode(Message object);
+
+    byte[] encode(Object object);
 
 }

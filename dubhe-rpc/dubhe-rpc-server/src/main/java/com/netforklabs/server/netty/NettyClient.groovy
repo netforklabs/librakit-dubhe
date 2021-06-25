@@ -28,8 +28,12 @@ package com.netforklabs.server.netty
 
 import com.netforklabs.api.DubheChannel
 import com.netforklabs.api.DubheClient
+import com.netforklabs.netprotocol.message.HeartMessage
+import com.netforklabs.netprotocol.message.HelloMessage
+import com.netforklabs.netprotocol.message.SizeMessage
 import io.netty.bootstrap.Bootstrap
 import io.netty.channel.ChannelFuture
+import io.netty.channel.ChannelFutureListener
 import io.netty.channel.ChannelInitializer
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
@@ -73,15 +77,25 @@ class NettyClient implements DubheClient {
     DubheChannel connect(String host, int port) {
         var bootstrap = createBootstrap()
 
-        ChannelFuture future = bootstrap.connect(host, port).sync()
+        ChannelFuture future = bootstrap.connect(host, port)
 
-        if (!future.isSuccess())
-            throw new ConnectException("连接到 - ${host}:${port} 失败")
+        // 连接建立好后回调
+        future.addListener(new ChannelFutureListener() {
+            @Override
+            void operationComplete(ChannelFuture channelFuture) throws Exception {
+                if (!channelFuture.isSuccess())
+                    throw new ConnectException("连接到 - ${host}:${port} 失败")
+            }
+        })
 
-        NettyChannel nettyChannel = new NettyChannel(future.channel())
-        channels.put(nettyChannel.id(), nettyChannel);
+        var syncChannel = future.sync().channel()
+        NettyChannel channel = new NettyChannel(syncChannel)
+        channels.put(channel.id(), channel)
 
-        return nettyChannel
+        channel.send(new HelloMessage())
+        channel.send(new HelloMessage())
+
+        return null
     }
 
     @Override

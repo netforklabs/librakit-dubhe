@@ -24,8 +24,10 @@
 
 /* Create date: 2021/6/23 */
 
-package com.netforklabs.netprotocol.decoder;
+package com.netforklabs.netprotocol.serializer;
 
+import com.netforklabs.netprotocol.message.Message;
+import com.netforklabs.utils.bytes.Bytes;
 import org.nustaq.serialization.FSTConfiguration;
 
 /**
@@ -47,4 +49,20 @@ public class FSTSerializer implements Serializer {
         return fstcnf.get().asByteArray(object);
     }
 
+    @Override
+    public byte[] encode(Message object) {
+        byte[] serbytes = encode((Object) object);
+
+        int objectSize      = serbytes.length;
+        byte[] sizebyte     = Bytes.toByte4(objectSize);
+        byte[] buildbyte    = new byte[objectSize + Bytes.INT_BYTE_SIZE]; // 前四个字节表明当前对象的大小
+
+        // 将对象大小填充到最前面
+        System.arraycopy(sizebyte, 0, buildbyte, 0, Bytes.INT_BYTE_SIZE);
+
+        // 填充对象内容
+        System.arraycopy(serbytes, 0, buildbyte, 4, objectSize);
+
+        return buildbyte;
+    }
 }

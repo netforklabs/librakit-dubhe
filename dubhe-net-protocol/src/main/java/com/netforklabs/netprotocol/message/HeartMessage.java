@@ -27,8 +27,6 @@
 package com.netforklabs.netprotocol.message;
 
 import com.netforklabs.netprotocol.Commands;
-import com.netforklabs.netprotocol.Message;
-import com.netforklabs.netprotocol.Status;
 
 /**
  * 心跳消息

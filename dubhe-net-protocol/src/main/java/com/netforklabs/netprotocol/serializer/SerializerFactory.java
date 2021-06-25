@@ -24,56 +24,20 @@
 
 /* Create date: 2021/6/23 */
 
-package com.netforklabs.netprotocol.message;
-
-import com.netforklabs.netprotocol.Message;
-import com.netforklabs.netprotocol.Status;
-
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
+package com.netforklabs.netprotocol.serializer;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public class ErrorMessage extends Message {
+public class SerializerFactory {
 
-    public ErrorMessage() {}
+    private static final FSTSerializer fstSerializer = new FSTSerializer();
 
-    public ErrorMessage(Throwable e) {
-
-    }
-
-    public ErrorMessage(int status) {
-        setStatus(status);
-    }
-
-    public ErrorMessage(String msg) {
-        buffer = ByteBuffer.wrap(msg.getBytes(StandardCharsets.UTF_8));
-    }
-
-    @Override
-    public int cmd() {
-        return Status.ERROR;
-    }
-
-    /**
-     * 可以定义一个固定的对象，用于复制。避免每次去new异常信息
-     *
-     * @param e 异常信息
-     * @return 消息对象
-     */
-    public static ErrorMessage copy(Throwable e) {
-        return new ErrorMessage(e);
-    }
-
-    public static ErrorMessage copy(int status) {
-        return new ErrorMessage(status);
-    }
-
-    public static ErrorMessage copy(String msg) {
-        return new ErrorMessage(msg);
+    public static Serializer getSerializer()
+    {
+        return fstSerializer;
     }
 
 }

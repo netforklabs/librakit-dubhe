@@ -22,22 +22,45 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/23 */
+/* Create date: 2021/6/24 */
 
 package com.netforklabs.netprotocol.message;
 
-import com.netforklabs.netprotocol.Message;
-import com.netforklabs.netprotocol.Status;
+import com.netforklabs.netprotocol.Commands;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public class FailedMessage extends Message {
+public class SizeMessage extends Message {
+
+    /**
+     * 报文大小
+     */
+    private int size;
+
+    public SizeMessage() {}
+
+    public SizeMessage(int size) {
+        this.size = size;
+    }
 
     @Override
     public int cmd() {
-        return Status.FAILED;
+        return Commands.SIZE;
     }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public static SizeMessage copy(int size) {
+        return new SizeMessage(size);
+    }
+
 }

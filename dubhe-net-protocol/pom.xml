@@ -27,6 +27,11 @@
             <version>${unite-version}</version>
         </dependency>
         <dependency>
+            <groupId>com.netforklabs</groupId>
+            <artifactId>dubhe-utils</artifactId>
+            <version>${unite-version}</version>
+        </dependency>
+        <dependency>
             <groupId>de.ruedigermoeller</groupId>
             <artifactId>fst</artifactId>
         </dependency>

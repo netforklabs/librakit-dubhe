@@ -28,7 +28,7 @@ package com.netforklabs.server.netty
 
 import com.netforklabs.api.DubheChannel
 import com.netforklabs.netprotocol.Commands
-import com.netforklabs.netprotocol.Message
+import com.netforklabs.netprotocol.message.Message
 
 /**
  * @author orval
@@ -69,8 +69,8 @@ class RequestHandler {
                 println "Message heart beat"
                 break
 
-            case Commands.SIZEOF:
-                println "Message sizeof"
+            case Commands.SIZE:
+                println "Message SIZE"
                 break
         }
     }

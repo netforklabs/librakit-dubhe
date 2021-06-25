@@ -30,9 +30,9 @@ import com.netforklabs.api.DubheChannel;
 import com.netforklabs.api.DubheClient;
 import com.netforklabs.api.DubheServerHandler;
 import com.netforklabs.config.setting.NetforkSetting;
-import com.netforklabs.netprotocol.Message;
-import com.netforklabs.netprotocol.decoder.Serializer;
-import com.netforklabs.netprotocol.decoder.SerializerFactory;
+import com.netforklabs.netprotocol.message.Message;
+import com.netforklabs.netprotocol.serializer.Serializer;
+import com.netforklabs.netprotocol.serializer.SerializerFactory;
 import com.netforklabs.server.Channels;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
@@ -63,26 +63,27 @@ public class NettyServerHandler extends ChannelHandlerAdapter
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
         // 连接断开删除掉Map中的内容
-        channels.remove(Channels.getChannelId(ctx));
+        DubheChannel channel = channels.remove(Channels.getChannelId(ctx));
         System.err.println("连接【" + Channels.getChannelId(ctx) + "】断开，当前Map：" + channels.size() + " - 来源：" + ctx.channel().remoteAddress() + " JavaObject: " + ctx);
+        channel.close();
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object byteArray) throws Exception {
         Message message;
         DubheChannel channel = channels.get(Channels.getChannelId(ctx));
+        System.out.println("接收到客户端发送来的数据，大小：" + ((byte[]) byteArray).length);
         try {
             message = serializer.decode((byte[]) byteArray);
 
             // 检测魔数是否满足协议要求
             if (message.getMagicNumber() != NetforkSetting.MAGIC) {
-                channel.error("verify error.");
                 return;
             }
 
-            RequestHandler.handle(channel, message);
+            // RequestHandler.handle(channel, message);
         } catch (Exception e) {
-            channel.error(e);
+            e.printStackTrace();
         }
     }
 

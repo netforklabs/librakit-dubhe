@@ -27,13 +27,10 @@
 package com.netforklabs.server.netty;
 
 import com.netforklabs.api.DubheChannel;
-import com.netforklabs.netprotocol.Message;
-import com.netforklabs.netprotocol.decoder.Serializer;
-import com.netforklabs.netprotocol.decoder.SerializerFactory;
-import com.netforklabs.netprotocol.message.ErrorMessage;
+import com.netforklabs.netprotocol.message.Message;
+import com.netforklabs.netprotocol.serializer.Serializer;
+import com.netforklabs.netprotocol.serializer.SerializerFactory;
 import com.netforklabs.server.Channels;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 
 /**
@@ -62,30 +59,28 @@ public class NettyChannel implements DubheChannel {
 
     @Override
     public void send(byte[] byteArray) {
-        ByteBuf buffer = Unpooled.buffer(byteArray.length);
-        buffer.writeBytes(byteArray);
-
-        channel.writeAndFlush(buffer);
+        System.out.println("发送数据大小：" + byteArray.length);
+        channel.writeAndFlush(byteArray);
     }
 
     @Override
-    public void send(Message header) {
-        send(serializer.encode(header));
+    public void send(Message message) {
+        send(serializer.encode(message));
     }
 
     @Override
-    public void error(Throwable error) {
-        send(ErrorMessage.copy(error));
+    public void flush() {
+        channel.flush();
     }
 
     @Override
-    public void error(int status) {
-        send(ErrorMessage.copy(status));
+    public void disconnect() {
+        channel.disconnect();
     }
 
     @Override
-    public void error(String msg) {
-        send(ErrorMessage.copy(msg));
+    public void close() {
+        channel.close();
     }
 
     @Override

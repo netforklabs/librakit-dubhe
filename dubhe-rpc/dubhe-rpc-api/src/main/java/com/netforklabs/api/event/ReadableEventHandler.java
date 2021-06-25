@@ -27,7 +27,7 @@
 package com.netforklabs.api.event;
 
 import com.netforklabs.api.DubheChannel;
-import com.netforklabs.netprotocol.Message;
+import com.netforklabs.netprotocol.message.Message;
 
 /**
  * @author orval

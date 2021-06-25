@@ -24,14 +24,11 @@
 
 /* Create date: 2021/6/21 */
 
-package com.netforklabs.netprotocol;
+package com.netforklabs.netprotocol.message;
 
 import com.netforklabs.config.setting.NetforkSetting;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.io.Serializable;
-import java.nio.ByteBuffer;
 
 /**
  * 通讯协议，所有网络传输对象都必须继承该对象下。可以理解为
@@ -65,13 +62,6 @@ public abstract class Message implements Serializable {
      * 请求状态：例如发起一次RPC请求成功或者是失败。
      */
     protected int status;
-
-    /**
-     * 请求大小
-     */
-    protected int size;
-
-    protected ByteBuffer buffer;
 
     public Message() {}
 
@@ -132,14 +122,6 @@ public abstract class Message implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
     }
 
     private static int charAdd(char x, char y)
