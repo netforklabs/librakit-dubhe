@@ -34,10 +34,15 @@ import com.netforklabs.netprotocol.message.Message;
 import com.netforklabs.netprotocol.serializer.Serializer;
 import com.netforklabs.netprotocol.serializer.SerializerFactory;
 import com.netforklabs.server.Channels;
+import com.netforklabs.utils.bytes.Bytes;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,6 +56,32 @@ public class NettyServerHandler extends ChannelHandlerAdapter
     private final Map<String, DubheChannel> channels = new HashMap<>();
 
     private static final Serializer serializer = SerializerFactory.getSerializer();
+
+    /**
+     * 拆包
+     * @param byteArray 字节数组
+     */
+    private static List<ByteBuffer> unpack(byte[] byteArray) {
+        List<ByteBuffer> bufArray = new ArrayList<>();
+
+        while(true) {
+            int offset = Bytes.toInt(byteArray, 0);
+            ByteBuffer bytebuf = ByteBuffer.allocate(10);
+            break;
+        }
+        return bufArray;
+    }
+
+    /**
+     * 是否需要进行拆包，如果前四个字节的整型数组等于byteArray的大小，就代表不需要
+     * 拆包当前只有一个对象上传。如果大于就代表需要进行拆包操作。
+     *
+     * @param byteArray 字节数组
+     * @return true | false
+     */
+    private static boolean checkUnpack(byte[] byteArray) {
+        return Bytes.toInt(byteArray, 0) == (byteArray.length - 4);
+    }
 
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
@@ -69,19 +100,29 @@ public class NettyServerHandler extends ChannelHandlerAdapter
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object byteArray) throws Exception {
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         Message message;
+        // 读取内容
+        byte[] bytes = ((byte[]) msg);
         DubheChannel channel = channels.get(Channels.getChannelId(ctx));
-        System.out.println("接收到客户端发送来的数据，大小：" + ((byte[]) byteArray).length);
+
+        System.out.println("接收到客户端发送来的数据，大小：" + ((byte[]) msg).length);
         try {
-            message = serializer.decode((byte[]) byteArray);
+            if(!checkUnpack(bytes))
+            {
+                List<ByteBuffer> unpacks = unpack(bytes);
+                for(ByteBuffer pack : unpacks) {
+
+                }
+            }
+            message = serializer.decode(null);
 
             // 检测魔数是否满足协议要求
             if (message.getMagicNumber() != NetforkSetting.MAGIC) {
                 return;
             }
 
-            // RequestHandler.handle(channel, message);
+            RequestHandler.handle(channel, message);
         } catch (Exception e) {
             e.printStackTrace();
         }
