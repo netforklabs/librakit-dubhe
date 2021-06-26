@@ -22,26 +22,45 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/23 */
+/* Create date: 2021/6/24 */
 
 package com.netforklabs.netprotocol.message;
 
 import com.netforklabs.netprotocol.Commands;
 
 /**
- * 心跳消息
- *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public class HeartMessage extends Message {
+public class Size_M extends Message {
 
-    public static HeartMessage INSTANCE = new HeartMessage();
+    /**
+     * 报文大小
+     */
+    private int size;
+
+    public Size_M() {}
+
+    public Size_M(int size) {
+        this.size = size;
+    }
 
     @Override
     public int cmd() {
-        return Commands.HEART_BEAT;
+        return Commands.SIZE;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public static Size_M copy(int size) {
+        return new Size_M(size);
     }
 
 }

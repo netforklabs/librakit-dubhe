@@ -28,9 +28,6 @@ package com.netforklabs.server.netty
 
 import com.netforklabs.api.DubheChannel
 import com.netforklabs.api.DubheClient
-import com.netforklabs.netprotocol.message.HeartMessage
-import com.netforklabs.netprotocol.message.HelloMessage
-import com.netforklabs.netprotocol.message.SizeMessage
 import io.netty.bootstrap.Bootstrap
 import io.netty.channel.ChannelFuture
 import io.netty.channel.ChannelFutureListener
@@ -92,10 +89,7 @@ class NettyClient implements DubheClient {
         NettyChannel channel = new NettyChannel(syncChannel)
         channels.put(channel.id(), channel)
 
-        channel.send(new HelloMessage())
-        channel.send(new HelloMessage())
-
-        return null
+        return channel
     }
 
     @Override

@@ -22,22 +22,26 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/24 */
+/* Create date: 2021/6/23 */
 
 package com.netforklabs.netprotocol.message;
 
 import com.netforklabs.netprotocol.Commands;
 
 /**
+ * 心跳消息
+ *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public class HelloMessage extends Message {
+public class Heart_M extends Message {
+
+    public static Heart_M INSTANCE = new Heart_M();
 
     @Override
     public int cmd() {
-        return Commands.HELLO;
+        return Commands.HEART_BEAT;
     }
 
 }

@@ -27,7 +27,9 @@
 package com.netforklabs.server.netty
 
 import com.netforklabs.api.DubheChannel
+import com.netforklabs.config.setting.NetforkSetting
 import com.netforklabs.netprotocol.Commands
+import com.netforklabs.netprotocol.message.ByteBuf_M1
 import com.netforklabs.netprotocol.message.Message
 
 /**
@@ -44,6 +46,12 @@ class RequestHandler {
      */
     static void handle(DubheChannel channel, Message message)
     {
+
+        // 检测魔数是否满足协议要求
+        if (message.getMagicNumber() != NetforkSetting.MAGIC) {
+            return;
+        }
+
         switch (message.cmd()) {
             case Commands.HELLO:
                 println "Message Hello"
@@ -54,7 +62,7 @@ class RequestHandler {
                 break
 
             case Commands.CALL:
-                println "Message call"
+                println(((ByteBuf_M1) message).asString())
                 break
 
             case Commands.APPLY_FOR_REG:

@@ -26,41 +26,33 @@
 
 package com.netforklabs.netprotocol.message;
 
-import com.netforklabs.netprotocol.Commands;
+import com.netforklabs.utils.bytes.ByteBuf;
+
+import java.io.Serializable;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public class SizeMessage extends Message {
+public abstract class ByteBuf_M1 extends Message
+        implements Serializable {
 
     /**
-     * 报文大小
+     * 数据内容
      */
-    private int size;
+    protected ByteBuf buf;
 
-    public SizeMessage() {}
-
-    public SizeMessage(int size) {
-        this.size = size;
+    public ByteBuf getBuf() {
+        return buf;
     }
 
-    @Override
-    public int cmd() {
-        return Commands.SIZE;
+    public void setBuf(ByteBuf buf) {
+        this.buf = buf;
     }
 
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public static SizeMessage copy(int size) {
-        return new SizeMessage(size);
+    public String asString() {
+        return new String(buf.array());
     }
 
 }

@@ -30,9 +30,13 @@ import com.netforklabs.api.DubheChannel;
 import com.netforklabs.api.DubheClient;
 import com.netforklabs.config.setting.NetforkSetting;
 import com.netforklabs.config.setting.Server;
-import com.netforklabs.netprotocol.message.HelloMessage;
+import com.netforklabs.netprotocol.Commands;
+import com.netforklabs.netprotocol.message.ByteBuf_M1;
+import com.netforklabs.netprotocol.message.Hello_M;
 import com.netforklabs.server.netty.NettyClient;
+import com.netforklabs.utils.bytes.ByteBuf;
 
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -48,7 +52,32 @@ public class StartClient {
         DubheClient client = new NettyClient();
 
         for (Server server : setting.getServers()) {
-            client.connect(server.getHost(), server.getPort());
+            DubheChannel channel = client.connect(server.getHost(), server.getPort());
+            channel.send(new Hello_M());
+            channel.send(new Hello_M());
+
+            ByteBuf_M1 byteBuffer = new ByteBuf_M1() {
+                @Override
+                public int cmd() {
+                    return Commands.CALL;
+                }
+            };
+
+            byte[] bytes = "服务端你好，我是客户端".getBytes(StandardCharsets.UTF_8);
+            byteBuffer.setBuf(ByteBuf.allocate(bytes.length, bytes));
+
+            ByteBuf_M1 byteBuffer1 = new ByteBuf_M1() {
+                @Override
+                public int cmd() {
+                    return Commands.CALL;
+                }
+            };
+
+            byte[] bytes1 = "1234567890".getBytes(StandardCharsets.UTF_8);
+            byteBuffer1.setBuf(ByteBuf.allocate(bytes1.length, bytes1));
+
+            channel.send(byteBuffer);
+            channel.send(byteBuffer1);
         }
 
         TimeUnit.SECONDS.sleep(20);

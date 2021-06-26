@@ -26,27 +26,18 @@
 
 package com.netforklabs.netprotocol.message;
 
-import java.nio.ByteBuffer;
+import com.netforklabs.netprotocol.Commands;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public abstract class ByteBufferMessage extends Message {
+public class Hello_M extends Message {
 
-    /**
-     * 数据内容
-     */
-    private ByteBuffer buf;
-
-
-
-    public ByteBuffer getBuf() {
-        return buf;
+    @Override
+    public int cmd() {
+        return Commands.HELLO;
     }
 
-    public void setBuf(ByteBuffer buf) {
-        this.buf = buf;
-    }
 }

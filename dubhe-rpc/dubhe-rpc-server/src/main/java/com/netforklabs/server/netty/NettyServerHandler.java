@@ -59,17 +59,28 @@ public class NettyServerHandler extends ChannelHandlerAdapter
 
     /**
      * 拆包
+     *
      * @param byteArray 字节数组
      */
-    private static List<ByteBuffer> unpack(byte[] byteArray) {
-        List<ByteBuffer> bufArray = new ArrayList<>();
+    private static List<byte[]> unpack(byte[] byteArray) {
+        List<byte[]> objectBuffers = new ArrayList<>();
 
-        while(true) {
-            int offset = Bytes.toInt(byteArray, 0);
-            ByteBuffer bytebuf = ByteBuffer.allocate(10);
-            break;
+        int position = 0;
+        while (position < byteArray.length) {
+            int offset = Bytes.toInt(byteArray, position) + Bytes.INT_BYTE_SIZE;
+            position += 4;
+
+            // 这是一个完整的字节数组对象
+            byte[] object = new byte[offset - Bytes.INT_BYTE_SIZE];
+
+            // 数组复制
+            System.arraycopy(byteArray, position, object, 0, object.length);
+            objectBuffers.add(object);
+
+            position += object.length;
         }
-        return bufArray;
+
+        return objectBuffers;
     }
 
     /**
@@ -101,28 +112,23 @@ public class NettyServerHandler extends ChannelHandlerAdapter
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        Message message;
         // 读取内容
         byte[] bytes = ((byte[]) msg);
         DubheChannel channel = channels.get(Channels.getChannelId(ctx));
 
-        System.out.println("接收到客户端发送来的数据，大小：" + ((byte[]) msg).length);
+        System.out.println("接收到客户端发送过来的消息，大小：" + ((byte[]) msg).length);
         try {
-            if(!checkUnpack(bytes))
-            {
-                List<ByteBuffer> unpacks = unpack(bytes);
-                for(ByteBuffer pack : unpacks) {
+            if (!checkUnpack(bytes)) {
+                int i = 1;
+                List<byte[]> unpacks = unpack(bytes);
+                for (byte[] pack : unpacks) {
+                    System.out.println("第" + i + "个包大小为：" + pack.length);
+                    i++;
 
+                    RequestHandler.handle(channel, serializer.decode(pack));
                 }
             }
-            message = serializer.decode(null);
 
-            // 检测魔数是否满足协议要求
-            if (message.getMagicNumber() != NetforkSetting.MAGIC) {
-                return;
-            }
-
-            RequestHandler.handle(channel, message);
         } catch (Exception e) {
             e.printStackTrace();
         }
