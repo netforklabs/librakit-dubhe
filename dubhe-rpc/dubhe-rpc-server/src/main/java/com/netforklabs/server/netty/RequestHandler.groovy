@@ -29,7 +29,7 @@ package com.netforklabs.server.netty
 import com.netforklabs.api.DubheChannel
 import com.netforklabs.config.setting.NetforkSetting
 import com.netforklabs.netprotocol.Commands
-import com.netforklabs.netprotocol.message.ByteBuf_M1
+import com.netforklabs.netprotocol.message.ByteBufMessage
 import com.netforklabs.netprotocol.message.Message
 
 /**
@@ -62,7 +62,7 @@ class RequestHandler {
                 break
 
             case Commands.CALL:
-                println(((ByteBuf_M1) message).asString())
+                println(((ByteBufMessage) message).asString())
                 break
 
             case Commands.APPLY_FOR_REG:

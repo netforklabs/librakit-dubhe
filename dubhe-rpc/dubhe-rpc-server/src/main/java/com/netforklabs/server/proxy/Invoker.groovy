@@ -44,7 +44,7 @@ class Invoker {
     /** 调用实例 */
     private Object      instance
 
-    private String methodKey
+    private String      methodKey
 
     /** 上次调用耗时 */
     private long        lastTimeConsuming;

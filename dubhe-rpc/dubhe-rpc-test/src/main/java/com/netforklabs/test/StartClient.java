@@ -31,8 +31,8 @@ import com.netforklabs.api.DubheClient;
 import com.netforklabs.config.setting.NetforkSetting;
 import com.netforklabs.config.setting.Server;
 import com.netforklabs.netprotocol.Commands;
-import com.netforklabs.netprotocol.message.ByteBuf_M1;
-import com.netforklabs.netprotocol.message.Hello_M;
+import com.netforklabs.netprotocol.message.ByteBufMessage;
+import com.netforklabs.netprotocol.message.HelloMessage;
 import com.netforklabs.server.netty.NettyClient;
 import com.netforklabs.utils.bytes.ByteBuf;
 
@@ -53,10 +53,10 @@ public class StartClient {
 
         for (Server server : setting.getServers()) {
             DubheChannel channel = client.connect(server.getHost(), server.getPort());
-            channel.send(new Hello_M());
-            channel.send(new Hello_M());
+            channel.send(new HelloMessage());
+            channel.send(new HelloMessage());
 
-            ByteBuf_M1 byteBuffer = new ByteBuf_M1() {
+            ByteBufMessage byteBuffer = new ByteBufMessage() {
                 @Override
                 public int cmd() {
                     return Commands.CALL;
@@ -66,7 +66,7 @@ public class StartClient {
             byte[] bytes = "服务端你好，我是客户端".getBytes(StandardCharsets.UTF_8);
             byteBuffer.setBuf(ByteBuf.allocate(bytes.length, bytes));
 
-            ByteBuf_M1 byteBuffer1 = new ByteBuf_M1() {
+            ByteBufMessage byteBuffer1 = new ByteBufMessage() {
                 @Override
                 public int cmd() {
                     return Commands.CALL;

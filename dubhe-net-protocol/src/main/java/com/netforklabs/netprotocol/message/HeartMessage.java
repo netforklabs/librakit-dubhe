@@ -35,9 +35,9 @@ import com.netforklabs.netprotocol.Commands;
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public class Heart_M extends Message {
+public class HeartMessage extends Message {
 
-    public static Heart_M INSTANCE = new Heart_M();
+    public static HeartMessage INSTANCE = new HeartMessage();
 
     @Override
     public int cmd() {

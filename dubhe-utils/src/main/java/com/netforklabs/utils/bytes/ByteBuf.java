@@ -84,7 +84,7 @@ public abstract class ByteBuf implements Serializable {
 
     // 检查数组下标是否越界
     private static void check(int size, int pos, int capacity) {
-        if (size > (capacity - pos - 1))
+        if (size > (capacity - pos))
             throw new ArrayIndexOutOfBoundsException(capacity);
     }
 

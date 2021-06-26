@@ -33,7 +33,7 @@ import com.netforklabs.netprotocol.Commands;
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public class Hello_M extends Message {
+public class HelloMessage extends Message {
 
     @Override
     public int cmd() {
