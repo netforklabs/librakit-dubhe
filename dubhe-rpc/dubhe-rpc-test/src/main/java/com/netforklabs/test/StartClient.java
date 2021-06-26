@@ -73,7 +73,12 @@ public class StartClient {
                 }
             };
 
-            byte[] bytes1 = "1234567890".getBytes(StandardCharsets.UTF_8);
+            StringBuilder bigString = new StringBuilder();
+            for(int i=0; i < 512; i++) {
+                bigString.append("1234567890");
+            }
+
+            byte[] bytes1 = bigString.toString().getBytes(StandardCharsets.UTF_8);
             byteBuffer1.setBuf(ByteBuf.allocate(bytes1.length, bytes1));
 
             channel.send(byteBuffer);

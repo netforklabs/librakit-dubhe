@@ -34,8 +34,8 @@ import com.netforklabs.netprotocol.message.Message;
 import com.netforklabs.netprotocol.serializer.Serializer;
 import com.netforklabs.netprotocol.serializer.SerializerFactory;
 import com.netforklabs.server.Channels;
+import com.netforklabs.utils.bytes.ByteBuf;
 import com.netforklabs.utils.bytes.Bytes;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
@@ -66,15 +66,22 @@ public class NettyServerHandler extends ChannelHandlerAdapter
         List<byte[]> objectBuffers = new ArrayList<>();
 
         int position = 0;
-        while (position < byteArray.length) {
+        int baSize   = byteArray.length;
+        while (position < baSize) {
             int offset = Bytes.toInt(byteArray, position) + Bytes.INT_BYTE_SIZE;
             position += 4;
 
             // 这是一个完整的字节数组对象
-            byte[] object = new byte[offset - Bytes.INT_BYTE_SIZE];
+            int objLength = offset - Bytes.INT_BYTE_SIZE;
+            byte[] object = new byte[objLength];
+
+            // 半包
+            if((baSize - position) < objLength) {
+                // TODO 处理半包问题
+            }
 
             // 数组复制
-            System.arraycopy(byteArray, position, object, 0, object.length);
+            System.arraycopy(byteArray, position, object, 0, objLength);
             objectBuffers.add(object);
 
             position += object.length;
@@ -91,7 +98,7 @@ public class NettyServerHandler extends ChannelHandlerAdapter
      * @return true | false
      */
     private static boolean checkUnpack(byte[] byteArray) {
-        return Bytes.toInt(byteArray, 0) == (byteArray.length - 4);
+        return Bytes.toInt(byteArray, 0) != (byteArray.length - 4);
     }
 
     @Override
@@ -118,7 +125,7 @@ public class NettyServerHandler extends ChannelHandlerAdapter
 
         System.out.println("接收到客户端发送过来的消息，大小：" + ((byte[]) msg).length);
         try {
-            if (!checkUnpack(bytes)) {
+            if (checkUnpack(bytes)) {
                 int i = 1;
                 List<byte[]> unpacks = unpack(bytes);
                 for (byte[] pack : unpacks) {

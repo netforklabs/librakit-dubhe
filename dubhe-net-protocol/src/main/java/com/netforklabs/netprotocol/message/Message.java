@@ -51,7 +51,7 @@ public abstract class Message implements Serializable {
     /**
      * 序列化算法
      */
-    private byte serializer = FST_SERIALIZER;
+    private int serializer = FST_SERIALIZER;
 
     /**
      * 为了防止协议升级，当前协议版本
@@ -100,7 +100,7 @@ public abstract class Message implements Serializable {
         this.magicNumber = magicNumber;
     }
 
-    public byte getSerializer() {
+    public int getSerializer() {
         return serializer;
     }
 
