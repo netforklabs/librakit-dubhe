@@ -32,13 +32,13 @@ import com.netforklabs.api.DubheServerHandler
 import com.netforklabs.netprotocol.serializer.Serializer
 import com.netforklabs.netprotocol.serializer.SerializerFactory
 import com.netforklabs.server.Channels
+import com.netforklabs.utils.bytes.ByteBuf
 import com.netforklabs.utils.bytes.Bytes
 import io.netty.channel.ChannelHandlerAdapter
 import io.netty.channel.ChannelHandlerContext
 
 /**
- * @author orval
- * @email orvals@foxmail.com
+ * @author orval* @email orvals@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
 class NettyServerHandler extends ChannelHandlerAdapter
@@ -46,32 +46,59 @@ class NettyServerHandler extends ChannelHandlerAdapter
 
     private final Map<String, DubheChannel> channels = new HashMap<>()
 
+    private static int cacheSize    = 0
+
+    //
+    // 如果发生半包的情况下，那么多余的缓存内容放入该ByteBuf中
+    //
     private static final Serializer serializer = SerializerFactory.getSerializer()
+
+    private static var byteBufCache = ByteBuf.allocate(ByteBuf.AUTO_CAPACITY)
 
     /**
      * 拆包
      *
-     * @param byteArray 字节数组
+     * @param array 字节数组
      */
-    private static List<byte[]> unpack(byte[] byteArray) {
+    static List<byte[]> unpack(byte[] array) {
         List<byte[]> objectBuffers = new ArrayList<>()
 
         var position = 0
-        var baSize = byteArray.length
-        while (position < baSize) {
-            int offset = Bytes.toInt(byteArray, position) + Bytes.INT_BYTE_SIZE
+        var length = array.length
+        while (position < length) {
+
+            if(!byteBufCache.isEmpty()) {
+                if(cacheSize > length) {
+                    byteBufCache.put(array)
+                    cacheSize -= length
+                    break
+                } else {
+                    // 进入到这里表示半包已经处理完成
+                    byteBufCache.put(Arrays.copyOfRange(array, 0, cacheSize))
+                    position = cacheSize
+                    objectBuffers.add(byteBufCache.copyOf(4))
+                    byteBufCache.clear()
+                    continue
+                }
+            }
+
+            int offset = Bytes.toInt(array, position) + Bytes.INT_BYTE_SIZE
             position += 4
+
+            if(offset > (length - position) ) {
+                byteBufCache.put(Arrays.copyOfRange(array, (position - Bytes.INT_BYTE_SIZE), length))
+                if(byteBufCache.size() > 4) {
+                    cacheSize = byteBufCache.asInt()
+                    cacheSize -= byteBufCache.size() - Bytes.INT_BYTE_SIZE
+                }
+                break
+            }
 
             // 这是一个完整的字节数组对象
             var objLength = offset - Bytes.INT_BYTE_SIZE
             var object = new byte[objLength]
 
-            // 半包
-            if ((baSize - position) < objLength) {
-                // TODO 处理半包问题
-            }
-
-            System.arraycopy(byteArray, position, object, 0, objLength)
+            System.arraycopy(array, position, object, 0, objLength)
             objectBuffers.add(object)
 
             position += object.length
@@ -81,14 +108,21 @@ class NettyServerHandler extends ChannelHandlerAdapter
     }
 
     /**
-     * 是否需要进行拆包，如果前四个字节的整型数组等于byteArray的大小，就代表不需要
+     * 处理半包问题
+     */
+    static void halfpack(byte[] array, int position, int length) {
+        var size = Bytes.toInt(byteBufCache.copyOf(0, 3))
+    }
+
+    /**
+     * 是否需要进行拆包，如果前四个字节的整型数组等于array的大小，就代表不需要
      * 拆包当前只有一个对象上传。如果大于就代表需要进行拆包操作。
      *
-     * @param byteArray 字节数组
+     * @param array 字节数组
      * @return true | false
      */
-    private static boolean checkUnpack(byte[] byteArray) {
-        return Bytes.toInt(byteArray, 0) != (byteArray.length - 4)
+    private static boolean checkUnpack(byte[] array) {
+        return Bytes.toInt(array, 0) != (array.length - 4)
     }
 
     @Override

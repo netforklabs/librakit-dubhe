@@ -37,19 +37,18 @@ import com.netforklabs.utils.bytes.ByteBuf
 class ByteBufTest {
 
     static void main(String[] args) {
-        var buf = ByteBuf.allocate(ByteBuf.AUTO_CAPACITY);
-        var bytes = new byte[]{1, 2, 3, 4, 0}
-        for(i in 1..128) {
-            bytes[4] = i as byte
-            buf.put(bytes)
-        }
+        var st = System.currentTimeMillis()
 
-        buf.arrayFinal()
-
+        var buf = ByteBuf.allocate(16)
         buf.put(1 as byte)
+        buf.put(2 as byte)
+        buf.put(3 as byte)
+        buf.put(4 as byte)
 
-        println buf.size()
+        println("大小: ${buf.size()}")
 
+        var et = System.currentTimeMillis()
+        println("执行时间: ${et - st}ms")
     }
 
 }

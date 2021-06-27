@@ -29,6 +29,7 @@ package com.netforklabs.utils.bytes;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * 预计有两个实现类，{@link HeapByteBuf} 和 DirectByteBuf。这两个的最大区别在于一种是存在
@@ -48,6 +49,8 @@ public abstract class ByteBuf implements Serializable {
 
     public static final int AUTO_CAPACITY = -1;
 
+    private static final int AUTO_ALLOCATE_CAPACITY = 32;
+
     ByteBuf(int capacity) {
         this(capacity, null);
     }
@@ -61,8 +64,26 @@ public abstract class ByteBuf implements Serializable {
 
     }
 
+    public int asInt() {
+        return Bytes.toInt(array);
+    }
+
+    public int asInt(int from) {
+        return Bytes.toInt(array, from);
+    }
+
+    /**
+     * 获取已用空间
+     */
     public int size() {
-        return capacity;
+        return position;
+    }
+
+    /**
+     * 当前ByteBuf是否为空
+     */
+    public boolean isEmpty() {
+        return position == 0;
     }
 
     public void put(byte b) {
@@ -74,6 +95,14 @@ public abstract class ByteBuf implements Serializable {
     public void put(byte[] bytes) {
         check(bytes.length, position, capacity);
         uncheckedPut(bytes);
+    }
+
+    public byte[] copyOf(int from) {
+        return copyOf(from, capacity);
+    }
+
+    public byte[] copyOf(int from, int to) {
+        return Arrays.copyOfRange(array, from, to);
     }
 
     void uncheckedPut(byte[] bytes) {
@@ -110,11 +139,25 @@ public abstract class ByteBuf implements Serializable {
         return array;
     }
 
+    // 将byte内容转int, 值从from往后推3位。共4位。
+    public int getInt(int from) {
+        return Bytes.toInt(array, from);
+    }
+
+    //
+    // 清空当前byte数组
+    //
+    public ByteBuf clear() {
+        position = 0;
+        array = new byte[capacity];
+        return this;
+    }
+
     //
     // 自动分配内存
     //
     public static ByteBuf autoAllocate() {
-        return new AutoAllocateByteBuf(16);
+        return new AutoAllocateByteBuf(AUTO_ALLOCATE_CAPACITY);
     }
 
     //
@@ -174,6 +217,16 @@ public abstract class ByteBuf implements Serializable {
 
         private boolean __final = false;
 
+        // 最大调用次数
+        static final int MAX_FREQUENCY = 5;
+
+        // 如果多次扩容大小大于默认扩容大小，那么当达到一定峰值
+        // 后就增加默认扩容大小 #ENSURE_CAPACITY_INTERNAL_SIZE
+        //
+        private int frequency = 0;
+
+        private int ENSURE_CAPACITY_INTERNAL_SIZE = AUTO_ALLOCATE_CAPACITY;
+
         public AutoAllocateByteBuf(int capacity) {
             super(capacity);
         }
@@ -184,7 +237,7 @@ public abstract class ByteBuf implements Serializable {
 
         @Override
         public void put(byte b) {
-            if(__final)
+            if (__final)
                 return;
 
             // 确保内部容量够当前字节数
@@ -194,7 +247,7 @@ public abstract class ByteBuf implements Serializable {
 
         @Override
         public void put(byte[] bytes) {
-            if(__final || bytes == null)
+            if (__final || bytes == null)
                 return;
 
             // 确保内部容量够当前字节数
@@ -214,16 +267,36 @@ public abstract class ByteBuf implements Serializable {
             __final = true;
         }
 
+        @Override
+        public ByteBuf clear() {
+            capacity = AUTO_ALLOCATE_CAPACITY;
+            return super.clear();
+        }
+
         //
         // 确保内部容量足够
         //
         private void ensureCapacityInternal(int size) {
             if ((capacity - position - 1) < size) {
                 int newCapacity;
-                if (size > 32) {
+                if (size > ENSURE_CAPACITY_INTERNAL_SIZE) {
                     newCapacity = capacity + size;
+
+                    // 扩容大小超过默认分配大小, frequency + 1
+                    frequency++;
+                    if (frequency >= MAX_FREQUENCY) {
+                        ENSURE_CAPACITY_INTERNAL_SIZE = ENSURE_CAPACITY_INTERNAL_SIZE * 2;
+                        frequency = 0;
+                    }
                 } else {
-                    newCapacity = capacity + 32;
+                    newCapacity = capacity + ENSURE_CAPACITY_INTERNAL_SIZE;
+
+                    // 如果当前扩容大小不超过默认扩若大小, 并且frequency != 1
+                    if (frequency > 0) {
+                        frequency--;
+                        if (frequency == 0)
+                            ENSURE_CAPACITY_INTERNAL_SIZE = AUTO_ALLOCATE_CAPACITY;
+                    }
                 }
 
                 byte[] nByteArray = new byte[newCapacity];

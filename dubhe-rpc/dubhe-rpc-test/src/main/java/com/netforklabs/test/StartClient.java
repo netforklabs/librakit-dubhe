@@ -54,7 +54,6 @@ public class StartClient {
         for (Server server : setting.getServers()) {
             DubheChannel channel = client.connect(server.getHost(), server.getPort());
             channel.send(new HelloMessage());
-            channel.send(new HelloMessage());
 
             ByteBufMessage byteBuffer = new ByteBufMessage() {
                 @Override
@@ -63,29 +62,20 @@ public class StartClient {
                 }
             };
 
-            byte[] bytes = "服务端你好，我是客户端".getBytes(StandardCharsets.UTF_8);
-            byteBuffer.setBuf(ByteBuf.allocate(bytes.length, bytes));
-
-            ByteBufMessage byteBuffer1 = new ByteBufMessage() {
-                @Override
-                public int cmd() {
-                    return Commands.CALL;
-                }
-            };
-
             StringBuilder bigString = new StringBuilder();
-            for(int i=0; i < 512; i++) {
-                bigString.append("1234567890");
+            for(int i=0; i < 1024; i++) {
+                bigString.append(i);
             }
 
             byte[] bytes1 = bigString.toString().getBytes(StandardCharsets.UTF_8);
-            byteBuffer1.setBuf(ByteBuf.allocate(bytes1.length, bytes1));
+            byteBuffer.setBuf(ByteBuf.allocate(bytes1.length, bytes1));
 
             channel.send(byteBuffer);
-            channel.send(byteBuffer1);
         }
 
-        TimeUnit.SECONDS.sleep(20);
+        while(true) {
+            Thread.sleep(1000);
+        }
 
     }
 

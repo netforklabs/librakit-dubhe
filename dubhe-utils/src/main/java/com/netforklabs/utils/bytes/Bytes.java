@@ -74,19 +74,23 @@ public class Bytes {
         return bytes;
     }
 
+    public static int toInt(byte[] array) {
+        return toInt(array, 0);
+    }
+
     /**
      * byte转int
      *
-     * @param bytes  数组
+     * @param array  数组
      * @param offset 开始位置，从偏移位置开始往后推3位，总共4字节构成一个int
      * @return int
      */
-    public static int toInt(byte[] bytes, int offset)
+    public static int toInt(byte[] array, int offset)
     {
-        int i0 = bytes[offset]          & 0xFF;
-        int i1 = bytes[offset + 1]      & 0xFF;
-        int i2 = bytes[offset + 2]      & 0xFF;
-        int i3 = bytes[offset + 3]      & 0xFF;
+        int i0 = array[offset]          & 0xFF;
+        int i1 = array[offset + 1]      & 0xFF;
+        int i2 = array[offset + 2]      & 0xFF;
+        int i3 = array[offset + 3]      & 0xFF;
 
         return (i0 << 24) | (i1 << 16) | (i2 << 8) | i3;
     }
