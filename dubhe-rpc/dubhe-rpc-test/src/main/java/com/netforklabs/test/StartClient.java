@@ -35,6 +35,7 @@ import com.netforklabs.netprotocol.message.ByteBufMessage;
 import com.netforklabs.netprotocol.message.HelloMessage;
 import com.netforklabs.server.netty.NettyClient;
 import com.netforklabs.utils.bytes.ByteBuf;
+import org.junit.Test;
 
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
@@ -46,7 +47,7 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings("JavaDoc")
 public class StartClient {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main1(String... args) throws InterruptedException {
         NetforkSetting setting = NetforkSetting.compile();
 
         DubheClient client = new NettyClient();
@@ -71,6 +72,37 @@ public class StartClient {
             byteBuffer.setBuf(ByteBuf.allocate(bytes1.length, bytes1));
 
             channel.send(byteBuffer);
+        }
+
+        while(true) {
+            Thread.sleep(1000);
+        }
+
+    }
+
+    public static void main(String... args) throws InterruptedException {
+        NetforkSetting setting = NetforkSetting.compile();
+
+        DubheClient client = new NettyClient();
+
+        for (Server server : setting.getServers()) {
+            DubheChannel channel = client.connect(server.getHost(), server.getPort());
+            ByteBufMessage byteBuffer = new ByteBufMessage() {
+                @Override
+                public int cmd() {
+                    return Commands.CALL;
+                }
+            };
+
+            ByteBuf buf = ByteBuf.allocate(1024 - 114);
+            for(int i=0; i < 1024 - 114; i++) {
+                buf.put((byte) i);
+            }
+
+            byteBuffer.setBuf(buf);
+
+            channel.send(byteBuffer);
+            channel.send(new HelloMessage());
         }
 
         while(true) {

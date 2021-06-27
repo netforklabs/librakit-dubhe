@@ -46,14 +46,25 @@ class NettyServerHandler extends ChannelHandlerAdapter
 
     private final Map<String, DubheChannel> channels = new HashMap<>()
 
-    private static int cacheSize    = 0
+    private static final Serializer serializer = SerializerFactory.getSerializer()
+
+    //
+    // 如果 CACHE_SIZE = SIZE_BYTES_INCOMPLETE, 那么就代表当前内容连最基本的对象头都没读取完。
+    // 在下一次读取的时候需要进行填充。
+    //
+    private static int CACHE_SIZE = 0
+
+    private static int SIZE_BYTES_INCOMPLETE = -1
 
     //
     // 如果发生半包的情况下，那么多余的缓存内容放入该ByteBuf中
     //
-    private static final Serializer serializer = SerializerFactory.getSerializer()
+    private static var BYTEBUF_CACHE = ByteBuf.allocate(ByteBuf.AUTO_CAPACITY)
 
-    private static var byteBufCache = ByteBuf.allocate(ByteBuf.AUTO_CAPACITY)
+    static void resetBYTEBUF_CACHE() {
+        BYTEBUF_CACHE.clear()
+        CACHE_SIZE = 0
+    }
 
     /**
      * 拆包
@@ -67,30 +78,45 @@ class NettyServerHandler extends ChannelHandlerAdapter
         var length = array.length
         while (position < length) {
 
-            if(!byteBufCache.isEmpty()) {
-                if(cacheSize > length) {
-                    byteBufCache.put(array)
-                    cacheSize -= length
+            if (!BYTEBUF_CACHE.isEmpty()) {
+                // 对象SIZE内容是否完整
+                if (CACHE_SIZE == SIZE_BYTES_INCOMPLETE) {
+                    int filling = Bytes.INT_BYTE_SIZE - BYTEBUF_CACHE.size()
+                    BYTEBUF_CACHE.put(Arrays.copyOfRange(array, 0, filling))
+                    CACHE_SIZE = BYTEBUF_CACHE.asInt()
+                    position += filling
+                }
+
+                if (CACHE_SIZE > length) {
+                    BYTEBUF_CACHE.put(array)
+                    CACHE_SIZE -= length
                     break
                 } else {
                     // 进入到这里表示半包已经处理完成
-                    byteBufCache.put(Arrays.copyOfRange(array, 0, cacheSize))
-                    position = cacheSize
-                    objectBuffers.add(byteBufCache.copyOf(4))
-                    byteBufCache.clear()
+                    BYTEBUF_CACHE.put(Arrays.copyOfRange(array, position, CACHE_SIZE))
+                    position = CACHE_SIZE
+                    objectBuffers.add(BYTEBUF_CACHE.copyOf(Bytes.INT_BYTE_SIZE))
+                    resetBYTEBUF_CACHE()
                     continue
                 }
             }
 
-            int offset = Bytes.toInt(array, position) + Bytes.INT_BYTE_SIZE
-            position += 4
+            if((length - position) < 4) {
+                CACHE_SIZE = SIZE_BYTES_INCOMPLETE
+                BYTEBUF_CACHE.put(Arrays.copyOfRange(array, position, length))
+                break
+            }
 
-            if(offset > (length - position) ) {
-                byteBufCache.put(Arrays.copyOfRange(array, (position - Bytes.INT_BYTE_SIZE), length))
-                if(byteBufCache.size() > 4) {
-                    cacheSize = byteBufCache.asInt()
-                    cacheSize -= byteBufCache.size() - Bytes.INT_BYTE_SIZE
+            int offset = Bytes.toInt(array, position) + Bytes.INT_BYTE_SIZE
+            position += Bytes.INT_BYTE_SIZE
+
+            if ((offset - Bytes.INT_BYTE_SIZE) > (length - position)) {
+                BYTEBUF_CACHE.put(Arrays.copyOfRange(array, (position - Bytes.INT_BYTE_SIZE), length))
+                if (BYTEBUF_CACHE.size() > 4) {
+                    CACHE_SIZE = BYTEBUF_CACHE.asInt()
+                    CACHE_SIZE -= BYTEBUF_CACHE.size() - Bytes.INT_BYTE_SIZE
                 }
+
                 break
             }
 
@@ -111,18 +137,7 @@ class NettyServerHandler extends ChannelHandlerAdapter
      * 处理半包问题
      */
     static void halfpack(byte[] array, int position, int length) {
-        var size = Bytes.toInt(byteBufCache.copyOf(0, 3))
-    }
-
-    /**
-     * 是否需要进行拆包，如果前四个字节的整型数组等于array的大小，就代表不需要
-     * 拆包当前只有一个对象上传。如果大于就代表需要进行拆包操作。
-     *
-     * @param array 字节数组
-     * @return true | false
-     */
-    private static boolean checkUnpack(byte[] array) {
-        return Bytes.toInt(array, 0) != (array.length - 4)
+        var size = Bytes.toInt(BYTEBUF_CACHE.copyOf(0, 3))
     }
 
     @Override
@@ -149,17 +164,14 @@ class NettyServerHandler extends ChannelHandlerAdapter
 
         println("接收到客户端发送过来的消息，大小：${((byte[]) msg).length}")
         try {
-            if (checkUnpack(bytes)) {
-                int i = 1
-                List<byte[]> unpacks = unpack(bytes)
-                unpacks.each { pack ->
-                    println("第${i}个包大小为：$pack.length")
-                    i++
+            int i = 1
+            List<byte[]> unpacks = unpack(bytes)
+            unpacks.each { pack ->
+                println("第${i}个包大小为：$pack.length")
+                i++
 
-                    RequestHandler.handle(channel, serializer.decode(pack))
-                }
+                RequestHandler.handle(channel, serializer.decode(pack))
             }
-
         } catch (Exception e) {
             e.printStackTrace()
         }

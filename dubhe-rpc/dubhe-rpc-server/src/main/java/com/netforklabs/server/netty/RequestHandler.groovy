@@ -49,7 +49,7 @@ class RequestHandler {
 
         // 检测魔数是否满足协议要求
         if (message.getMagicNumber() != NetforkSetting.MAGIC) {
-            return;
+            return
         }
 
         switch (message.cmd()) {

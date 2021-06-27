@@ -87,9 +87,9 @@ public abstract class ByteBuf implements Serializable {
     }
 
     public void put(byte b) {
-        position++;
         check(1, position, capacity);
         array[position] = b;
+        position++;
     }
 
     public void put(byte[] bytes) {
