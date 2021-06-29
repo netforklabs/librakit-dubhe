@@ -139,7 +139,6 @@ class NettyServerHandler extends ChannelHandlerAdapter
         // 建立一个新的连接
         NettyChannel nettyChannel = new NettyChannel(ctx.channel())
         channels.put(nettyChannel.id(), nettyChannel)
-        println("连接【${Channels.getChannelId(ctx)}】建立，当前Map：${channels.size()} - 来源：${ctx.channel().remoteAddress()} JavaObject: $ctx")
     }
 
     @Override
@@ -156,12 +155,10 @@ class NettyServerHandler extends ChannelHandlerAdapter
         byte[] bytes = ((byte[]) msg)
         DubheChannel channel = channels.get(Channels.getChannelId(ctx))
 
-        println("接收到客户端发送过来的消息，大小：${((byte[]) msg).length}")
         try {
             int i = 1
             List<byte[]> unpacks = unpack(bytes)
             unpacks.each { pack ->
-                println("第${i}个包大小为：$pack.length")
                 i++
 
                 RequestHandler.handle(channel, serializer.decode(pack))
