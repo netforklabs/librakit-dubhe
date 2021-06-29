@@ -78,6 +78,7 @@ class NettyServerHandler extends ChannelHandlerAdapter
         var length = array.length
         while (position < length) {
 
+            // 处理半包
             if (!BYTEBUF_CACHE.isEmpty()) {
                 // 对象SIZE内容是否完整
                 if (CACHE_SIZE == SIZE_BYTES_INCOMPLETE) {
@@ -131,13 +132,6 @@ class NettyServerHandler extends ChannelHandlerAdapter
         }
 
         return objectBuffers
-    }
-
-    /**
-     * 处理半包问题
-     */
-    static void halfpack(byte[] array, int position, int length) {
-        var size = Bytes.toInt(BYTEBUF_CACHE.copyOf(0, 3))
     }
 
     @Override
