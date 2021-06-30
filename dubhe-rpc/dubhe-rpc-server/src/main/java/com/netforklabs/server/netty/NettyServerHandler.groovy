@@ -95,7 +95,7 @@ class NettyServerHandler extends ChannelHandlerAdapter
                 } else {
                     // 进入到这里表示半包已经处理完成
                     BYTEBUF_CACHE.put(Arrays.copyOfRange(array, position, CACHE_SIZE))
-                    position = CACHE_SIZE
+                    position += CACHE_SIZE
                     objectBuffers.add(BYTEBUF_CACHE.copyOf(Bytes.INT_BYTE_SIZE))
                     resetBYTEBUF_CACHE()
                     continue

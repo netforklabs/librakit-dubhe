@@ -26,8 +26,6 @@
 
 package com.netforklabs.api;
 
-import com.netforklabs.api.event.ReadableEventHandler;
-
 /**
  * @author orval
  * @email orvlas@foxmail.com

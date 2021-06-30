@@ -50,7 +50,7 @@ public abstract class ByteBuf implements Serializable {
     public static final int AUTO_CAPACITY = -1;
 
     // 默认扩容的字节数
-    private static final int AUTO_ALLOCATE_CAPACITY = 32;
+    private static final int DEFAULT_ALLOCATE_CAPACITY = 32;
 
     ByteBuf(int capacity) {
         this(capacity, null);
@@ -150,7 +150,7 @@ public abstract class ByteBuf implements Serializable {
     //
     public ByteBuf clear() {
         position = 0;
-        array = new byte[capacity];
+        array = new byte[DEFAULT_ALLOCATE_CAPACITY];
         return this;
     }
 
@@ -158,7 +158,7 @@ public abstract class ByteBuf implements Serializable {
     // 自动分配内存
     //
     public static ByteBuf autoAllocate() {
-        return new AutoAllocateByteBuf(AUTO_ALLOCATE_CAPACITY);
+        return new AutoAllocateByteBuf(DEFAULT_ALLOCATE_CAPACITY);
     }
 
     //
@@ -225,7 +225,7 @@ public abstract class ByteBuf implements Serializable {
         // 后就增加默认扩容大小 #ENSURE_CAPACITY_INTERNAL_SIZE
         private int frequency = 0;
 
-        private int ENSURE_CAPACITY_INTERNAL_SIZE = AUTO_ALLOCATE_CAPACITY;
+        private int ENSURE_CAPACITY_INTERNAL_SIZE = DEFAULT_ALLOCATE_CAPACITY;
 
         public AutoAllocateByteBuf(int capacity) {
             super(capacity);
@@ -269,7 +269,7 @@ public abstract class ByteBuf implements Serializable {
 
         @Override
         public ByteBuf clear() {
-            capacity = AUTO_ALLOCATE_CAPACITY;
+            capacity = DEFAULT_ALLOCATE_CAPACITY;
             return super.clear();
         }
 
@@ -295,7 +295,7 @@ public abstract class ByteBuf implements Serializable {
                     if (frequency > 0) {
                         frequency--;
                         if (frequency == 0)
-                            ENSURE_CAPACITY_INTERNAL_SIZE = AUTO_ALLOCATE_CAPACITY;
+                            ENSURE_CAPACITY_INTERNAL_SIZE = DEFAULT_ALLOCATE_CAPACITY;
                     }
                 }
 
