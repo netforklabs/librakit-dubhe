@@ -34,6 +34,7 @@ import com.netforklabs.netprotocol.serializer.SerializerFactory
 import com.netforklabs.server.Channels
 import com.netforklabs.utils.bytes.ByteBuf
 import com.netforklabs.utils.bytes.Bytes
+import io.netty.channel.ChannelHandler.Sharable
 import io.netty.channel.ChannelHandlerAdapter
 import io.netty.channel.ChannelHandlerContext
 
@@ -146,7 +147,6 @@ class NettyServerHandler extends ChannelHandlerAdapter
         // 连接断开删除掉Map中的内容
         var channel = channels.remove(Channels.getChannelId(ctx))
         println("连接【${Channels.getChannelId(ctx)}】断开，当前Map：${channels.size()} - 来源：${ctx.channel().remoteAddress()} JavaObject: $ctx")
-        channel.close()
     }
 
     @Override

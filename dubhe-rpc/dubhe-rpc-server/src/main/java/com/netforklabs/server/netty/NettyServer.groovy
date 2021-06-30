@@ -45,7 +45,6 @@ class NettyServer implements DubheServer {
 
     private var bossGroup = new NioEventLoopGroup()
     private var workerGroup = new NioEventLoopGroup()
-    private var serverHandler = new NettyServerHandler()
 
     @Override
     void startServer(int port) {
@@ -64,7 +63,7 @@ class NettyServer implements DubheServer {
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             socketChannel.pipeline().addLast(new ByteArrayDecoder())
                             socketChannel.pipeline().addLast(new ByteArrayEncoder())
-                            socketChannel.pipeline().addLast(serverHandler)
+                            socketChannel.pipeline().addLast(new NettyServerHandler())
                         }
                     })
                 }
