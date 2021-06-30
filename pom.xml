@@ -30,6 +30,7 @@
         <groovy-version>3.0.8</groovy-version>
         <lombok-version>1.18.20</lombok-version>
         <fst-version>2.57</fst-version>
+        <guava-version>30.1.1-jre</guava-version>
     </properties>
 
     <dependencies>
@@ -44,6 +45,11 @@
             <artifactId>groovy-all</artifactId>
             <version>${groovy-version}</version>
             <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava-version}</version>
         </dependency>
     </dependencies>
 
