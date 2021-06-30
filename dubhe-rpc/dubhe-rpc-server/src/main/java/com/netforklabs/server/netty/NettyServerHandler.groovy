@@ -34,7 +34,6 @@ import com.netforklabs.netprotocol.serializer.SerializerFactory
 import com.netforklabs.server.Channels
 import com.netforklabs.utils.bytes.ByteBuf
 import com.netforklabs.utils.bytes.Bytes
-import io.netty.channel.ChannelHandler.Sharable
 import io.netty.channel.ChannelHandlerAdapter
 import io.netty.channel.ChannelHandlerContext
 

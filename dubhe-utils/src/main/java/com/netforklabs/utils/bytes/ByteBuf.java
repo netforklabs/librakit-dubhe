@@ -49,6 +49,7 @@ public abstract class ByteBuf implements Serializable {
 
     public static final int AUTO_CAPACITY = -1;
 
+    // 默认扩容的字节数
     private static final int AUTO_ALLOCATE_CAPACITY = 32;
 
     ByteBuf(int capacity) {
@@ -222,7 +223,6 @@ public abstract class ByteBuf implements Serializable {
 
         // 如果多次扩容大小大于默认扩容大小，那么当达到一定峰值
         // 后就增加默认扩容大小 #ENSURE_CAPACITY_INTERNAL_SIZE
-        //
         private int frequency = 0;
 
         private int ENSURE_CAPACITY_INTERNAL_SIZE = AUTO_ALLOCATE_CAPACITY;
