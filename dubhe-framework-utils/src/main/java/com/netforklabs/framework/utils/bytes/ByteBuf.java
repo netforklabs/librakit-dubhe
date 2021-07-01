@@ -182,7 +182,7 @@ public abstract class ByteBuf implements Serializable {
     /**
      * 堆内存缓冲区
      */
-    public static class HeapByteBuf extends ByteBuf {
+    private static class HeapByteBuf extends ByteBuf {
         HeapByteBuf(int capacity) {
             super(capacity);
         }
@@ -199,7 +199,7 @@ public abstract class ByteBuf implements Serializable {
     /**
      * 堆外内存缓冲区
      */
-    public static class DirectByteBuf extends ByteBuf {
+    private static class DirectByteBuf extends ByteBuf {
         DirectByteBuf(int capacity) {
             super(capacity);
         }
@@ -212,7 +212,7 @@ public abstract class ByteBuf implements Serializable {
     //
     // 自动分配内存（堆内存缓冲区）
     //
-    public static class AutoAllocateByteBuf extends HeapByteBuf {
+    private static class AutoAllocateByteBuf extends HeapByteBuf {
 
         private boolean __final = false;
 

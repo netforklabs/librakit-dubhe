@@ -57,7 +57,7 @@ public class StartClient {
             ByteBufMessage byteBuffer = new ByteBufMessage() {
                 @Override
                 public int cmd() {
-                    return Commands.CALL;
+                    return Commands.INVOKE;
                 }
             };
 
@@ -67,7 +67,7 @@ public class StartClient {
             }
 
             byte[] bytes1 = bigString.toString().getBytes(StandardCharsets.UTF_8);
-            byteBuffer.setBuf(ByteBuf.allocate(bytes1.length, bytes1));
+            byteBuffer.setByteBuf(ByteBuf.allocate(bytes1.length, bytes1));
 
             channel.send(byteBuffer);
         }
@@ -88,7 +88,7 @@ public class StartClient {
             ByteBufMessage byteBuffer = new ByteBufMessage() {
                 @Override
                 public int cmd() {
-                    return Commands.CALL;
+                    return Commands.INVOKE;
                 }
             };
 
@@ -97,7 +97,7 @@ public class StartClient {
                 buf.put((byte) i);
             }
 
-            byteBuffer.setBuf(buf);
+            byteBuffer.setByteBuf(buf);
 
             channel.send(byteBuffer);
             channel.send(new HelloMessage());

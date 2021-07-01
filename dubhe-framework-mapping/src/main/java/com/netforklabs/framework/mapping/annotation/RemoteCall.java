@@ -22,55 +22,34 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/21 */
+/* Create date: 2021/7/1. */
 
-package com.netforklabs.net.protocol;
+package com.netforklabs.framework.mapping.annotation;
+
+import java.lang.annotation.*;
 
 /**
- * 指令定义
- *
- * @author orval
- * @email orvlas@foxmail.com
+ * @author fantexi
+ * @email netforks@gmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface Commands {
-
-    /** 第一次打招呼 */
-    int HELLO                   = 0xC4F0;
-
-    /**
-     * RPC远程函数调用
-     */
-    int INVOKE                  = 0xC4F1;
+@Target({ElementType.METHOD, ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface RemoteCall {
 
     /**
-     * 将服务注册到注册中心
+     * 如果是单个函数就在注解上添加invoke值。
+     *
+     * 例如远程调用的函数名称叫 #getUsername(String), 而你不想叫这个名字就可以
+     * 这样去写:
+     * <code>
+     *     Ouffer
+     * </code>
+     *
+     *
+     * @return
      */
-    int APPLY_FOR_REG           = 0xC4F2;
-
-    /**
-     * 申请链接
-     */
-    int CONNECT                 = 0xC4F3;
-
-    /**
-     * 断开链接
-     */
-    int DISCONNECT              = 0xC4F4;
-
-    /**
-     * 心跳包
-     */
-    int HEART_BEAT              = 0xC4F5;
-
-    /**
-     * 数据传输包大小
-     */
-    int SIZE                    = 0xC4F6;
-
-    /**
-     * 调用函数返回
-     */
-    int INVOKE_RETURN           = 0xC4F7;
+    String invoke() default "";
 
 }

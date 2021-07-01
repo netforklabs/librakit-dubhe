@@ -23,6 +23,7 @@
         <module>dubhe-rpc/dubhe-rpc-server</module>
         <module>dubhe-rpc/dubhe-rpc-api</module>
         <module>dubhe-rpc/dubhe-rpc-test</module>
+        <module>dubhe-framework-dbh</module>
 
     </modules>
 
@@ -35,6 +36,7 @@
         <lombok-version>1.18.20</lombok-version>
         <fst-version>2.57</fst-version>
         <guava-version>30.1.1-jre</guava-version>
+        <jackson-version>2.12.3</jackson-version>
     </properties>
 
     <dependencies>

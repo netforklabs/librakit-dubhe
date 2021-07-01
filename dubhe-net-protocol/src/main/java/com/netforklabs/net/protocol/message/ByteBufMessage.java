@@ -43,11 +43,11 @@ public abstract class ByteBufMessage extends Message
      */
     protected ByteBuf buf;
 
-    public ByteBuf getBuf() {
+    public ByteBuf getByteBuf() {
         return buf;
     }
 
-    public void setBuf(ByteBuf buf) {
+    public void setByteBuf(ByteBuf buf) {
         this.buf = buf;
     }
 

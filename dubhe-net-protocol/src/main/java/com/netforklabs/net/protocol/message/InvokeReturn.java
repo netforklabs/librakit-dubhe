@@ -22,55 +22,37 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/21 */
+/* Create date: 2021/7/1. */
 
-package com.netforklabs.net.protocol;
+package com.netforklabs.net.protocol.message;
+
+import com.netforklabs.framework.utils.bytes.ByteBuf;
+import com.netforklabs.net.protocol.Commands;
 
 /**
- * 指令定义
- *
- * @author orval
- * @email orvlas@foxmail.com
+ * @author fantexi
+ * @email netforks@gmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface Commands {
+public class InvokeReturn extends ByteBufMessage {
 
-    /** 第一次打招呼 */
-    int HELLO                   = 0xC4F0;
-
-    /**
-     * RPC远程函数调用
-     */
-    int INVOKE                  = 0xC4F1;
+    public <T> T getReturnObject(Class<T> clazz) {
+        return null;
+    }
 
     /**
-     * 将服务注册到注册中心
+     * 设置返回对象, 将对象转成JSON
      */
-    int APPLY_FOR_REG           = 0xC4F2;
+    public void setReturnObject(Object object) {
+        ByteBuf buf = ByteBuf.autoAllocate();
+        buf.put(new byte[]{1, 2, 3});
 
-    /**
-     * 申请链接
-     */
-    int CONNECT                 = 0xC4F3;
+        this.buf = buf;
+    }
 
-    /**
-     * 断开链接
-     */
-    int DISCONNECT              = 0xC4F4;
-
-    /**
-     * 心跳包
-     */
-    int HEART_BEAT              = 0xC4F5;
-
-    /**
-     * 数据传输包大小
-     */
-    int SIZE                    = 0xC4F6;
-
-    /**
-     * 调用函数返回
-     */
-    int INVOKE_RETURN           = 0xC4F7;
+    @Override
+    public int cmd() {
+        return Commands.INVOKE_RETURN;
+    }
 
 }
