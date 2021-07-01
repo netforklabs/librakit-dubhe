@@ -16,4 +16,12 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.netforklabs</groupId>
+            <artifactId>dubhe-framework-config</artifactId>
+            <version>${unite-version}</version>
+        </dependency>
+    </dependencies>
+
 </project>

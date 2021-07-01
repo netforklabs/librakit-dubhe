@@ -24,7 +24,7 @@
 
 /* Create date: 2021/6/20 */
 
-package com.netforklabs.rpc.server.error
+package com.netforklabs.framework.mapping.error
 
 /**
  * 函数未找到异常

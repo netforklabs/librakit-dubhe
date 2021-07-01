@@ -32,6 +32,11 @@
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.netforklabs</groupId>
+            <artifactId>dubhe-framework-mapping</artifactId>
+            <version>C1</version>
+        </dependency>
     </dependencies>
 
 </project>

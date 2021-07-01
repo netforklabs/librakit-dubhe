@@ -24,11 +24,10 @@
 
 /* Create date: 2021/6/20 */
 
-package com.netforklabs.rpc.server.proxy
+package com.netforklabs.framework.mapping.proxy
 
-import com.netforklabs.rpc.api.DubheInvoker
-import com.netforklabs.rpc.server.error.MethodNotFoundException
-import com.netforklabs.rpc.server.error.MismatchedException
+import com.netforklabs.framework.mapping.error.MethodNotFoundException
+import com.netforklabs.framework.mapping.error.MismatchedException
 
 /**
  * 接口代理对象
@@ -37,7 +36,7 @@ import com.netforklabs.rpc.server.error.MismatchedException
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-class ObjectProxy implements DubheInvoker {
+class ObjectProxy {
 
     /**
      * 代理的接口类
@@ -145,7 +144,6 @@ class ObjectProxy implements DubheInvoker {
      * @param args 参数
      * @return 函数返回值
      */
-    @Override
     Object doInvoke(String name, Object... args)
     {
         if(!workers.containsKey(name))

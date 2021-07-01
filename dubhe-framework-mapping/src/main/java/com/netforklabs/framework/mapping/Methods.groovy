@@ -24,7 +24,7 @@
 
 /* Create date: 2021/6/20 */
 
-package com.netforklabs.rpc.server
+package com.netforklabs.framework.mapping
 
 import java.lang.reflect.Method
 
@@ -37,7 +37,7 @@ class Methods
 {
 
     /**
-     * 获取函数 ID，用于 {@link com.netforklabs.rpc.server.proxy.ObjectProxy#doInvoke} 调用
+     * 获取函数 ID，用于 {@link com.netforklabs.framework.mapping.proxy.ObjectProxy#doInvoke} 调用
      *
      * @param method 方法对象
      * @return 方法名ID

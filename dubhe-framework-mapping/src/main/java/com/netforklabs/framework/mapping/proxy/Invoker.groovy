@@ -24,10 +24,9 @@
 
 /* Create date: 2021/6/22 */
 
-package com.netforklabs.rpc.server.proxy
+package com.netforklabs.framework.mapping.proxy
 
 import com.netforklabs.framework.config.setting.NetforkSetting
-import com.netforklabs.rpc.server.Methods
 
 import java.lang.reflect.Method
 
