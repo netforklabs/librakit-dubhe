@@ -36,6 +36,7 @@ import com.netforklabs.utils.bytes.ByteBuf
 import com.netforklabs.utils.bytes.Bytes
 import io.netty.channel.ChannelHandlerAdapter
 import io.netty.channel.ChannelHandlerContext
+import io.netty.channel.ChannelPromise
 
 /**
  * @author orval* @email orvals@foxmail.com
@@ -60,6 +61,8 @@ class NettyServerHandler extends ChannelHandlerAdapter
     // 如果发生半包的情况下，那么多余的缓存内容放入该ByteBuf中
     //
     private static var BYTEBUF_CACHE = ByteBuf.allocate(ByteBuf.AUTO_CAPACITY)
+
+    private static var CLIENT_FORCE_CLOSE = "An existing connection was forcibly closed by the remote host"
 
     static void resetBYTEBUF_CACHE() {
         BYTEBUF_CACHE.clear()
@@ -144,8 +147,10 @@ class NettyServerHandler extends ChannelHandlerAdapter
     @Override
     void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
         // 连接断开删除掉Map中的内容
-        var channel = channels.remove(Channels.getChannelId(ctx))
+        channels.remove(Channels.getChannelId(ctx))
+        // FIXME: 打印替换为日志
         println("连接【${Channels.getChannelId(ctx)}】断开，当前Map：${channels.size()} - 来源：${ctx.channel().remoteAddress()} JavaObject: $ctx")
+        ctx.close()
     }
 
     @Override
@@ -159,7 +164,6 @@ class NettyServerHandler extends ChannelHandlerAdapter
             List<byte[]> unpacks = unpack(bytes)
             unpacks.each { pack ->
                 i++
-
                 RequestHandler.handle(channel, serializer.decode(pack))
             }
         } catch (Exception e) {
@@ -174,7 +178,10 @@ class NettyServerHandler extends ChannelHandlerAdapter
 
     @Override
     void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        cause.printStackTrace()
+        if(cause.message == CLIENT_FORCE_CLOSE) {
+            // FIXME: 打印替换为日志
+            println("ERROR - $cause.message")
+        }
     }
 
     @Override
