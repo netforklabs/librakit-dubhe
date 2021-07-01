@@ -22,17 +22,22 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/23 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.net.protocol.serializer;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+public class SerializerFactory {
 
-    User findUser(String username);
+    private static final FSTSerializer fstSerializer = new FSTSerializer();
+
+    public static Serializer getSerializer()
+    {
+        return fstSerializer;
+    }
 
 }

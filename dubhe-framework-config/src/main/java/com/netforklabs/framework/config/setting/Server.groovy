@@ -22,17 +22,39 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/22 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.framework.config.setting
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+class Server {
 
-    User findUser(String username);
+    private String  host
 
+    private int     port
+
+    Server(String host, int port) {
+        this.host = host
+        this.port = port
+    }
+
+    String getHost() {
+        return host
+    }
+
+    void setHost(String host) {
+        this.host = host
+    }
+
+    int getPort() {
+        return port
+    }
+
+    void setPort(int port) {
+        this.port = port
+    }
 }

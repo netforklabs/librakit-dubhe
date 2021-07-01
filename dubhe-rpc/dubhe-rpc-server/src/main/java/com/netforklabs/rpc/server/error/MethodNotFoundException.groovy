@@ -24,15 +24,35 @@
 
 /* Create date: 2021/6/20 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.rpc.server.error
 
 /**
+ * 函数未找到异常
+ *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+class MethodNotFoundException extends RuntimeException
+{
 
-    User findUser(String username);
+    MethodNotFoundException() {
+    }
+
+    MethodNotFoundException(String message) {
+        super(message)
+    }
+
+    MethodNotFoundException(String message, Throwable cause) {
+        super(message, cause)
+    }
+
+    MethodNotFoundException(Throwable cause) {
+        super(cause)
+    }
+
+    MethodNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace)
+    }
 
 }

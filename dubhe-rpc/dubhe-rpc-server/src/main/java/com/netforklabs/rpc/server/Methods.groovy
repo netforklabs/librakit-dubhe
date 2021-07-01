@@ -24,15 +24,32 @@
 
 /* Create date: 2021/6/20 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.rpc.server
+
+import java.lang.reflect.Method
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+class Methods
+{
 
-    User findUser(String username);
+    /**
+     * 获取函数 ID，用于 {@link com.netforklabs.rpc.server.proxy.ObjectProxy#doInvoke} 调用
+     *
+     * @param method 方法对象
+     * @return 方法名ID
+     */
+    static String getMethodID(Method method)
+    {
+        String methodId = method.name
+        method.parameterTypes.each {
+            methodId += "&$it.name"
+        }
+
+        return methodId
+    }
 
 }

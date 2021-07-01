@@ -22,17 +22,37 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/24 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.net.protocol.message;
+
+import com.netforklabs.framework.utils.bytes.ByteBuf;
+
+import java.io.Serializable;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+public abstract class ByteBufMessage extends Message
+        implements Serializable {
 
-    User findUser(String username);
+    /**
+     * 数据内容
+     */
+    protected ByteBuf buf;
+
+    public ByteBuf getBuf() {
+        return buf;
+    }
+
+    public void setBuf(ByteBuf buf) {
+        this.buf = buf;
+    }
+
+    public String asString() {
+        return new String(buf.array());
+    }
 
 }

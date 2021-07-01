@@ -22,17 +22,45 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/24 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.net.protocol.message;
+
+import com.netforklabs.net.protocol.Commands;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+public class SizeMessage extends Message {
 
-    User findUser(String username);
+    /**
+     * 报文大小
+     */
+    private int size;
+
+    public SizeMessage() {}
+
+    public SizeMessage(int size) {
+        this.size = size;
+    }
+
+    @Override
+    public int cmd() {
+        return Commands.SIZE;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public static SizeMessage copy(int size) {
+        return new SizeMessage(size);
+    }
 
 }

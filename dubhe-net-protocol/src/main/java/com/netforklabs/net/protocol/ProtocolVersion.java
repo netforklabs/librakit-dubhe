@@ -22,17 +22,17 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/21 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.net.protocol;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+public interface ProtocolVersion {
 
-    User findUser(String username);
+    int V1_0 = 1;
 
 }

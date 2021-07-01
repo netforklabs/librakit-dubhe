@@ -24,15 +24,35 @@
 
 /* Create date: 2021/6/20 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.rpc.server.error
 
 /**
+ * 不匹配异常
+ *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+class MismatchedException extends RuntimeException
+{
 
-    User findUser(String username);
+    MismatchedException() {
+    }
+
+    MismatchedException(String message) {
+        super(message)
+    }
+
+    MismatchedException(String message, Throwable cause) {
+        super(message, cause)
+    }
+
+    MismatchedException(Throwable cause) {
+        super(cause)
+    }
+
+    MismatchedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace)
+    }
 
 }

@@ -22,17 +22,33 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/21 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.framework.registry;
 
 /**
+ * 调度器，负责注册中心的调度操作。一个客户端注册后如果注册中心有
+ * 多个备份的注册中心，那么这些注册中心就会备份服务到其他注册中心。
+ *
+ * 其他注册中心数据会进行同步，同步后当前连接的注册中心会将当前可用的注册中心信息每隔N秒进行一次同步。
+ * 如果某个注册中心突然挂掉，那么服务会自动切换到其他注册中心去。保证当前服务不会宕机。
+ *
+ * (English:
+ *      Scheduler for registry center. when one server registered to current registry center of config,
+ *      if registry center have more registry server, this server will backup other registry center server.
+ *
+ *      The other registry centers will synchronized data received from main registry center.
+ *
+ *      If main registry center shutdown for some reason, this server will be based on the synchronized data
+ *      to auto choose one registry center connect.
+ * )
+ *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+public class Scheduler {
 
-    User findUser(String username);
+
 
 }

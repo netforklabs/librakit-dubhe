@@ -22,17 +22,20 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/23 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.rpc.api.event;
+
+import com.netforklabs.rpc.api.DubheChannel;
+import com.netforklabs.net.protocol.message.Message;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+public interface ReadableEventHandler extends EventHandler {
 
-    User findUser(String username);
+    void read(DubheChannel channel, Message msg);
 
 }

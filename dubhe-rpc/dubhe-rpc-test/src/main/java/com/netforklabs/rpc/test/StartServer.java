@@ -22,17 +22,23 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/22 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.rpc.test;
+
+import com.netforklabs.framework.config.setting.NetforkSetting;
+import com.netforklabs.rpc.server.netty.NettyServer;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+public class StartServer {
 
-    User findUser(String username);
+    public static void main(String[] args) {
+        NetforkSetting setting = NetforkSetting.compile();
+        new NettyServer().startServer(setting.getPort());
+    }
 
 }

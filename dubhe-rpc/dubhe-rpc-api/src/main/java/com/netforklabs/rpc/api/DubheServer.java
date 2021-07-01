@@ -22,17 +22,30 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/22 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.rpc.api;
+
+import com.netforklabs.rpc.api.event.ReadableEventHandler;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+public interface DubheServer {
 
-    User findUser(String username);
+    /**
+     * 启动服务器, 注意在启动服务前请务必配置好各种事件的处理器。
+     * 如：读取事件处理器 {@link ReadableEventHandler}, 请调用 {@link #addEvent} 进行配置
+     *
+     * @param port 指定端口号
+     */
+    void startServer(int port);
+
+    /**
+     * 获取服务处理器
+     */
+    DubheServerHandler getHandler();
 
 }

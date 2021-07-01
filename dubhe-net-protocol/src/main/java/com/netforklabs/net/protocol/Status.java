@@ -22,17 +22,29 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/21 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.net.protocol;
 
 /**
+ * 状态列表
+ *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+public interface Status {
 
-    User findUser(String username);
+    /** 请求成功 */
+    byte SUCCESS     = 0;
+
+    /** 请求失败 */
+    byte FAILED      = 1;
+
+    /** 请求地址没找到 */
+    byte NOT_FOUND   = 2;
+
+    /** 服务器遇到错误 */
+    byte ERROR       = 3;
 
 }

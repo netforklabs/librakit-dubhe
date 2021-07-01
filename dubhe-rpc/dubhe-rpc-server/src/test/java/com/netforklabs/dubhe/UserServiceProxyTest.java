@@ -26,8 +26,8 @@
 
 package com.netforklabs.dubhe;
 
-import com.netforklabs.config.setting.NetforkSetting;
-import com.netforklabs.server.proxy.ObjectProxy;
+import com.netforklabs.framework.config.setting.NetforkSetting;
+import com.netforklabs.rpc.server.proxy.ObjectProxy;
 
 import java.util.Set;
 

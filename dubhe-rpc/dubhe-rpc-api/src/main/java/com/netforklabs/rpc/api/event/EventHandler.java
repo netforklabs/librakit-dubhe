@@ -22,17 +22,14 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/23 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.rpc.api.event;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
-
-    User findUser(String username);
-
+public interface EventHandler {
 }

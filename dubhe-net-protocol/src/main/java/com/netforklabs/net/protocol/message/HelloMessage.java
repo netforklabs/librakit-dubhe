@@ -22,17 +22,22 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/24 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.net.protocol.message;
+
+import com.netforklabs.net.protocol.Commands;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+public class HelloMessage extends Message {
 
-    User findUser(String username);
+    @Override
+    public int cmd() {
+        return Commands.HELLO;
+    }
 
 }

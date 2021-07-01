@@ -22,17 +22,17 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/21 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.framework.registry;
 
 /**
+ * 注册中心的SocketChannel
+ *
  * @author orval
- * @email orvlas@foxmail.com
+ * @email orvals@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
-
-    User findUser(String username);
+public class RegistrySocketChannel {
 
 }

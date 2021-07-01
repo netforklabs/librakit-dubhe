@@ -10,16 +10,20 @@
     <version>C1</version>
 
     <modules>
+        <!-- dubhe net -->
+        <module>dubhe-net-protocol</module>
+
         <!-- dubhe framework -->
         <module>dubhe-framework-config</module>
         <module>dubhe-framework-registry</module>
+        <module>dubhe-framework-utils</module>
+        <module>dubhe-framework-mapping</module>
 
         <!-- dubhe rpc -->
         <module>dubhe-rpc/dubhe-rpc-server</module>
         <module>dubhe-rpc/dubhe-rpc-api</module>
-        <module>dubhe-net-protocol</module>
         <module>dubhe-rpc/dubhe-rpc-test</module>
-        <module>dubhe-utils</module>
+
     </modules>
 
     <properties>

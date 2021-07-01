@@ -22,17 +22,23 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/22 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.rpc.server.netty;
+
+import io.netty.channel.ChannelHandlerAdapter;
+import io.netty.channel.ChannelHandlerContext;
 
 /**
  * @author orval
- * @email orvlas@foxmail.com
+ * @email orvals@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+public class NettyClientHandler extends ChannelHandlerAdapter {
 
-    User findUser(String username);
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        super.channelActive(ctx);
+    }
 
 }

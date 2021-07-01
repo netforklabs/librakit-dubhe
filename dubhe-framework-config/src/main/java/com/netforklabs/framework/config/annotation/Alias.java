@@ -24,15 +24,35 @@
 
 /* Create date: 2021/6/20 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.framework.config.annotation;
+
+import java.lang.annotation.*;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+public @interface Alias {
 
-    User findUser(String username);
+    /**
+     * 使用别名必须保证配置属性名的唯一性，否则检测时会报错。
+     *
+     * 比如配置对象 A 使用别名 a, B 使用别名 b。他们有共同的属性叫 c，
+     * 这时候检测到两个相同配置类属性名不唯一就会抛出异常。
+     *
+     * ( English:
+     *      When using @Alias annotation, The attribute name must be unique.
+     *      Example: now we have two config object, are A object and B object respectively.
+     *      they have common property called 'c', at this moment the startup check will be throws
+     *      {@link java.text.ParseException}.
+     * )
+     *
+     * @return 别名名称
+     */
+    String value() default "";
 
 }

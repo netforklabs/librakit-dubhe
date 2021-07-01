@@ -22,17 +22,24 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/24 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.framework.config.annotation;
+
+import java.lang.annotation.*;
 
 /**
+ * 被该注解注释的函数表示预留函数，可能会在某个预估的版本发布。
+ *
  * @author orval
  * @email orvlas@foxmail.com
  */
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+public @interface Reserved {
 
-    User findUser(String username);
+    String version() default "";
 
 }

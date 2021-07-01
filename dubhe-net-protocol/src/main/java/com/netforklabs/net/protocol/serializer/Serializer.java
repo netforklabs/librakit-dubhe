@@ -22,17 +22,38 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/21 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.net.protocol.serializer;
+
+import com.netforklabs.net.protocol.message.Message;
 
 /**
+ * 解码器
+ *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+public interface Serializer {
 
-    User findUser(String username);
+    /**
+     * 反序列化
+     *
+     * @parma iface 对象类
+     * @param bytes 字节数组
+     * @return 序列化后的对象
+     */
+    <T> T decode(byte[] bytes);
+
+    /**
+     * 将对象序列化成字节数组传输
+     *
+     * @param object 序列化对象
+     * @return 序列化后的字节数组
+     */
+    byte[] encode(Message object);
+
+    byte[] encode(Object object);
 
 }

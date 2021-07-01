@@ -22,17 +22,26 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/24 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.rpc.server;
+
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+public class Channels {
 
-    User findUser(String username);
+    public static String getChannelId(ChannelHandlerContext ctx) {
+        return getChannelId(ctx.channel());
+    }
+
+    public static String getChannelId(Channel channel) {
+        return channel.id().asShortText();
+    }
 
 }

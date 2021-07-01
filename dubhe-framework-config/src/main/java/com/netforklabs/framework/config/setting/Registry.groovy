@@ -24,15 +24,32 @@
 
 /* Create date: 2021/6/20 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.framework.config.setting
+
+import lombok.Getter
+import lombok.Setter
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
+@Getter
+@Setter
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+class Registry {
 
-    User findUser(String username);
+    /** 注册中心地址 */
+    String host
+
+    /** 注册时提交验证口令 */
+    String pass
+
+    Registry() {}
+
+    Registry(String host, String pass)
+    {
+        this.host = host
+        this.pass = pass
+    }
 
 }

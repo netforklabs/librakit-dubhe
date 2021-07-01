@@ -22,17 +22,26 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/22 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.rpc.api;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+public interface DubheClient {
 
-    User findUser(String username);
+    /**
+     * 连接到服务器
+     */
+    DubheChannel connect(String host, int port);
+
+    /**
+     * 获取Channel
+     * @param name 所属名称 host:port
+     */
+    DubheChannel getChannel(String name);
 
 }

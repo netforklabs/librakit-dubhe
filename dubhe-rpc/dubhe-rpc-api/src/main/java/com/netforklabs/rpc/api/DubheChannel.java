@@ -22,17 +22,51 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/23 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.rpc.api;
+
+import com.netforklabs.net.protocol.message.Message;
 
 /**
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+public interface DubheChannel {
 
-    User findUser(String username);
+    /**
+     * @return Channel id
+     */
+    String id();
+
+    /**
+     * 【写事件】将数据发送到客户端
+     * @param bytes 字节数组
+     */
+    void send(byte[] bytes);
+
+    /**
+     * 【写事件】将数据发送到客户端
+     * @param header 协议
+     */
+    void send(Message header);
+
+    /**
+     * 刷新
+     */
+    void flush();
+
+    /**
+     * 断开连接
+     */
+    void disconnect();
+
+    /**
+     * 关闭连接
+     */
+    void close();
+
+    <T> T getRealChannel();
 
 }

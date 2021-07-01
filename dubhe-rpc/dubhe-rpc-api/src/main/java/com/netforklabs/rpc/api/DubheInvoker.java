@@ -22,17 +22,26 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/21 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.rpc.api;
 
 /**
+ * RPC服务调用API，执行任务接口
+ *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+public interface DubheInvoker {
 
-    User findUser(String username);
+    /**
+     * 调用对象函数
+     *
+     * @param name 函数名
+     * @param args 参数列表
+     * @return 返回结果
+     */
+    Object doInvoke(String name, Object... args);
 
 }

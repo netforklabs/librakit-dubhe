@@ -22,17 +22,26 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/23 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.net.protocol.message;
+
+import com.netforklabs.net.protocol.Commands;
 
 /**
+ * 心跳消息
+ *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+public class HeartMessage extends Message {
 
-    User findUser(String username);
+    public static HeartMessage INSTANCE = new HeartMessage();
+
+    @Override
+    public int cmd() {
+        return Commands.HEART_BEAT;
+    }
 
 }

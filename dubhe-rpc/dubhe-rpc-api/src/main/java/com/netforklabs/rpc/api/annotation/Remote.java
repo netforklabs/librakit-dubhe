@@ -22,17 +22,23 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/21 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.rpc.api.annotation;
 
 /**
+ * 配置远程调用API接口
+ *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+public @interface Remote {
 
-    User findUser(String username);
+    /**
+     * 服务名称（前提是必须在已有注册中心的情况配置）。
+     * 这个名称会从当前已配置的注册中心获取，如果没有注册中心，那么这个注解的值将会无效。
+     */
+    String servername() default "";
 
 }

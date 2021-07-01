@@ -22,17 +22,33 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/25. */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.rpc.test
+
+import com.netforklabs.framework.utils.bytes.ByteBuf
+
 
 /**
- * @author orval
- * @email orvlas@foxmail.com
+ * @author fantexi
+ * @email netforks@gmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+class ByteBufTest {
 
-    User findUser(String username);
+    static void main(String[] args) {
+        var st = System.currentTimeMillis()
+
+        var buf = ByteBuf.allocate(16)
+        buf.put(1 as byte)
+        buf.put(2 as byte)
+        buf.put(3 as byte)
+        buf.put(4 as byte)
+
+        println("大小: ${buf.size()}")
+
+        var et = System.currentTimeMillis()
+        println("执行时间: ${et - st}ms")
+    }
 
 }

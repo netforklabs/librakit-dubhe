@@ -22,17 +22,50 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/6/21 */
 
-package com.netforklabs.dubhe;
+package com.netforklabs.net.protocol;
 
 /**
+ * 指令定义
+ *
  * @author orval
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface UserService {
+public interface Commands {
 
-    User findUser(String username);
+    /** 第一次打招呼 */
+    int HELLO                   = 0xC4F0;
+
+    /**
+     * RPC远程函数调用
+     */
+    int CALL                    = 0xC4F1;
+
+    /**
+     * 将服务注册到注册中心
+     */
+    int APPLY_FOR_REG           = 0xC4F2;
+
+    /**
+     * 申请链接
+     */
+    int CONNECT                 = 0xC4F3;
+
+    /**
+     * 断开链接
+     */
+    int DISCONNECT              = 0xC4F4;
+
+    /**
+     * 心跳包
+     */
+    int HEART_BEAT              = 0xC4F5;
+
+    /**
+     * 数据传输包大小
+     */
+    int SIZE                    = 0xC4F6;
 
 }
