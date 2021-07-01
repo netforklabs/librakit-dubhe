@@ -79,6 +79,4 @@ class NettyServer implements DubheServer {
         }
     }
 
-    @Override
-    DubheServerHandler getHandler() { serverHandler }
 }

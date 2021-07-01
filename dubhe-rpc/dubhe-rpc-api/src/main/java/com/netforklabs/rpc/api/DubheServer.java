@@ -26,8 +26,6 @@
 
 package com.netforklabs.rpc.api;
 
-import com.netforklabs.rpc.api.event.ReadableEventHandler;
-
 /**
  * @author orval
  * @email orvlas@foxmail.com
@@ -36,16 +34,10 @@ import com.netforklabs.rpc.api.event.ReadableEventHandler;
 public interface DubheServer {
 
     /**
-     * 启动服务器, 注意在启动服务前请务必配置好各种事件的处理器。
-     * 如：读取事件处理器 {@link ReadableEventHandler}, 请调用 {@link #addEvent} 进行配置
+     * 启动服务器
      *
      * @param port 指定端口号
      */
     void startServer(int port);
-
-    /**
-     * 获取服务处理器
-     */
-    DubheServerHandler getHandler();
 
 }
