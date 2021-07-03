@@ -61,7 +61,7 @@ class RequestHandler {
                 println "Message Connect"
                 break
 
-            case Commands.CALL:
+            case Commands.INVOKE:
                 println(((ByteBufMessage) message).asString())
                 break
 
