@@ -1,0 +1,63 @@
+@temp = {
+    Amount      {value, exchange}
+    BlankCar    {name, address, numbers}
+    Pack        {type, #tAmount, max, #ablankCars}
+}
+
+@map user = {
+    #0  name
+    #1  age
+    #2  password
+    #3  love
+    #o1 #tPack
+    #m0
+}
+
+@group array1           = 0   4
+@group array2           = 5   9
+@group blank_car1       = 10 12
+@group blank_car2       = 13 15
+@group blank_car3       = 16 18
+
+@array blanks = blank_car1, blank_car2, blank_car3
+
+#0 张三
+#1 18
+#2 123456
+#3 打篮球
+
+#4 RMB
+#5 738.23                                            // #t Amount value
+#6 1:6                                               // #t Amount exchange
+#7 1000                                              // #t Pack   max
+#8 #ablanks                                          // #t BlankCar
+#o1 4
+
+#a0 1111
+#a1 1211
+#a2 1311
+#a3 1411
+#a4 1511
+
+#a5 2122
+#a6 2222
+#a7 2322
+#a8 2422
+#a9 2522
+
+#a10 工商银行
+#a11 后滩
+#a12 123456
+
+#a13 招商银行
+#a14 后滩
+#a15 123456
+
+#a16 浦东银行
+#a17 后滩
+#a18 123456
+
+#m0
+object_a: #ablanks
+object_b: #gblank_car3
+#endmap
