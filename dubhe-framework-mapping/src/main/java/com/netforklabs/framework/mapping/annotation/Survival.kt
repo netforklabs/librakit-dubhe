@@ -24,32 +24,12 @@
 
 /* Create date: 2021/7/4. */
 
-package com.netforklabs.framework.mapping.bean;
-
-import com.netforklabs.framework.mapping.annotation.Survival;
-
-import java.lang.reflect.Field;
+package com.netforklabs.framework.mapping.annotation;
 
 /**
  * @author fantexi
  * @email netforks@gmail.com
  */
+@Target(AnnotationTarget.FIELD)
 @SuppressWarnings("JavaDoc")
-public class BeanFactory {
-
-    public static void build(String classpath) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        Class<?> aClass = Class.forName(classpath);
-
-        Object instance = aClass.newInstance();
-    }
-
-    public static void processFields(Class<?> aClass) {
-        Field[] declaredFields = aClass.getDeclaredFields();
-        for (Field field : declaredFields) {
-            if (field.isAnnotationPresent(Survival.class)) {
-
-            }
-        }
-    }
-
-}
+annotation class Survival()

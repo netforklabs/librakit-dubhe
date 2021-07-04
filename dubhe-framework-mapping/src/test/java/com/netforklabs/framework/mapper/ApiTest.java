@@ -22,22 +22,23 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/7/3. */
+/* Create date: 2021/7/4. */
 
 package com.netforklabs.framework.mapper;
 
-import com.netforklabs.framework.mapping.ProviderScans
+import com.netforklabs.framework.mapping.ProviderScans;
+
+import java.security.Provider;
 
 /**
  * @author fantexi
  * @email netforks@gmail.com
  */
 @SuppressWarnings("JavaDoc")
-object RunBuildTest {
+public class ApiTest {
 
-    @JvmStatic
-    fun main(args: Array<String>) {
-        ProviderScans.doScan("com.netforklabs.framework.mapper.api")
+    public static void main(String[] args) {
+        ProviderScans.doScan("com.netforklabs.framework.mapper");
     }
 
 }

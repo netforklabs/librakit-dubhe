@@ -22,37 +22,22 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/20 */
+/* Create date: 2021/7/4. */
 
-package com.netforklabs.framework.mapping.error
+package com.netforklabs.framework.mapping;
 
 /**
- * 函数未找到异常
+ * 将类路径初始化为实例对象
  *
- * @author luotsforever
- * @email orvlas@foxmail.com
+ * @author fantexi
+ * @email netforks@gmail.com
  */
 @SuppressWarnings("JavaDoc")
-class MethodNotFoundException extends RuntimeException
-{
+object ClassInitialize {
 
-    MethodNotFoundException() {
-    }
-
-    MethodNotFoundException(String message) {
-        super(message)
-    }
-
-    MethodNotFoundException(String message, Throwable cause) {
-        super(message, cause)
-    }
-
-    MethodNotFoundException(Throwable cause) {
-        super(cause)
-    }
-
-    MethodNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace)
+    @JvmStatic fun initialize(classname: String) {
+        val aClass: Class<*> = Class.forName(classname)
+        ObjectLoader.forClass(aClass)
     }
 
 }

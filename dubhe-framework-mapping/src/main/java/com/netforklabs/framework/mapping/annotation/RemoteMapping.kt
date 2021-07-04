@@ -24,12 +24,12 @@
 
 /* Create date: 2021/7/4. */
 
-package com.netforklabs.framework.mapping;
+package com.netforklabs.framework.mapping.annotation;
 
 /**
  * @author fantexi
  * @email netforks@gmail.com
  */
 @SuppressWarnings("JavaDoc")
-object DubheLoaders {
+class RemoteMapping {
 }

@@ -22,22 +22,23 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/7/1. */
+/* Create date: 2021/7/4. */
 
-package com.netforklabs.framework.mapping.annotation;
-
-import java.lang.annotation.*;
+package com.netforklabs.framework.mapping;
 
 /**
  * @author fantexi
  * @email netforks@gmail.com
  */
 @SuppressWarnings("JavaDoc")
-@Target({ElementType.METHOD, ElementType.TYPE})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface RemoteMapping {
+object ObjectLoader {
 
-    String value() default "";
+    @JvmStatic
+    fun forName(classname: String): Any = forClass(Class.forName(classname))
+
+    @JvmStatic fun forClass(aClass: Class<*>): Any {
+        // TODO
+        return Any()
+    }
 
 }
