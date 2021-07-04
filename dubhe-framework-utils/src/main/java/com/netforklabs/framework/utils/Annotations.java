@@ -24,21 +24,29 @@
 
 /* Create date: 2021/7/4. */
 
-package com.netforklabs.framework.mapping;
+package com.netforklabs.framework.utils;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * @author fantexi
  * @email netforks@gmail.com
  */
 @SuppressWarnings("JavaDoc")
-object ObjectLoader {
+public class Annotations {
 
-    @JvmStatic
-    fun forName(classname: String): Any = forClass(Class.forName(classname))
+    public static boolean isAnnotation(Method method, Class<? extends Annotation> annotation) {
+        return method.isAnnotationPresent(annotation);
+    }
 
-    @JvmStatic fun forClass(aClass: Class<*>): Any {
-        // TODO
-        return Any()
+    public static boolean isAnnotation(Class<?> aClass, Class<? extends Annotation> annotation) {
+        return aClass.isAnnotationPresent(annotation);
+    }
+
+    public static boolean isAnnotation(Field field, Class<? extends Annotation> annotation) {
+        return field.isAnnotationPresent(annotation);
     }
 
 }

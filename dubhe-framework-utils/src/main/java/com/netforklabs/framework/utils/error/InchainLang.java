@@ -41,6 +41,7 @@ public class InchainLang {
 
     static {
         MESSAGE.put(ERRORCode.CLASSPATH_NOT_FOUND_OR_CLASSPATH_HAS_NO_CONTENT, "类路径不存在或路径下没有文件内容, 类路径: {}。");
+        MESSAGE.put(ERRORCode.NO_SUCH_OBJECT_OF_BEAN_MAP, "找不到对象实例: {}");
     }
 
 }

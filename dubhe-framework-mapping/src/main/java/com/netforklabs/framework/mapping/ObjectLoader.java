@@ -24,14 +24,42 @@
 
 /* Create date: 2021/7/4. */
 
-package com.netforklabs.framework.mapping.annotation;
+package com.netforklabs.framework.mapping;
+
+import com.netforklabs.framework.mapping.annotation.Survival;
+
+import java.lang.reflect.Field;
 
 /**
  * @author fantexi
  * @email netforks@gmail.com
  */
-@Target(AnnotationTarget.FIELD)
 @SuppressWarnings("JavaDoc")
-annotation class Survival() {
+public class ObjectLoader {
+
+    private static final BeanMaps maps = BeanMaps.Companion.get();
+
+    public static Object loadObject() {
+        return null;
+    }
+
+    public static Object forName(String classpath) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+        return forClass(Class.forName(classpath));
+    }
+
+    public static Object forClass(Class<?> aClass) throws InstantiationException, IllegalAccessException {
+        Object instance = aClass.newInstance();
+        Field[] fields = aClass.getDeclaredFields();
+
+        for(Field field : fields) {
+
+            if(field.isAnnotationPresent(Survival.class)) {
+
+            }
+
+        }
+
+        return null;
+    }
 
 }

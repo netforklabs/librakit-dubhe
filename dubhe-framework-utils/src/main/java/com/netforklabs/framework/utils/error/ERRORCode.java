@@ -26,6 +26,8 @@
 
 package com.netforklabs.framework.utils.error;
 
+import com.netforklabs.framework.utils.StringUtils;
+
 import java.util.Map;
 
 /**
@@ -38,12 +40,23 @@ public enum ERRORCode {
     /**
      * 原因: $format路径不存在或路径下没有文件内容。
      */
-    CLASSPATH_NOT_FOUND_OR_CLASSPATH_HAS_NO_CONTENT;
+    CLASSPATH_NOT_FOUND_OR_CLASSPATH_HAS_NO_CONTENT,
+
+    /**
+     * 原因: 找不到需要注入的对象实例。
+     */
+    NO_SUCH_OBJECT_OF_BEAN_MAP,
+
+    NONE;
 
     private static final Map<ERRORCode, String> errors = InchainLang.MESSAGE;
 
     public String get() {
         return errors.get(this);
+    }
+
+    public String get(Object... args) {
+        return StringUtils.format(errors.get(this), args);
     }
 
 
