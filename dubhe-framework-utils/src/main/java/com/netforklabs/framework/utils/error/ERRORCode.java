@@ -22,21 +22,29 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/22 */
+/* Create date: 2021/7/3. */
 
-package com.netforklabs.rpc.api;
+package com.netforklabs.framework.utils.error;
+
+import java.util.Map;
 
 /**
- * @author luotsforever
- * @email orvlas@foxmail.com
+ * @author fantexi
+ * @email netforks@gmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface DubheServerHandler {
+public enum ERRORCode {
 
     /**
-     * 断开连接
-     * @param client 客户端实例
+     * 原因: $format路径不存在或路径下没有文件内容。
      */
-    void disconnect(DubheClient client);
+    CLASSPATH_NOT_FOUND_OR_CLASSPATH_HAS_NO_CONTENT;
+
+    private static final Map<ERRORCode, String> errors = InchainLang.MESSAGE;
+
+    public String get() {
+        return errors.get(this);
+    }
+
 
 }

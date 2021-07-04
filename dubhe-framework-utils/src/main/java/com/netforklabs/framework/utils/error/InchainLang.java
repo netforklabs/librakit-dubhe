@@ -22,21 +22,25 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/22 */
+/* Create date: 2021/7/3. */
 
-package com.netforklabs.rpc.api;
+package com.netforklabs.framework.utils.error;
+
+import com.google.common.collect.Maps;
+
+import java.util.Map;
 
 /**
- * @author luotsforever
- * @email orvlas@foxmail.com
+ * @author fantexi
+ * @email netforks@gmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface DubheServerHandler {
+public class InchainLang {
 
-    /**
-     * 断开连接
-     * @param client 客户端实例
-     */
-    void disconnect(DubheClient client);
+    public static final Map<ERRORCode, String> MESSAGE = Maps.newHashMap();
+
+    static {
+        MESSAGE.put(ERRORCode.CLASSPATH_NOT_FOUND_OR_CLASSPATH_HAS_NO_CONTENT, "类路径不存在或路径下没有文件内容, 类路径: {}。");
+    }
 
 }

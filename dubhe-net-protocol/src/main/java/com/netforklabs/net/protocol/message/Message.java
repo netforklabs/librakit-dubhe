@@ -34,7 +34,7 @@ import java.io.Serializable;
  * 通讯协议，所有网络传输对象都必须继承该对象下。可以理解为
  * 协议请求头。
  *
- * @author orval
+ * @author luotsforever
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")

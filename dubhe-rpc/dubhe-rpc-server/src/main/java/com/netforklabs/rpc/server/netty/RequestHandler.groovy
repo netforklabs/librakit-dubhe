@@ -33,8 +33,8 @@ import com.netforklabs.net.protocol.message.ByteBufMessage
 import com.netforklabs.net.protocol.message.Message
 
 /**
- * @author orval
- * @email orvals@foxmail.com
+ * @author luotsforever
+ * @email luotsforevers@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
 class RequestHandler {

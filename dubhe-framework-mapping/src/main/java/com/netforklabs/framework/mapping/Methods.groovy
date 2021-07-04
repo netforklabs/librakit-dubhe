@@ -29,7 +29,7 @@ package com.netforklabs.framework.mapping
 import java.lang.reflect.Method
 
 /**
- * @author orval
+ * @author luotsforever
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
@@ -37,7 +37,7 @@ class Methods
 {
 
     /**
-     * 获取函数 ID，用于 {@link com.netforklabs.framework.mapping.proxy.ObjectProxy#doInvoke} 调用
+     * 获取函数 ID，用于 {@link com.netforklabs.framework.mapping.bean.ObjectProxy#doInvoke} 调用
      *
      * @param method 方法对象
      * @return 方法名ID

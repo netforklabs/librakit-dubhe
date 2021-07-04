@@ -31,7 +31,7 @@ import java.lang.annotation.*;
 /**
  * 被该注解注释的函数表示预留函数，可能会在某个预估的版本发布。
  *
- * @author orval
+ * @author luotsforever
  * @email orvlas@foxmail.com
  */
 @Documented

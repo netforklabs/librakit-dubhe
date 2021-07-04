@@ -29,7 +29,7 @@ package com.netforklabs.net.protocol;
 /**
  * 状态列表
  *
- * @author orval
+ * @author luotsforever
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")

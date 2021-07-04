@@ -29,7 +29,7 @@ package com.netforklabs.net.protocol.message;
 import com.netforklabs.net.protocol.Commands;
 
 /**
- * @author orval
+ * @author luotsforever
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")

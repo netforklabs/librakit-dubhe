@@ -29,8 +29,8 @@ package com.netforklabs.framework.registry;
 /**
  * 注册中心的SocketChannel
  *
- * @author orval
- * @email orvals@foxmail.com
+ * @author luotsforever
+ * @email luotsforevers@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
 public class RegistrySocketChannel {

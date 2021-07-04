@@ -39,7 +39,7 @@ import com.netforklabs.framework.utils.bytes.ByteBuf;
 import java.nio.charset.StandardCharsets;
 
 /**
- * @author orval
+ * @author luotsforever
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")

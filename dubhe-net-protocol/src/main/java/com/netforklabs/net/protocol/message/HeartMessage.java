@@ -31,7 +31,7 @@ import com.netforklabs.net.protocol.Commands;
 /**
  * 心跳消息
  *
- * @author orval
+ * @author luotsforever
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")

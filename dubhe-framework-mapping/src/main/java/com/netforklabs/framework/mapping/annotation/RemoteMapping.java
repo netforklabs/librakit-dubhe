@@ -36,20 +36,8 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface RemoteCall {
+public @interface RemoteMapping {
 
-    /**
-     * 如果是单个函数就在注解上添加invoke值。
-     *
-     * 例如远程调用的函数名称叫 #getUsername(String), 而你不想叫这个名字就可以
-     * 这样去写:
-     * <code>
-     *     Ouffer
-     * </code>
-     *
-     *
-     * @return
-     */
-    String invoke() default "";
+    String value() default "";
 
 }

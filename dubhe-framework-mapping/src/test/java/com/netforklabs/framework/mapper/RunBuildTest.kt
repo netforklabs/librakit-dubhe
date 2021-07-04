@@ -22,21 +22,22 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/22 */
+/* Create date: 2021/7/3. */
 
-package com.netforklabs.rpc.api;
+package com.netforklabs.framework.mapper;
+
+import com.netforklabs.framework.mapping.ProviderScans
 
 /**
- * @author luotsforever
- * @email orvlas@foxmail.com
+ * @author fantexi
+ * @email netforks@gmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface DubheServerHandler {
+object RunBuildTest {
 
-    /**
-     * 断开连接
-     * @param client 客户端实例
-     */
-    void disconnect(DubheClient client);
+    @JvmStatic
+    fun main(args: Array<String>) {
+        ProviderScans.doScan("com.netforklabs.framework.mapper.api")
+    }
 
 }

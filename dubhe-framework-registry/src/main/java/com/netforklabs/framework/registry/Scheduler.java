@@ -43,7 +43,7 @@ package com.netforklabs.framework.registry;
  *      to auto choose one registry center connect.
  * )
  *
- * @author orval
+ * @author luotsforever
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")

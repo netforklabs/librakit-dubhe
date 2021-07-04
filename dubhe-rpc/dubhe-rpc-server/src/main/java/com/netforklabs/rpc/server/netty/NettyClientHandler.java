@@ -30,8 +30,8 @@ import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
- * @author orval
- * @email orvals@foxmail.com
+ * @author luotsforever
+ * @email luotsforevers@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
 public class NettyClientHandler extends ChannelHandlerAdapter {

@@ -24,14 +24,14 @@
 
 /* Create date: 2021/6/22 */
 
-package com.netforklabs.framework.mapping.proxy
+package com.netforklabs.framework.mapping.bean
 
 import com.netforklabs.framework.config.setting.NetforkSetting
 
 import java.lang.reflect.Method
 
 /**
- * @author orval
+ * @author luotsforever
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")

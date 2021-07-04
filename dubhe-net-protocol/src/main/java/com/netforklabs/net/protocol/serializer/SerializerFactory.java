@@ -27,7 +27,7 @@
 package com.netforklabs.net.protocol.serializer;
 
 /**
- * @author orval
+ * @author luotsforever
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")

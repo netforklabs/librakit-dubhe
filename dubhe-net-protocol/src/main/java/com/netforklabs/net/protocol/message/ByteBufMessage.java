@@ -31,7 +31,7 @@ import com.netforklabs.framework.utils.bytes.ByteBuf;
 import java.io.Serializable;
 
 /**
- * @author orval
+ * @author luotsforever
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")

@@ -22,21 +22,34 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/22 */
+/* Create date: 2021/7/4. */
 
-package com.netforklabs.rpc.api;
+package com.netforklabs.framework.mapping.bean;
+
+import com.netforklabs.framework.mapping.annotation.Survival;
+
+import java.lang.reflect.Field;
 
 /**
- * @author luotsforever
- * @email orvlas@foxmail.com
+ * @author fantexi
+ * @email netforks@gmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface DubheServerHandler {
+public class BeanFactory {
 
-    /**
-     * 断开连接
-     * @param client 客户端实例
-     */
-    void disconnect(DubheClient client);
+    public static void build(String classpath) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+        Class<?> aClass = Class.forName(classpath);
+
+        Object instance = aClass.newInstance();
+    }
+
+    public static void processFields(Class<?> aClass) {
+        Field[] declaredFields = aClass.getDeclaredFields();
+        for (Field field : declaredFields) {
+            if (field.isAnnotationPresent(Survival.class)) {
+
+            }
+        }
+    }
 
 }

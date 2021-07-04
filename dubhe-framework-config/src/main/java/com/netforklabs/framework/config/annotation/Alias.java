@@ -29,7 +29,7 @@ package com.netforklabs.framework.config.annotation;
 import java.lang.annotation.*;
 
 /**
- * @author orval
+ * @author luotsforever
  * @email orvlas@foxmail.com
  */
 @Documented

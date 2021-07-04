@@ -22,21 +22,23 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/22 */
+/* Create date: 2021/7/3. */
 
-package com.netforklabs.rpc.api;
+package com.netforklabs.framework.mapper;
+
+import com.netforklabs.framework.mapping.annotation.Jointo;
 
 /**
- * @author luotsforever
- * @email orvlas@foxmail.com
+ * @author fantexi
+ * @email netforks@gmail.com
  */
+@Jointo
 @SuppressWarnings("JavaDoc")
-public interface DubheServerHandler {
+public class GetUser {
 
-    /**
-     * 断开连接
-     * @param client 客户端实例
-     */
-    void disconnect(DubheClient client);
+    public Object get()
+    {
+        return new Object();
+    }
 
 }

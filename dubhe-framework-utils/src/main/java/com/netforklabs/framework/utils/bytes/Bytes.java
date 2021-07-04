@@ -29,7 +29,7 @@ package com.netforklabs.framework.utils.bytes;
 /**
  * Byte数组操作
  *
- * @author orval
+ * @author luotsforever
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")

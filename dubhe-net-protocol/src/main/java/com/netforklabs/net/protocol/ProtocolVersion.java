@@ -27,7 +27,7 @@
 package com.netforklabs.net.protocol;
 
 /**
- * @author orval
+ * @author luotsforever
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")

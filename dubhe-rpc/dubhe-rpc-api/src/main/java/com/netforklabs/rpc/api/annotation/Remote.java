@@ -29,7 +29,7 @@ package com.netforklabs.rpc.api.annotation;
 /**
  * 配置远程调用API接口
  *
- * @author orval
+ * @author luotsforever
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")

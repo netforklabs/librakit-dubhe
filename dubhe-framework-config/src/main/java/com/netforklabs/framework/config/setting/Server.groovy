@@ -27,7 +27,7 @@
 package com.netforklabs.framework.config.setting
 
 /**
- * @author orval
+ * @author luotsforever
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")

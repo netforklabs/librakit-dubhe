@@ -31,7 +31,7 @@ import com.netforklabs.framework.utils.bytes.Bytes;
 import org.nustaq.serialization.FSTConfiguration;
 
 /**
- * @author orval* @email orvals@foxmail.com
+ * @author luotsforever* @email luotsforevers@foxmail.com
  */
 @SuppressWarnings({"JavaDoc", "unchecked"})
 public class FSTSerializer implements Serializer {

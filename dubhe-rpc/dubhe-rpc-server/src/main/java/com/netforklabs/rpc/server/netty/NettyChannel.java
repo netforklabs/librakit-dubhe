@@ -34,8 +34,8 @@ import com.netforklabs.rpc.server.Channels;
 import io.netty.channel.Channel;
 
 /**
- * @author orval
- * @email orvals@foxmail.com
+ * @author luotsforever
+ * @email luotsforevers@foxmail.com
  */
 @SuppressWarnings({"JavaDoc", "unchecked"})
 public class NettyChannel implements DubheChannel {

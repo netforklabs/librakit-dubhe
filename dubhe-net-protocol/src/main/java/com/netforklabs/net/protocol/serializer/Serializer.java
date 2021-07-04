@@ -31,7 +31,7 @@ import com.netforklabs.net.protocol.message.Message;
 /**
  * 解码器
  *
- * @author orval
+ * @author luotsforever
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")

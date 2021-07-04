@@ -24,7 +24,7 @@
 
 /* Create date: 2021/6/20 */
 
-package com.netforklabs.framework.mapping.proxy
+package com.netforklabs.framework.mapping.bean
 
 import com.netforklabs.framework.mapping.error.MethodNotFoundException
 import com.netforklabs.framework.mapping.error.MismatchedException
@@ -32,7 +32,7 @@ import com.netforklabs.framework.mapping.error.MismatchedException
 /**
  * 接口代理对象
  *
- * @author orval
+ * @author luotsforever
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
@@ -116,18 +116,21 @@ class ObjectProxy {
      * @param iface  接口类对象
      * @param instance 接口实现类对象
      */
-    private static void checkObjectIsImplFace(Class<?> iface, Object   instance)
+    private static void checkObjectIsImplFace(Class<?> iface, Object instance)
     {
         // 判断 instance 是否实现了 iface 接口
         boolean isTrue = false
 
         Class<?> objectClass = instance.class
-        for(Class<?> face : objectClass.interfaces)
-        {
-            if (face.name == iface.name) {
-                isTrue = true
-                break
+        if (iface != objectClass) {
+            for (Class<?> face : objectClass.interfaces) {
+                if (face.name == iface.name) {
+                    isTrue = true
+                    break
+                }
             }
+        } else {
+            isTrue = true
         }
 
         if(!isTrue)

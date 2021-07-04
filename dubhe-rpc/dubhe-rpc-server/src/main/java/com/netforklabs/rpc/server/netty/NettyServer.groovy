@@ -38,7 +38,7 @@ import io.netty.handler.codec.bytes.ByteArrayDecoder
 import io.netty.handler.codec.bytes.ByteArrayEncoder
 
 /**
- * @author orval* @email orvals@foxmail.com
+ * @author luotsforever* @email luotsforevers@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
 class NettyServer implements DubheServer {

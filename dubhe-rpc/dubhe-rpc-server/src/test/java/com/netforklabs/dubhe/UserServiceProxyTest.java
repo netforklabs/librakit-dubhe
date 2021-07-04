@@ -27,12 +27,12 @@
 package com.netforklabs.dubhe;
 
 import com.netforklabs.framework.config.setting.NetforkSetting;
-import com.netforklabs.framework.mapping.proxy.ObjectProxy;
+import com.netforklabs.framework.mapping.bean.ObjectProxy;
 
 import java.util.Set;
 
 /**
- * @author orval
+ * @author luotsforever
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")

@@ -22,21 +22,33 @@
  * SOFTWARE.
  */
 
-/* Create date: 2021/6/22 */
+/* Create date: 2021/7/3. */
 
-package com.netforklabs.rpc.api;
+package com.netforklabs.framework.mapping.error
+
 
 /**
- * @author luotsforever
- * @email orvlas@foxmail.com
+ * @author fantexi* @email netforks@gmail.com
  */
 @SuppressWarnings("JavaDoc")
-public interface DubheServerHandler {
+class ClassPathNotFoundException extends RuntimeException {
 
-    /**
-     * 断开连接
-     * @param client 客户端实例
-     */
-    void disconnect(DubheClient client);
+    ClassPathNotFoundException() {
+    }
 
+    ClassPathNotFoundException(String var1) {
+        super(var1)
+    }
+
+    ClassPathNotFoundException(String var1, Throwable var2) {
+        super(var1, var2)
+    }
+
+    ClassPathNotFoundException(Throwable var1) {
+        super(var1)
+    }
+
+    ClassPathNotFoundException(String var1, Throwable var2, boolean var3, boolean var4) {
+        super(var1, var2, var3, var4)
+    }
 }

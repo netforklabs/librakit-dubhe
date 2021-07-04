@@ -19,6 +19,11 @@
     <dependencies>
         <dependency>
             <groupId>com.netforklabs</groupId>
+            <artifactId>dubhe-framework-utils</artifactId>
+            <version>${unite-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.netforklabs</groupId>
             <artifactId>dubhe-framework-config</artifactId>
             <version>${unite-version}</version>
         </dependency>

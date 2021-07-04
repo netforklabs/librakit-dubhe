@@ -30,7 +30,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
- * @author orval
+ * @author luotsforever
  * @email orvlas@foxmail.com
  */
 @SuppressWarnings("JavaDoc")
