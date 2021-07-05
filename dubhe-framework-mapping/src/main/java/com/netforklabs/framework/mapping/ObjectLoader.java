@@ -32,7 +32,6 @@ import com.google.common.collect.Sets;
 import com.netforklabs.framework.mapping.annotation.DontCareSurvival;
 import com.netforklabs.framework.mapping.annotation.Survival;
 
-import java.io.FileDescriptor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,9 +50,9 @@ public class ObjectLoader {
     /**
      * 正在初始化但还没初始化完成的内容
      */
-    private static final Set<Class<?>> mark = Sets.newHashSet();
+    private static final Set<Class<?>> mark                         = Sets.newHashSet();
 
-    private static final Map<Class<?>, List<Field>> skipFields = Maps.newHashMap();
+    private static final Map<Class<?>, List<Field>> skipFields      = Maps.newHashMap();
 
     public static void forNameArray(List<String> nameArray) throws Exception {
         List<Class<?>> classes = new ArrayList<>(nameArray.size());
@@ -74,7 +73,7 @@ public class ObjectLoader {
     }
 
     public static void forClass(Class<?> aClass) throws Exception {
-        if(aClass.isAnnotationPresent(DontCareSurvival.class))
+        if (aClass.isAnnotationPresent(DontCareSurvival.class))
             return;
 
         // 实例化类
@@ -89,8 +88,8 @@ public class ObjectLoader {
                 Class<?> type = field.getType();
                 if (checkEmptyField(field, instance)) {
                     // 如果当前要查找的对象正在初始化, 那么就跳过当前对象
-                    if(mark.contains(type)) {
-                        if(!skipFields.containsKey(aClass))
+                    if (mark.contains(type)) {
+                        if (!skipFields.containsKey(aClass))
                             skipFields.put(aClass, Lists.newArrayList());
 
                         skipFields.get(aClass).add(field);
@@ -122,10 +121,12 @@ public class ObjectLoader {
             Class<?> key = skipEntry.getKey();
             Object object = beanFactory.get(key);
 
-            for (Field field : skipEntry.getValue()) {
+            for (Field field : skipEntry.getValue())
                 field.set(object, beanFactory.get(field.getType()));
-            }
         }
+
+        mark.clear();
+        skipFields.clear();
     }
 
     /**
