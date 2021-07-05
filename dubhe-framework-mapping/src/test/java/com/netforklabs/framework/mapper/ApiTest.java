@@ -26,19 +26,26 @@
 
 package com.netforklabs.framework.mapper;
 
+import com.netforklabs.framework.mapping.BeanFactory;
+import com.netforklabs.framework.mapping.DubheContext;
 import com.netforklabs.framework.mapping.ProviderScans;
-
-import java.security.Provider;
+import com.netforklabs.framework.mapping.annotation.DontCareSurvival;
 
 /**
  * @author fantexi
  * @email netforks@gmail.com
  */
 @SuppressWarnings("JavaDoc")
+@DontCareSurvival
 public class ApiTest {
 
     public static void main(String[] args) {
         ProviderScans.doScan("com.netforklabs.framework.mapper");
+
+        BeanFactory beanFactory = DubheContext.getBeanFactory();
+        UserController controller = beanFactory.get(UserController.class);
+
+        controller.print();
     }
 
 }

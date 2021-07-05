@@ -53,6 +53,8 @@ object ProviderScans {
         val files: MutableList<String> = ArrayList()
 
         doScanForClass(File(classfile), files)
+
+        BeanFactory.load(files)
     }
 
     // 扫描加载路径下的所有.class文件
@@ -69,7 +71,7 @@ object ProviderScans {
 
                 // 添加类路径
                 if(name.substring(end, name.length) == ".class")
-                    classfiles.add(name.substring(calssroot, end))
+                    classfiles.add(replaceSymbol(name.substring(calssroot, end)))
             }
         }
     }

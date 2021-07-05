@@ -24,12 +24,19 @@
 
 /* Create date: 2021/7/4. */
 
-package com.netforklabs.framework.mapping.annotation;
+package com.netforklabs.framework.mapping;
 
 /**
  * @author fantexi
  * @email netforks@gmail.com
  */
-@Target(AnnotationTarget.FIELD)
 @SuppressWarnings("JavaDoc")
-annotation class Survival
+public class DubheContext {
+
+    private static final BeanFactory maps = BeanFactory.Companion.get();
+
+    public static BeanFactory getBeanFactory() {
+        return maps;
+    }
+
+}

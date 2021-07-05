@@ -24,12 +24,23 @@
 
 /* Create date: 2021/7/4. */
 
-package com.netforklabs.framework.mapping.annotation;
+package com.netforklabs.framework.mapper;
+
+import com.netforklabs.framework.mapping.annotation.Survival;
 
 /**
  * @author fantexi
  * @email netforks@gmail.com
  */
-@Target(AnnotationTarget.FIELD)
 @SuppressWarnings("JavaDoc")
-annotation class Survival
+public class UserService {
+
+     @Survival
+     private UserController controller;
+
+    public void printUser() {
+        controller.servicePrint();
+        System.out.println("user coming...");
+    }
+
+}

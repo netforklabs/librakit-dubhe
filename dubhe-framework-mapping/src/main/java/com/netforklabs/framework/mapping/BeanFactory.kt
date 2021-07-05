@@ -34,63 +34,48 @@ import java.rmi.NoSuchObjectException
  * @email netforks@gmail.com
  */
 @SuppressWarnings("JavaDoc")
-class BeanMaps {
-
-    private val beans: MutableList<Any> = ArrayList()
+open class BeanFactory {
 
     /**
-     * 类名称索引
+     * 所有Bean实例对象
      */
-    private val nameIndices: Map<String, Int> = HashMap()
-
-    /**
-     * 接口索引
-     */
-    private val interfaceIndices: Map<String, Int> = HashMap()
+    private val beans: MutableMap<String, Any> = HashMap()
 
     companion object {
-        private var instance: BeanMaps? = null
+        private var instance: BeanFactory? = null
             get() {
                 if (field == null)
-                    field = BeanMaps()
+                    field = BeanFactory()
                 return field
             }
 
-        fun get(): BeanMaps {
-            return instance!!
+        fun get(): BeanFactory = instance!!
+
+        private fun checkIndex(index: Int?, vararg args: String) {
+            if (index == null)
+                throw NoSuchObjectException(ERRORCode.NO_SUCH_OBJECT_OF_BEAN_MAP.get(*args))
+        }
+
+        fun load(nameArray: MutableList<String>) {
+            ObjectLoader.forNameArray(nameArray)
+        }
+
+        fun load(aClass: Class<*>) {
+            ObjectLoader.forClass(aClass)
         }
     }
 
     /**
      * 添加新的容器对象
      */
-    fun addObject(any: Any, aClass: Class<*>) {
-
+    fun add(any: Any, aClass: Class<*>) {
+        beans[aClass.name] = any
     }
 
     /**
      * 根据Class获取实例对象
      */
-    fun get(aClass: Class<*>): Any {
-        val name: String = aClass.name
-
-        // 如果是接口的话那么从接口索引列表中查找
-        if (aClass.isInterface) {
-            val index: Int? = interfaceIndices[name]
-            checkIndex(index, name)
-
-            return beans[index!!]
-        }
-
-        val index: Int? = nameIndices[name]
-        checkIndex(index, name)
-
-        return beans[index!!]
-    }
-
-    private fun checkIndex(index: Int?, vararg args: String) {
-        if (index == null)
-            throw NoSuchObjectException(ERRORCode.NO_SUCH_OBJECT_OF_BEAN_MAP.get(*args))
-    }
+    @Suppress("UNCHECKED_CAST")
+    fun <T> get(aClass: Class<T>): T? = beans[aClass.name] as T
 
 }

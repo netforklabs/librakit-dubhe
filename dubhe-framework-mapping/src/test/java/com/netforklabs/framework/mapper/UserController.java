@@ -24,20 +24,26 @@
 
 /* Create date: 2021/7/4. */
 
-package com.netforklabs.framework.mapping;
+package com.netforklabs.framework.mapper;
+
+import com.netforklabs.framework.mapping.annotation.Survival;
 
 /**
- * 将类路径初始化为实例对象
- *
  * @author fantexi
  * @email netforks@gmail.com
  */
 @SuppressWarnings("JavaDoc")
-object ClassInitialize {
+public class UserController {
 
-    @JvmStatic fun initialize(classname: String) {
-        val aClass: Class<*> = Class.forName(classname)
-        ObjectLoader.forClass(aClass)
+    @Survival
+    private UserService service;
+
+    public void print() {
+        service.printUser();
+    }
+
+    public void servicePrint() {
+        System.out.println("service print...");
     }
 
 }

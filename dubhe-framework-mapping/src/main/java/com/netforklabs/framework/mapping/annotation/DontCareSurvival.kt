@@ -30,6 +30,6 @@ package com.netforklabs.framework.mapping.annotation;
  * @author fantexi
  * @email netforks@gmail.com
  */
+@Target(AnnotationTarget.CLASS)
 @SuppressWarnings("JavaDoc")
-class RemoteMapping {
-}
+annotation class DontCareSurvival
