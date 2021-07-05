@@ -64,23 +64,23 @@ public class ObjectLoader {
     }
 
     public static void forClassArray(List<Class<?>> classArray) throws Exception {
-        for (Class<?> aClass : classArray) {
-            forClass(aClass);
+        for (Class<?> iface : classArray) {
+            forClass(iface);
 
             // 处理被跳过的对象
             skipHandle();
         }
     }
 
-    public static void forClass(Class<?> aClass) throws Exception {
-        if (aClass.isAnnotationPresent(DontCareSurvival.class))
+    public static void forClass(Class<?> iface) throws Exception {
+        if (skip(iface))
             return;
 
         // 实例化类
-        Object instance = aClass.newInstance();
+        Object instance = iface.newInstance();
 
         // 获取类的所有成员, 判断有没有需要注入的成员
-        Field[] fields = aClass.getDeclaredFields();
+        Field[] fields = iface.getDeclaredFields();
         for (Field field : fields) {
             // 注入对象
             field.setAccessible(true);
@@ -89,10 +89,10 @@ public class ObjectLoader {
                 if (checkEmptyField(field, instance)) {
                     // 如果当前要查找的对象正在初始化, 那么就跳过当前对象
                     if (mark.contains(type)) {
-                        if (!skipFields.containsKey(aClass))
-                            skipFields.put(aClass, Lists.newArrayList());
+                        if (!skipFields.containsKey(iface))
+                            skipFields.put(iface, Lists.newArrayList());
 
-                        skipFields.get(aClass).add(field);
+                        skipFields.get(iface).add(field);
                         continue;
                     }
 
@@ -103,7 +103,7 @@ public class ObjectLoader {
                     if (typeInstance == null) {
                         {
                             // 当前正在实例化对象, 为了防止#type和当前对象重复引用问题。记录到Set集合中
-                            mark.add(aClass);
+                            mark.add(iface);
                             forClass(type);
                         }
                         typeInstance = beanFactory.get(type);
@@ -113,7 +113,7 @@ public class ObjectLoader {
             }
         }
 
-        beanFactory.add(instance, aClass);
+        beanFactory.add(instance, iface);
     }
 
     private static void skipHandle() throws IllegalAccessException {
@@ -127,6 +127,17 @@ public class ObjectLoader {
 
         mark.clear();
         skipFields.clear();
+    }
+
+    /**
+     * 跳过反射实例化
+     *
+     * @param iface 类对象
+     */
+    private static boolean skip(Class<?> iface) {
+        return iface.isInterface()
+                || iface.isAnnotationPresent(DontCareSurvival.class)
+                || beanFactory.contains(iface);
     }
 
     /**

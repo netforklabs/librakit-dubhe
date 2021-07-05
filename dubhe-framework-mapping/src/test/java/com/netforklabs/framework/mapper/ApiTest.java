@@ -43,9 +43,13 @@ public class ApiTest {
         ProviderScans.doScan("com.netforklabs.framework.mapper");
 
         BeanFactory beanFactory = DubheContext.getBeanFactory();
-        UserController controller = beanFactory.get(UserController.class);
 
+        UserController controller = beanFactory.get(UserController.class);
         controller.print();
+
+        UserFace face = beanFactory.get(UserFace.class);
+        face.user_face();
+
     }
 
 }

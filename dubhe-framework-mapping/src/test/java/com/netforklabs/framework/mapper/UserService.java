@@ -33,10 +33,15 @@ import com.netforklabs.framework.mapping.annotation.Survival;
  * @email netforks@gmail.com
  */
 @SuppressWarnings("JavaDoc")
-public class UserService {
+public class UserService implements UserFace {
 
      @Survival
      private UserController controller;
+
+    @Override
+    public void user_face() {
+        System.out.println("user service interface");
+    }
 
     public void printUser() {
         controller.servicePrint();
